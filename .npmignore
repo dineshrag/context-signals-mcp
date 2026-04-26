@@ -1,0 +1,42 @@
+# Dependencies (installed by npm)
+node_modules/
+
+# Build output (generated)
+dist/
+
+# TypeScript (source only)
+*.ts
+!*.d.ts
+tsconfig.json
+
+# Tests
+tests/
+*.test.ts
+
+# Scripts / Development
+scripts/
+*.config.ts
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation (source)
+*.md
+!README.md
+
+# Debug
+*.log
+npm-debug.log*
+
+# Local config
+.env
+.env.local

@@ -1,0 +1,47 @@
+{
+  "name": "context-signals-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for context signal extraction and memory - reduces tokens by extracting code structure",
+  "author": "Dinesh Raghupatruni",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "context-signals-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "test": "vitest",
+    "test:run": "vitest run"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "minisearch": "^7.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  },
+  "keywords": [
+    "mcp",
+    "context",
+    "signals",
+    "opencode",
+    "crush",
+    "memory",
+    "token-optimization"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dineshraghupatruni/context-signals-mcp.git"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "funding": "https://github.com/dineshraghupatruni/context-signals-mcp",
+  "bugs": "https://github.com/dineshraghupatruni/context-signals-mcp/issues"
+}
