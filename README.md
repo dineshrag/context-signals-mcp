@@ -68,7 +68,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 ### Build from Source
 
 ```bash
-git clone https://github.com/opencode-ai/context-signals-mcp.git
+git clone https://github.com/dineshrag/context-signals-mcp.git
 cd context-signals-mcp
 npm install
 npm run build

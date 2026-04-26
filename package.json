@@ -1,6 +1,6 @@
 {
   "name": "context-signals-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for context signal extraction and memory - reduces tokens by extracting code structure",
   "author": "Dinesh Raghupatruni",
   "type": "module",
@@ -37,11 +37,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dineshraghupatruni/context-signals-mcp.git"
+    "url": "git+https://github.com/dineshrag/context-signals-mcp.git"
   },
   "engines": {
     "node": ">=18.0.0"
   },
-  "funding": "https://github.com/dineshraghupatruni/context-signals-mcp",
-  "bugs": "https://github.com/dineshraghupatruni/context-signals-mcp/issues"
+  "funding": "https://github.com/dineshrag/context-signals-mcp",
+  "bugs": "https://github.com/dineshrag/context-signals-mcp/issues"
 }
