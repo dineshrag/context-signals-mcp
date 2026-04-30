@@ -1,0 +1,507 @@
+{
+  "fixture": "nextjs-app",
+  "timestamp": 1777513464557,
+  "signalChars": 2000,
+  "signalCount": 40,
+  "queries": [
+    {
+      "queryId": "nextjs-001",
+      "query": "Where is the main app layout?",
+      "category": "navigation",
+      "difficulty": "easy",
+      "toolCalls": 1,
+      "charsRead": 55,
+      "estimatedTokens": 14,
+      "correctness": 3,
+      "timeMs": 0,
+      "response": {
+        "count": 5,
+        "results": [
+          {
+            "file": "src/app/api/auth/login/route.ts",
+            "line": 1,
+            "kind": "import",
+            "name": "next/server"
+          },
+          {
+            "file": "src/app/api/auth/login/route.ts",
+            "line": 2,
+            "kind": "import",
+            "name": "@/lib/authService"
+          },
+          {
+            "file": "src/app/api/auth/login/route.ts",
+            "line": 6,
+            "kind": "function",
+            "name": "POST"
+          }
+        ]
+      }
+    },
+    {
+      "queryId": "nextjs-002",
+      "query": "Show all API routes",
+      "category": "route_discovery",
+      "difficulty": "medium",
+      "toolCalls": 1,
+      "charsRead": 55,
+      "estimatedTokens": 14,
+      "correctness": 3,
+      "timeMs": 0,
+      "response": {
+        "count": 5,
+        "results": [
+          {
+            "file": "src/app/api/auth/login/route.ts",
+            "line": 1,
+            "kind": "import",
+            "name": "next/server"
+          },
+          {
+            "file": "src/app/api/auth/login/route.ts",
+            "line": 2,
+            "kind": "import",
+            "name": "@/lib/authService"
+          },
+          {
+            "file": "src/app/api/auth/login/route.ts",
+            "line": 6,
+            "kind": "function",
+            "name": "POST"
+          }
+        ]
+      }
+    },
+    {
+      "queryId": "nextjs-003",
+      "query": "Find GET /api/users endpoint",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "toolCalls": 1,
+      "charsRead": 49,
+      "estimatedTokens": 12,
+      "correctness": 2,
+      "timeMs": 0,
+      "response": {
+        "count": 5,
+        "results": [
+          {
+            "file": "src/app/api/route.ts",
+            "line": 3,
+            "kind": "function",
+            "name": "GET"
+          },
+          {
+            "file": "src/app/api/upload/[id]/route.ts",
+            "line": 6,
+            "kind": "function",
+            "name": "GET"
+          },
+          {
+            "file": "src/app/api/users/route.ts",
+            "line": 6,
+            "kind": "function",
+            "name": "GET"
+          }
+        ]
+      }
+    },
+    {
+      "queryId": "nextjs-004",
+      "query": "Find POST /api/auth/login handler",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "toolCalls": 1,
+      "charsRead": 50,
+      "estimatedTokens": 13,
+      "correctness": 3,
+      "timeMs": 0,
+      "response": {
+        "count": 5,
+        "results": [
+          {
+            "file": "src/app/api/auth/login/route.ts",
+            "line": 6,
+            "kind": "function",
+            "name": "POST"
+          },
+          {
+            "file": "src/app/api/auth/register/route.ts",
+            "line": 6,
+            "kind": "function",
+            "name": "POST"
+          },
+          {
+            "file": "src/app/api/upload/photo/route.ts",
+            "line": 6,
+            "kind": "function",
+            "name": "POST"
+          }
+        ]
+      }
+    },
+    {
+      "queryId": "nextjs-005",
+      "query": "Find user service class",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "toolCalls": 1,
+      "charsRead": 26,
+      "estimatedTokens": 7,
+      "correctness": 3,
+      "timeMs": 1,
+      "response": {
+        "count": 5,
+        "results": [
+          {
+            "file": "src/lib/userService.ts",
+            "line": 3,
+            "kind": "class",
+            "name": "UserService"
+          },
+          {
+            "file": "src/app/api/users/route.ts",
+            "line": 2,
+            "kind": "import",
+            "name": "@/lib/userService"
+          },
+          {
+            "file": "src/app/api/users/[id]/route.ts",
+            "line": 2,
+            "kind": "import",
+            "name": "@/lib/userService"
+          }
+        ]
+      }
+    },
+    {
+      "queryId": "nextjs-006",
+      "query": "Find upload service",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "toolCalls": 1,
+      "charsRead": 51,
+      "estimatedTokens": 13,
+      "correctness": 2,
+      "timeMs": 0,
+      "response": {
+        "count": 5,
+        "results": [
+          {
+            "file": "src/app/api/upload/photo/route.ts",
+            "line": 2,
+            "kind": "import",
+            "name": "@/lib/uploadService"
+          },
+          {
+            "file": "src/app/api/upload/[id]/route.ts",
+            "line": 2,
+            "kind": "import",
+            "name": "@/lib/uploadService"
+          },
+          {
+            "file": "src/lib/uploadService.ts",
+            "line": 1,
+            "kind": "class",
+            "name": "UploadService"
+          }
+        ]
+      }
+    },
+    {
+      "queryId": "nextjs-007",
+      "query": "Find auth service",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "toolCalls": 1,
+      "charsRead": 47,
+      "estimatedTokens": 12,
+      "correctness": 2,
+      "timeMs": 0,
+      "response": {
+        "count": 5,
+        "results": [
+          {
+            "file": "src/app/api/auth/login/route.ts",
+            "line": 2,
+            "kind": "import",
+            "name": "@/lib/authService"
+          },
+          {
+            "file": "src/app/api/auth/register/route.ts",
+            "line": 2,
+            "kind": "import",
+            "name": "@/lib/authService"
+          },
+          {
+            "file": "src/lib/authService.ts",
+            "line": 1,
+            "kind": "class",
+            "name": "AuthService"
+          }
+        ]
+      }
+    },
+    {
+      "queryId": "nextjs-008",
+      "query": "Find User type definition",
+      "category": "implementation_lookup",
+      "difficulty": "easy",
+      "toolCalls": 1,
+      "charsRead": 69,
+      "estimatedTokens": 17,
+      "correctness": 3,
+      "timeMs": 0,
+      "response": {
+        "count": 5,
+        "results": [
+          {
+            "file": "src/lib/userService.ts",
+            "line": 1,
+            "kind": "import",
+            "name": "@/types/user"
+          },
+          {
+            "file": "src/app/api/users/route.ts",
+            "line": 2,
+            "kind": "import",
+            "name": "@/lib/userService"
+          },
+          {
+            "file": "src/app/api/users/[id]/route.ts",
+            "line": 2,
+            "kind": "import",
+            "name": "@/lib/userService"
+          }
+        ]
+      }
+    },
+    {
+      "queryId": "nextjs-009",
+      "query": "Find UserList component",
+      "category": "component",
+      "difficulty": "easy",
+      "toolCalls": 1,
+      "charsRead": 59,
+      "estimatedTokens": 15,
+      "correctness": 2,
+      "timeMs": 0,
+      "response": {
+        "count": 5,
+        "results": [
+          {
+            "file": "src/app/page.tsx",
+            "line": 4,
+            "kind": "import",
+            "name": "@/components"
+          },
+          {
+            "file": "src/components/UserList.tsx",
+            "line": 5,
+            "kind": "function",
+            "name": "UserList"
+          },
+          {
+            "file": "src/components/Navbar.tsx",
+            "line": 1,
+            "kind": "function",
+            "name": "Navbar"
+          }
+        ]
+      }
+    },
+    {
+      "queryId": "nextjs-010",
+      "query": "Find UploadForm component",
+      "category": "component",
+      "difficulty": "easy",
+      "toolCalls": 1,
+      "charsRead": 59,
+      "estimatedTokens": 15,
+      "correctness": 2,
+      "timeMs": 0,
+      "response": {
+        "count": 5,
+        "results": [
+          {
+            "file": "src/app/page.tsx",
+            "line": 4,
+            "kind": "import",
+            "name": "@/components"
+          },
+          {
+            "file": "src/components/UploadForm.tsx",
+            "line": 5,
+            "kind": "function",
+            "name": "UploadForm"
+          },
+          {
+            "file": "src/components/Navbar.tsx",
+            "line": 1,
+            "kind": "function",
+            "name": "Navbar"
+          }
+        ]
+      }
+    },
+    {
+      "queryId": "nextjs-011",
+      "query": "Find POST /api/users endpoint",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "toolCalls": 1,
+      "charsRead": 50,
+      "estimatedTokens": 13,
+      "correctness": 3,
+      "timeMs": 0,
+      "response": {
+        "count": 5,
+        "results": [
+          {
+            "file": "src/app/api/auth/login/route.ts",
+            "line": 6,
+            "kind": "function",
+            "name": "POST"
+          },
+          {
+            "file": "src/app/api/auth/register/route.ts",
+            "line": 6,
+            "kind": "function",
+            "name": "POST"
+          },
+          {
+            "file": "src/app/api/upload/photo/route.ts",
+            "line": 6,
+            "kind": "function",
+            "name": "POST"
+          }
+        ]
+      }
+    },
+    {
+      "queryId": "nextjs-012",
+      "query": "Find POST /api/upload/photo handler",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "toolCalls": 1,
+      "charsRead": 50,
+      "estimatedTokens": 13,
+      "correctness": 2,
+      "timeMs": 1,
+      "response": {
+        "count": 5,
+        "results": [
+          {
+            "file": "src/app/api/auth/login/route.ts",
+            "line": 6,
+            "kind": "function",
+            "name": "POST"
+          },
+          {
+            "file": "src/app/api/auth/register/route.ts",
+            "line": 6,
+            "kind": "function",
+            "name": "POST"
+          },
+          {
+            "file": "src/app/api/upload/photo/route.ts",
+            "line": 6,
+            "kind": "function",
+            "name": "POST"
+          }
+        ]
+      }
+    },
+    {
+      "queryId": "nextjs-013",
+      "query": "Find Navbar component",
+      "category": "component",
+      "difficulty": "easy",
+      "toolCalls": 1,
+      "charsRead": 59,
+      "estimatedTokens": 15,
+      "correctness": 2,
+      "timeMs": 0,
+      "response": {
+        "count": 5,
+        "results": [
+          {
+            "file": "src/app/page.tsx",
+            "line": 4,
+            "kind": "import",
+            "name": "@/components"
+          },
+          {
+            "file": "src/components/Navbar.tsx",
+            "line": 1,
+            "kind": "function",
+            "name": "Navbar"
+          },
+          {
+            "file": "src/components/UploadForm.tsx",
+            "line": 3,
+            "kind": "import",
+            "name": "react"
+          }
+        ]
+      }
+    },
+    {
+      "queryId": "nextjs-014",
+      "query": "Find user creation logic",
+      "category": "handler_lookup",
+      "difficulty": "medium",
+      "toolCalls": 1,
+      "charsRead": 47,
+      "estimatedTokens": 12,
+      "correctness": 3,
+      "timeMs": 0,
+      "response": {
+        "count": 5,
+        "results": [
+          {
+            "file": "src/app/api/users/route.ts",
+            "line": 2,
+            "kind": "import",
+            "name": "@/lib/userService"
+          },
+          {
+            "file": "src/app/api/users/[id]/route.ts",
+            "line": 2,
+            "kind": "import",
+            "name": "@/lib/userService"
+          },
+          {
+            "file": "src/components/UserList.tsx",
+            "line": 5,
+            "kind": "function",
+            "name": "UserList"
+          }
+        ]
+      }
+    },
+    {
+      "queryId": "nextjs-015",
+      "query": "Find registration endpoint",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "toolCalls": 1,
+      "charsRead": 0,
+      "estimatedTokens": 0,
+      "correctness": 0,
+      "timeMs": 0,
+      "response": {
+        "count": 0,
+        "results": []
+      }
+    }
+  ],
+  "totals": {
+    "totalToolCalls": 15,
+    "totalCharsRead": 726,
+    "totalTokens": 185,
+    "avgTokensPerQuery": 12,
+    "avgCorrectness": 2.33,
+    "top3HitRate": 93.3
+  }
+}

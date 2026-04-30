@@ -1,0 +1,318 @@
+{
+  "fixture": "fastify-app",
+  "timestamp": 1777510282932,
+  "signalChars": 1783,
+  "signalCount": 144,
+  "queries": [
+    {
+      "queryId": "fastify-001",
+      "query": "Where is the main app initialized?",
+      "category": "navigation",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 60,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 15,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 55,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "function",
+        "name": "buildApp",
+        "file": "src/app.ts",
+        "line": 11
+      }
+    },
+    {
+      "queryId": "fastify-002",
+      "query": "Show all API routes",
+      "category": "route_discovery",
+      "difficulty": "medium",
+      "searchCalls": 1,
+      "signalCharsReturned": 43,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 11,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 59,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./routes/users",
+        "file": "src/app.ts",
+        "line": 2
+      }
+    },
+    {
+      "queryId": "fastify-003",
+      "query": "Find GET /users endpoint",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 43,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 11,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 76,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./routes/users",
+        "file": "src/app.ts",
+        "line": 2
+      }
+    },
+    {
+      "queryId": "fastify-004",
+      "query": "Find login handler",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 20,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 5,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 75,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "route",
+        "name": "POST /login",
+        "file": "src/routes/auth.ts",
+        "line": 8
+      }
+    },
+    {
+      "queryId": "fastify-005",
+      "query": "Show middleware chain",
+      "category": "navigation",
+      "difficulty": "medium",
+      "searchCalls": 1,
+      "signalCharsReturned": 50,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 13,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 64,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./middleware/cors",
+        "file": "src/app.ts",
+        "line": 7
+      }
+    },
+    {
+      "queryId": "fastify-006",
+      "query": "Where is error handling?",
+      "category": "implementation_lookup",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 56,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 14,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 76,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./middleware/errorHandler",
+        "file": "src/app.ts",
+        "line": 8
+      }
+    },
+    {
+      "queryId": "fastify-007",
+      "query": "Find auth validation logic",
+      "category": "implementation_lookup",
+      "difficulty": "medium",
+      "searchCalls": 1,
+      "signalCharsReturned": 42,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 11,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 90,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./routes/auth",
+        "file": "src/app.ts",
+        "line": 3
+      }
+    },
+    {
+      "queryId": "fastify-008",
+      "query": "Find database model for users",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 43,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 11,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 90,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./routes/users",
+        "file": "src/app.ts",
+        "line": 2
+      }
+    },
+    {
+      "queryId": "fastify-009",
+      "query": "Show imports used by main app",
+      "category": "navigation",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 60,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 15,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 74,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "function",
+        "name": "buildApp",
+        "file": "src/app.ts",
+        "line": 11
+      }
+    },
+    {
+      "queryId": "fastify-010",
+      "query": "Find service for user creation",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 53,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 13,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 78,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "../services/userService",
+        "file": "src/routes/users.ts",
+        "line": 2
+      }
+    },
+    {
+      "queryId": "fastify-011",
+      "query": "Find POST /auth/login handler",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 20,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 5,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 71,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "route",
+        "name": "POST /login",
+        "file": "src/routes/auth.ts",
+        "line": 8
+      }
+    },
+    {
+      "queryId": "fastify-012",
+      "query": "Find upload service",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 57,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 14,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 86,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "../services/uploadService",
+        "file": "src/routes/upload.ts",
+        "line": 2
+      }
+    },
+    {
+      "queryId": "fastify-013",
+      "query": "Find config parsing logic",
+      "category": "implementation_lookup",
+      "difficulty": "hard",
+      "searchCalls": 1,
+      "signalCharsReturned": 33,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 8,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 69,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./config",
+        "file": "src/app.ts",
+        "line": 9
+      }
+    },
+    {
+      "queryId": "fastify-014",
+      "query": "Find CORS middleware",
+      "category": "middleware",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 50,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 13,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 94,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./middleware/cors",
+        "file": "src/app.ts",
+        "line": 7
+      }
+    },
+    {
+      "queryId": "fastify-015",
+      "query": "Find auth service class",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 26,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 7,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 50,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "class",
+        "name": "AuthService",
+        "file": "src/services/authService.ts",
+        "line": 1
+      }
+    }
+  ],
+  "totals": {
+    "totalSearchCalls": 15,
+    "totalSignalChars": 656,
+    "totalTargetedReads": 15,
+    "totalFullReads": 15,
+    "totalTokens": 166,
+    "avgTokensPerQuery": 11,
+    "avgCorrectness": 1.5,
+    "top3HitRate": 100
+  }
+}

@@ -1,5 +1,34 @@
+# Dependencies
 node_modules/
+
+# Build output
 dist/
+
+# Logs
 *.log
+
+# Environment
 .env
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# TypeScript incremental build
+*.tsbuildinfo
+
+# Test coverage
+coverage/
+
+# Internal design work (publish later if needed)
+# Keep these in repo but not committed
+agents.md
+feedback.md
+PRD.md
+benchmarks/results/report-*.md
+benchmarks/README.md
+EVAL_BENCHMARK_IMPLEMENTATION.md
+EVALBENCHMARK.md
+DEVIATIONS.md
+IMPLEMENTATION_PLAN.md
+docs/phase2-*.md

@@ -1,0 +1,780 @@
+{
+  "fixture": "fastify-app",
+  "timestamp": 1777513464526,
+  "mode": "mcp",
+  "baseline": {
+    "fixture": "fastify-app",
+    "timestamp": 1777513464520,
+    "rawSourceChars": 11888,
+    "fileCount": 14,
+    "queries": [
+      {
+        "queryId": "fastify-001",
+        "query": "Where is the main app initialized?",
+        "category": "navigation",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 1,
+        "targetedReads": 1,
+        "charsRead": 2416,
+        "estimatedTokens": 604,
+        "correctness": 3,
+        "timeMs": 1
+      },
+      {
+        "queryId": "fastify-002",
+        "query": "Show all API routes",
+        "category": "route_discovery",
+        "difficulty": "medium",
+        "toolCalls": 1,
+        "fullReads": 5,
+        "targetedReads": 0,
+        "charsRead": 3470,
+        "estimatedTokens": 868,
+        "correctness": 0,
+        "timeMs": 1
+      },
+      {
+        "queryId": "fastify-003",
+        "query": "Find GET /users endpoint",
+        "category": "route_discovery",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 1,
+        "targetedReads": 1,
+        "charsRead": 3200,
+        "estimatedTokens": 800,
+        "correctness": 3,
+        "timeMs": 0
+      },
+      {
+        "queryId": "fastify-004",
+        "query": "Find login handler",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 5,
+        "targetedReads": 0,
+        "charsRead": 3470,
+        "estimatedTokens": 868,
+        "correctness": 0,
+        "timeMs": 4
+      },
+      {
+        "queryId": "fastify-005",
+        "query": "Show middleware chain",
+        "category": "navigation",
+        "difficulty": "medium",
+        "toolCalls": 1,
+        "fullReads": 1,
+        "targetedReads": 1,
+        "charsRead": 1144,
+        "estimatedTokens": 286,
+        "correctness": 3,
+        "timeMs": 1
+      },
+      {
+        "queryId": "fastify-006",
+        "query": "Where is error handling?",
+        "category": "implementation_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 5,
+        "targetedReads": 0,
+        "charsRead": 3470,
+        "estimatedTokens": 868,
+        "correctness": 0,
+        "timeMs": 2
+      },
+      {
+        "queryId": "fastify-007",
+        "query": "Find auth validation logic",
+        "category": "implementation_lookup",
+        "difficulty": "medium",
+        "toolCalls": 1,
+        "fullReads": 1,
+        "targetedReads": 1,
+        "charsRead": 2862,
+        "estimatedTokens": 716,
+        "correctness": 3,
+        "timeMs": 1
+      },
+      {
+        "queryId": "fastify-008",
+        "query": "Find database model for users",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 5,
+        "targetedReads": 0,
+        "charsRead": 3470,
+        "estimatedTokens": 868,
+        "correctness": 0,
+        "timeMs": 1
+      },
+      {
+        "queryId": "fastify-009",
+        "query": "Show imports used by main app",
+        "category": "navigation",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 1,
+        "targetedReads": 1,
+        "charsRead": 2416,
+        "estimatedTokens": 604,
+        "correctness": 3,
+        "timeMs": 0
+      },
+      {
+        "queryId": "fastify-010",
+        "query": "Find service for user creation",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 1,
+        "targetedReads": 1,
+        "charsRead": 3200,
+        "estimatedTokens": 800,
+        "correctness": 3,
+        "timeMs": 1
+      },
+      {
+        "queryId": "fastify-011",
+        "query": "Find POST /auth/login handler",
+        "category": "route_discovery",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 5,
+        "targetedReads": 0,
+        "charsRead": 3470,
+        "estimatedTokens": 868,
+        "correctness": 0,
+        "timeMs": 0
+      },
+      {
+        "queryId": "fastify-012",
+        "query": "Find upload service",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 5,
+        "targetedReads": 0,
+        "charsRead": 3470,
+        "estimatedTokens": 868,
+        "correctness": 0,
+        "timeMs": 1
+      },
+      {
+        "queryId": "fastify-013",
+        "query": "Find config parsing logic",
+        "category": "implementation_lookup",
+        "difficulty": "hard",
+        "toolCalls": 1,
+        "fullReads": 5,
+        "targetedReads": 0,
+        "charsRead": 3470,
+        "estimatedTokens": 868,
+        "correctness": 0,
+        "timeMs": 1
+      },
+      {
+        "queryId": "fastify-014",
+        "query": "Find CORS middleware",
+        "category": "middleware",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 1,
+        "targetedReads": 1,
+        "charsRead": 1144,
+        "estimatedTokens": 286,
+        "correctness": 3,
+        "timeMs": 0
+      },
+      {
+        "queryId": "fastify-015",
+        "query": "Find auth service class",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 5,
+        "targetedReads": 0,
+        "charsRead": 3470,
+        "estimatedTokens": 868,
+        "correctness": 0,
+        "timeMs": 1
+      }
+    ],
+    "totals": {
+      "totalToolCalls": 15,
+      "totalFullReads": 47,
+      "totalCharsRead": 44142,
+      "totalTokens": 11040,
+      "avgTokensPerQuery": 736,
+      "avgCorrectness": 1.4
+    }
+  },
+  "mcp": {
+    "fixture": "fastify-app",
+    "timestamp": 1777513464524,
+    "signalChars": 2650,
+    "signalCount": 53,
+    "queries": [
+      {
+        "queryId": "fastify-001",
+        "query": "Where is the main app initialized?",
+        "category": "navigation",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 60,
+        "estimatedTokens": 15,
+        "correctness": 3,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 11,
+              "kind": "function",
+              "name": "buildApp"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "./routes/users"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 3,
+              "kind": "import",
+              "name": "./routes/auth"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "fastify-002",
+        "query": "Show all API routes",
+        "category": "route_discovery",
+        "difficulty": "medium",
+        "toolCalls": 1,
+        "charsRead": 43,
+        "estimatedTokens": 11,
+        "correctness": 3,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "./routes/users"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 3,
+              "kind": "import",
+              "name": "./routes/auth"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 4,
+              "kind": "import",
+              "name": "./routes/upload"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "fastify-003",
+        "query": "Find GET /users endpoint",
+        "category": "route_discovery",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 43,
+        "estimatedTokens": 11,
+        "correctness": 1,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "./routes/users"
+            },
+            {
+              "file": "src/routes/health.ts",
+              "line": 4,
+              "kind": "route",
+              "name": "GET /"
+            },
+            {
+              "file": "src/routes/health.ts",
+              "line": 8,
+              "kind": "route",
+              "name": "GET /ready"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "fastify-004",
+        "query": "Find login handler",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 20,
+        "estimatedTokens": 5,
+        "correctness": 3,
+        "timeMs": 0,
+        "response": {
+          "count": 1,
+          "results": [
+            {
+              "file": "src/routes/auth.ts",
+              "line": 8,
+              "kind": "route",
+              "name": "POST /login"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "fastify-005",
+        "query": "Show middleware chain",
+        "category": "navigation",
+        "difficulty": "medium",
+        "toolCalls": 1,
+        "charsRead": 50,
+        "estimatedTokens": 13,
+        "correctness": 2,
+        "timeMs": 1,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 7,
+              "kind": "import",
+              "name": "./middleware/cors"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 8,
+              "kind": "import",
+              "name": "./middleware/errorHandler"
+            },
+            {
+              "file": "src/middleware/cors.ts",
+              "line": 3,
+              "kind": "function",
+              "name": "corsMiddleware"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "fastify-006",
+        "query": "Where is error handling?",
+        "category": "implementation_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 56,
+        "estimatedTokens": 14,
+        "correctness": 2,
+        "timeMs": 0,
+        "response": {
+          "count": 3,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 8,
+              "kind": "import",
+              "name": "./middleware/errorHandler"
+            },
+            {
+              "file": "src/middleware/errorHandler.ts",
+              "line": 3,
+              "kind": "function",
+              "name": "errorHandler"
+            },
+            {
+              "file": "src/middleware/errorHandler.ts",
+              "line": 1,
+              "kind": "import",
+              "name": "fastify"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "fastify-007",
+        "query": "Find auth validation logic",
+        "category": "implementation_lookup",
+        "difficulty": "medium",
+        "toolCalls": 1,
+        "charsRead": 42,
+        "estimatedTokens": 11,
+        "correctness": 1,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 3,
+              "kind": "import",
+              "name": "./routes/auth"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 6,
+              "kind": "import",
+              "name": "./plugins/auth"
+            },
+            {
+              "file": "src/plugins/auth.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "../services/authService"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "fastify-008",
+        "query": "Find database model for users",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 43,
+        "estimatedTokens": 11,
+        "correctness": 1,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "./routes/users"
+            },
+            {
+              "file": "src/routes/users.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "../services/userService"
+            },
+            {
+              "file": "src/services/userService.ts",
+              "line": 3,
+              "kind": "class",
+              "name": "UserService"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "fastify-009",
+        "query": "Show imports used by main app",
+        "category": "navigation",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 60,
+        "estimatedTokens": 15,
+        "correctness": 3,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 11,
+              "kind": "function",
+              "name": "buildApp"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "./routes/users"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 3,
+              "kind": "import",
+              "name": "./routes/auth"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "fastify-010",
+        "query": "Find service for user creation",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 53,
+        "estimatedTokens": 13,
+        "correctness": 3,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/routes/users.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "../services/userService"
+            },
+            {
+              "file": "src/services/userService.ts",
+              "line": 3,
+              "kind": "class",
+              "name": "UserService"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "./routes/users"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "fastify-011",
+        "query": "Find POST /auth/login handler",
+        "category": "route_discovery",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 20,
+        "estimatedTokens": 5,
+        "correctness": 3,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/routes/auth.ts",
+              "line": 8,
+              "kind": "route",
+              "name": "POST /login"
+            },
+            {
+              "file": "src/routes/auth.ts",
+              "line": 20,
+              "kind": "route",
+              "name": "POST /register"
+            },
+            {
+              "file": "src/routes/auth.ts",
+              "line": 29,
+              "kind": "route",
+              "name": "POST /logout"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "fastify-012",
+        "query": "Find upload service",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 57,
+        "estimatedTokens": 14,
+        "correctness": 2,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/routes/upload.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "../services/uploadService"
+            },
+            {
+              "file": "src/services/uploadService.ts",
+              "line": 1,
+              "kind": "class",
+              "name": "UploadService"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 4,
+              "kind": "import",
+              "name": "./routes/upload"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "fastify-013",
+        "query": "Find config parsing logic",
+        "category": "implementation_lookup",
+        "difficulty": "hard",
+        "toolCalls": 1,
+        "charsRead": 33,
+        "estimatedTokens": 8,
+        "correctness": 3,
+        "timeMs": 0,
+        "response": {
+          "count": 1,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 9,
+              "kind": "import",
+              "name": "./config"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "fastify-014",
+        "query": "Find CORS middleware",
+        "category": "middleware",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 50,
+        "estimatedTokens": 13,
+        "correctness": 2,
+        "timeMs": 1,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 7,
+              "kind": "import",
+              "name": "./middleware/cors"
+            },
+            {
+              "file": "src/middleware/cors.ts",
+              "line": 3,
+              "kind": "function",
+              "name": "corsMiddleware"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 8,
+              "kind": "import",
+              "name": "./middleware/errorHandler"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "fastify-015",
+        "query": "Find auth service class",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 26,
+        "estimatedTokens": 7,
+        "correctness": 3,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/services/authService.ts",
+              "line": 1,
+              "kind": "class",
+              "name": "AuthService"
+            },
+            {
+              "file": "src/plugins/auth.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "../services/authService"
+            },
+            {
+              "file": "src/routes/auth.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "../services/authService"
+            }
+          ]
+        }
+      }
+    ],
+    "totals": {
+      "totalToolCalls": 15,
+      "totalCharsRead": 656,
+      "totalTokens": 166,
+      "avgTokensPerQuery": 11,
+      "avgCorrectness": 2.33,
+      "top3HitRate": 80
+    }
+  },
+  "indexing": {
+    "fixture": "fastify-app",
+    "timestamp": 1777513464526,
+    "filesScanned": 14,
+    "filesSkipped": 0,
+    "rawSourceChars": 11888,
+    "signalChars": 2650,
+    "signalCount": 53,
+    "storageReductionPercent": 78,
+    "scanDurationMs": 0,
+    "signalsByKind": {},
+    "signalsByLanguage": {},
+    "lspAvailable": false,
+    "byKind": {},
+    "byLanguage": {},
+    "byFramework": {}
+  },
+  "metrics": {
+    "storageReduction": {
+      "label": "Storage Reduction",
+      "baseline": 11888,
+      "mcp": 2650,
+      "reduction": 78,
+      "success": true
+    },
+    "queryContext": {
+      "label": "Query Context",
+      "baseline": 736,
+      "mcp": 11,
+      "reduction": 99,
+      "success": true
+    },
+    "toolCalls": {
+      "label": "Tool Calls",
+      "baseline": 15,
+      "mcp": 15,
+      "reduction": 0,
+      "success": false
+    },
+    "accuracy": {
+      "label": "Accuracy",
+      "baseline": 1.4,
+      "mcp": 2.33,
+      "reduction": 0,
+      "success": true
+    },
+    "top3HitRate": {
+      "label": "Top-3 Hit Rate",
+      "baseline": 0,
+      "mcp": 80,
+      "reduction": 80,
+      "success": true
+    },
+    "breakEven": {
+      "label": "Break-Even",
+      "baseline": 0,
+      "mcp": 61,
+      "reduction": 0,
+      "success": false
+    }
+  },
+  "passed": false
+}

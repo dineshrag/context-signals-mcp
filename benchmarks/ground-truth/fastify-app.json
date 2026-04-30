@@ -1,0 +1,182 @@
+{
+  "fixture": "fastify-app",
+  "version": "1.0.0",
+  "totalFiles": 15,
+  "totalSourceChars": 12000,
+  "queries": [
+    {
+      "id": "fastify-001",
+      "query": "Where is the main app initialized?",
+      "category": "navigation",
+      "expected": {
+        "kind": "function",
+        "file": "src/app.ts",
+        "handler": "buildApp",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "fastify-002",
+      "query": "Show all API routes",
+      "category": "route_discovery",
+      "expected": {
+        "kind": "import",
+        "file": "src/app.ts",
+        "lineRequired": false
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "fastify-003",
+      "query": "Find GET /users endpoint",
+      "category": "route_discovery",
+      "expected": {
+        "kind": "route",
+        "method": "GET",
+        "file": "src/routes/users.ts",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "fastify-004",
+      "query": "Find login handler",
+      "category": "handler_lookup",
+      "expected": {
+        "kind": "route",
+        "file": "src/routes/auth.ts",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "fastify-005",
+      "query": "Show middleware chain",
+      "category": "navigation",
+      "expected": {
+        "kind": "function",
+        "file": "src/middleware/cors.ts",
+        "handler": "corsMiddleware",
+        "lineRequired": false
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "fastify-006",
+      "query": "Where is error handling?",
+      "category": "implementation_lookup",
+      "expected": {
+        "kind": "function",
+        "file": "src/middleware/errorHandler.ts",
+        "handler": "errorHandler",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "fastify-007",
+      "query": "Find auth validation logic",
+      "category": "implementation_lookup",
+      "expected": {
+        "kind": "function",
+        "file": "src/routes/auth.ts",
+        "lineRequired": true
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "fastify-008",
+      "query": "Find database model for users",
+      "category": "handler_lookup",
+      "expected": {
+        "kind": "interface",
+        "file": "src/types/user.ts",
+        "handler": "User",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "fastify-009",
+      "query": "Show imports used by main app",
+      "category": "navigation",
+      "expected": {
+        "kind": "function",
+        "file": "src/app.ts",
+        "lineRequired": false
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "fastify-010",
+      "query": "Find service for user creation",
+      "category": "handler_lookup",
+      "expected": {
+        "kind": "import",
+        "file": "src/routes/users.ts",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "fastify-011",
+      "query": "Find POST /auth/login handler",
+      "category": "route_discovery",
+      "expected": {
+        "kind": "route",
+        "method": "POST",
+        "file": "src/routes/auth.ts",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "fastify-012",
+      "query": "Find upload service",
+      "category": "handler_lookup",
+      "expected": {
+        "kind": "class",
+        "file": "src/services/uploadService.ts",
+        "handler": "UploadService",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "fastify-013",
+      "query": "Find config parsing logic",
+      "category": "implementation_lookup",
+      "expected": {
+        "kind": "import",
+        "file": "src/app.ts",
+        "lineRequired": true
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "fastify-014",
+      "query": "Find CORS middleware",
+      "category": "middleware",
+      "expected": {
+        "kind": "function",
+        "file": "src/middleware/cors.ts",
+        "handler": "corsMiddleware",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "fastify-015",
+      "query": "Find auth service class",
+      "category": "handler_lookup",
+      "expected": {
+        "kind": "class",
+        "file": "src/services/authService.ts",
+        "handler": "AuthService",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    }
+  ]
+}

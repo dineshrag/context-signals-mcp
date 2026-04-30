@@ -1,0 +1,180 @@
+{
+  "fixture": "nextjs-app",
+  "timestamp": 1777510282951,
+  "rawSourceChars": 9445,
+  "fileCount": 18,
+  "queries": [
+    {
+      "queryId": "nextjs-001",
+      "query": "Where is the main app layout?",
+      "category": "navigation",
+      "difficulty": "easy",
+      "simulatedToolCalls": 9,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 4117,
+      "simulatedCorrectness": 2.0711552410962635,
+      "simulatedTimeMs": 5268
+    },
+    {
+      "queryId": "nextjs-002",
+      "query": "Show all API routes",
+      "category": "route_discovery",
+      "difficulty": "medium",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 6,
+      "simulatedTokens": 3567,
+      "simulatedCorrectness": 2.616795018980449,
+      "simulatedTimeMs": 5146
+    },
+    {
+      "queryId": "nextjs-003",
+      "query": "Find GET /api/users endpoint",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 4133,
+      "simulatedCorrectness": 1.7956874230084545,
+      "simulatedTimeMs": 4696
+    },
+    {
+      "queryId": "nextjs-004",
+      "query": "Find POST /api/auth/login handler",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 4,
+      "simulatedTokens": 4163,
+      "simulatedCorrectness": 2.33346843824732,
+      "simulatedTimeMs": 4865
+    },
+    {
+      "queryId": "nextjs-005",
+      "query": "Find user service class",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "simulatedToolCalls": 9,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 3854,
+      "simulatedCorrectness": 2.592016515644747,
+      "simulatedTimeMs": 5836
+    },
+    {
+      "queryId": "nextjs-006",
+      "query": "Find upload service",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 4086,
+      "simulatedCorrectness": 2.160349831263752,
+      "simulatedTimeMs": 5381
+    },
+    {
+      "queryId": "nextjs-007",
+      "query": "Find auth service",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "simulatedToolCalls": 9,
+      "simulatedFullReads": 6,
+      "simulatedTokens": 4034,
+      "simulatedCorrectness": 1.9643420097343238,
+      "simulatedTimeMs": 5808
+    },
+    {
+      "queryId": "nextjs-008",
+      "query": "Find User type definition",
+      "category": "implementation_lookup",
+      "difficulty": "easy",
+      "simulatedToolCalls": 8,
+      "simulatedFullReads": 6,
+      "simulatedTokens": 4085,
+      "simulatedCorrectness": 1.9479950310180718,
+      "simulatedTimeMs": 5292
+    },
+    {
+      "queryId": "nextjs-009",
+      "query": "Find UserList component",
+      "category": "component",
+      "difficulty": "easy",
+      "simulatedToolCalls": 9,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 3748,
+      "simulatedCorrectness": 2.648338543395303,
+      "simulatedTimeMs": 5375
+    },
+    {
+      "queryId": "nextjs-010",
+      "query": "Find UploadForm component",
+      "category": "component",
+      "difficulty": "easy",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 3731,
+      "simulatedCorrectness": 1.8105048272433344,
+      "simulatedTimeMs": 4850
+    },
+    {
+      "queryId": "nextjs-011",
+      "query": "Find POST /api/users endpoint",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 3962,
+      "simulatedCorrectness": 2.2630807065651712,
+      "simulatedTimeMs": 5160
+    },
+    {
+      "queryId": "nextjs-012",
+      "query": "Find POST /api/upload/photo handler",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 3986,
+      "simulatedCorrectness": 2.404828969179066,
+      "simulatedTimeMs": 5066
+    },
+    {
+      "queryId": "nextjs-013",
+      "query": "Find Navbar component",
+      "category": "component",
+      "difficulty": "easy",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 3986,
+      "simulatedCorrectness": 1.8599230764619863,
+      "simulatedTimeMs": 5693
+    },
+    {
+      "queryId": "nextjs-014",
+      "query": "Find user creation logic",
+      "category": "handler_lookup",
+      "difficulty": "medium",
+      "simulatedToolCalls": 8,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 4003,
+      "simulatedCorrectness": 2.4018172433746003,
+      "simulatedTimeMs": 5275
+    },
+    {
+      "queryId": "nextjs-015",
+      "query": "Find registration endpoint",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 4,
+      "simulatedTokens": 4003,
+      "simulatedCorrectness": 1.9813162483603173,
+      "simulatedTimeMs": 5464
+    }
+  ],
+  "totals": {
+    "totalToolCalls": 142,
+    "totalFullReads": 76,
+    "totalTokens": 59458,
+    "avgTokensPerQuery": 3964,
+    "avgCorrectness": 2.19
+  }
+}

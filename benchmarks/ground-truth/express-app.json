@@ -1,0 +1,180 @@
+{
+  "fixture": "express-app",
+  "version": "1.0.0",
+  "totalFiles": 15,
+  "totalSourceChars": 12805,
+  "queries": [
+    {
+      "id": "express-001",
+      "query": "Where is the main app initialized?",
+      "category": "navigation",
+      "expected": {
+        "kind": "function",
+        "file": "src/app.ts",
+        "handler": "createApp",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "express-002",
+      "query": "Show all API routes",
+      "category": "route_discovery",
+      "expected": {
+        "kind": "import",
+        "file": "src/app.ts",
+        "lineRequired": false
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "express-003",
+      "query": "Find POST /users endpoint",
+      "category": "route_discovery",
+      "expected": {
+        "kind": "route",
+        "method": "POST",
+        "file": "src/routes/users.ts",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "express-004",
+      "query": "Find login handler",
+      "category": "handler_lookup",
+      "expected": {
+        "kind": "function",
+        "file": "src/middleware/validation.ts",
+        "handler": "validateLogin",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "express-005",
+      "query": "Show middleware chain",
+      "category": "navigation",
+      "expected": {
+        "kind": "import",
+        "file": "src/app.ts",
+        "lineRequired": false
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "express-006",
+      "query": "Where is error handling?",
+      "category": "implementation_lookup",
+      "expected": {
+        "kind": "function",
+        "file": "src/middleware/errorHandler.ts",
+        "handler": "errorHandler",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "express-007",
+      "query": "Find auth validation logic",
+      "category": "implementation_lookup",
+      "expected": {
+        "kind": "function",
+        "file": "src/middleware/validation.ts",
+        "handler": "validateLogin",
+        "lineRequired": true
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "express-008",
+      "query": "Find database model for users",
+      "category": "handler_lookup",
+      "expected": {
+        "kind": "import",
+        "file": "src/routes/users.ts",
+        "lineRequired": false
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "express-009",
+      "query": "Show imports used by main app",
+      "category": "navigation",
+      "expected": {
+        "kind": "import",
+        "file": "src/app.ts",
+        "lineRequired": false
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "express-010",
+      "query": "Find controller for user creation",
+      "category": "handler_lookup",
+      "expected": {
+        "kind": "route",
+        "file": "src/routes/users.ts",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "express-011",
+      "query": "Find service called by POST /users",
+      "category": "handler_lookup",
+      "expected": {
+        "kind": "import",
+        "file": "src/routes/users.ts",
+        "lineRequired": true
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "express-012",
+      "query": "Find upload route handler",
+      "category": "route_discovery",
+      "expected": {
+        "kind": "import",
+        "file": "src/app.ts",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "express-013",
+      "query": "Find config parsing logic",
+      "category": "implementation_lookup",
+      "expected": {
+        "kind": "import",
+        "file": "src/app.ts",
+        "lineRequired": true
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "express-014",
+      "query": "Find auth middleware",
+      "category": "middleware",
+      "expected": {
+        "kind": "function",
+        "file": "src/middleware/auth.ts",
+        "handler": "authMiddleware",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "express-015",
+      "query": "Find user service class",
+      "category": "handler_lookup",
+      "expected": {
+        "kind": "class",
+        "file": "src/services/userService.ts",
+        "handler": "UserService",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    }
+  ]
+}

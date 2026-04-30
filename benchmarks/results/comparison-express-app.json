@@ -1,0 +1,786 @@
+{
+  "fixture": "express-app",
+  "timestamp": 1777513464494,
+  "mode": "mcp",
+  "baseline": {
+    "fixture": "express-app",
+    "timestamp": 1777513464485,
+    "rawSourceChars": 12805,
+    "fileCount": 15,
+    "queries": [
+      {
+        "queryId": "express-001",
+        "query": "Where is the main app initialized?",
+        "category": "navigation",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 1,
+        "targetedReads": 1,
+        "charsRead": 2134,
+        "estimatedTokens": 534,
+        "correctness": 3,
+        "timeMs": 1
+      },
+      {
+        "queryId": "express-002",
+        "query": "Show all API routes",
+        "category": "route_discovery",
+        "difficulty": "medium",
+        "toolCalls": 1,
+        "fullReads": 5,
+        "targetedReads": 0,
+        "charsRead": 3430,
+        "estimatedTokens": 858,
+        "correctness": 0,
+        "timeMs": 1
+      },
+      {
+        "queryId": "express-003",
+        "query": "Find POST /users endpoint",
+        "category": "route_discovery",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 1,
+        "targetedReads": 1,
+        "charsRead": 2476,
+        "estimatedTokens": 619,
+        "correctness": 3,
+        "timeMs": 1
+      },
+      {
+        "queryId": "express-004",
+        "query": "Find login handler",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 5,
+        "targetedReads": 0,
+        "charsRead": 3430,
+        "estimatedTokens": 858,
+        "correctness": 0,
+        "timeMs": 4
+      },
+      {
+        "queryId": "express-005",
+        "query": "Show middleware chain",
+        "category": "navigation",
+        "difficulty": "medium",
+        "toolCalls": 1,
+        "fullReads": 5,
+        "targetedReads": 0,
+        "charsRead": 3430,
+        "estimatedTokens": 858,
+        "correctness": 0,
+        "timeMs": 3
+      },
+      {
+        "queryId": "express-006",
+        "query": "Where is error handling?",
+        "category": "implementation_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 5,
+        "targetedReads": 0,
+        "charsRead": 3430,
+        "estimatedTokens": 858,
+        "correctness": 0,
+        "timeMs": 1
+      },
+      {
+        "queryId": "express-007",
+        "query": "Find auth validation logic",
+        "category": "implementation_lookup",
+        "difficulty": "medium",
+        "toolCalls": 1,
+        "fullReads": 1,
+        "targetedReads": 1,
+        "charsRead": 2698,
+        "estimatedTokens": 675,
+        "correctness": 3,
+        "timeMs": 1
+      },
+      {
+        "queryId": "express-008",
+        "query": "Find database model for users",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 1,
+        "targetedReads": 1,
+        "charsRead": 2476,
+        "estimatedTokens": 619,
+        "correctness": 3,
+        "timeMs": 0
+      },
+      {
+        "queryId": "express-009",
+        "query": "Show imports used by main app",
+        "category": "navigation",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 1,
+        "targetedReads": 1,
+        "charsRead": 2134,
+        "estimatedTokens": 534,
+        "correctness": 3,
+        "timeMs": 1
+      },
+      {
+        "queryId": "express-010",
+        "query": "Find controller for user creation",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 1,
+        "targetedReads": 1,
+        "charsRead": 2476,
+        "estimatedTokens": 619,
+        "correctness": 3,
+        "timeMs": 0
+      },
+      {
+        "queryId": "express-011",
+        "query": "Find service called by POST /users",
+        "category": "handler_lookup",
+        "difficulty": "medium",
+        "toolCalls": 1,
+        "fullReads": 1,
+        "targetedReads": 1,
+        "charsRead": 2476,
+        "estimatedTokens": 619,
+        "correctness": 3,
+        "timeMs": 1
+      },
+      {
+        "queryId": "express-012",
+        "query": "Find upload route handler",
+        "category": "route_discovery",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 5,
+        "targetedReads": 0,
+        "charsRead": 3430,
+        "estimatedTokens": 858,
+        "correctness": 0,
+        "timeMs": 1
+      },
+      {
+        "queryId": "express-013",
+        "query": "Find config parsing logic",
+        "category": "implementation_lookup",
+        "difficulty": "hard",
+        "toolCalls": 1,
+        "fullReads": 5,
+        "targetedReads": 0,
+        "charsRead": 3430,
+        "estimatedTokens": 858,
+        "correctness": 0,
+        "timeMs": 0
+      },
+      {
+        "queryId": "express-014",
+        "query": "Find auth middleware",
+        "category": "middleware",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 1,
+        "targetedReads": 1,
+        "charsRead": 1298,
+        "estimatedTokens": 325,
+        "correctness": 3,
+        "timeMs": 1
+      },
+      {
+        "queryId": "express-015",
+        "query": "Find user service class",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "fullReads": 5,
+        "targetedReads": 0,
+        "charsRead": 3430,
+        "estimatedTokens": 858,
+        "correctness": 0,
+        "timeMs": 0
+      }
+    ],
+    "totals": {
+      "totalToolCalls": 15,
+      "totalFullReads": 43,
+      "totalCharsRead": 42178,
+      "totalTokens": 10550,
+      "avgTokensPerQuery": 703,
+      "avgCorrectness": 1.6
+    }
+  },
+  "mcp": {
+    "fixture": "express-app",
+    "timestamp": 1777513464491,
+    "signalChars": 3050,
+    "signalCount": 61,
+    "queries": [
+      {
+        "queryId": "express-001",
+        "query": "Where is the main app initialized?",
+        "category": "navigation",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 42,
+        "estimatedTokens": 11,
+        "correctness": 3,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 11,
+              "kind": "function",
+              "name": "createApp"
+            },
+            {
+              "file": "src/middleware/errorHandler.ts",
+              "line": 24,
+              "kind": "class",
+              "name": "AppError"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "./routes/users"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "express-002",
+        "query": "Show all API routes",
+        "category": "route_discovery",
+        "difficulty": "medium",
+        "toolCalls": 1,
+        "charsRead": 54,
+        "estimatedTokens": 14,
+        "correctness": 3,
+        "timeMs": 1,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "./routes/users"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 3,
+              "kind": "import",
+              "name": "./routes/auth"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 4,
+              "kind": "import",
+              "name": "./routes/upload"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "express-003",
+        "query": "Find POST /users endpoint",
+        "category": "route_discovery",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 54,
+        "estimatedTokens": 14,
+        "correctness": 1,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "./routes/users"
+            },
+            {
+              "file": "src/routes/auth.ts",
+              "line": 8,
+              "kind": "route",
+              "name": "POST /login"
+            },
+            {
+              "file": "src/routes/auth.ts",
+              "line": 17,
+              "kind": "route",
+              "name": "POST /register"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "express-004",
+        "query": "Find login handler",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 86,
+        "estimatedTokens": 22,
+        "correctness": 3,
+        "timeMs": 0,
+        "response": {
+          "count": 2,
+          "results": [
+            {
+              "file": "src/middleware/validation.ts",
+              "line": 3,
+              "kind": "function",
+              "name": "validateLogin"
+            },
+            {
+              "file": "src/routes/auth.ts",
+              "line": 8,
+              "kind": "route",
+              "name": "POST /login"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "express-005",
+        "query": "Show middleware chain",
+        "category": "navigation",
+        "difficulty": "medium",
+        "toolCalls": 1,
+        "charsRead": 56,
+        "estimatedTokens": 14,
+        "correctness": 3,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 6,
+              "kind": "import",
+              "name": "./middleware/errorHandler"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 7,
+              "kind": "import",
+              "name": "./middleware/auth"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 8,
+              "kind": "import",
+              "name": "./middleware/requestLogger"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "express-006",
+        "query": "Where is error handling?",
+        "category": "implementation_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 56,
+        "estimatedTokens": 14,
+        "correctness": 2,
+        "timeMs": 0,
+        "response": {
+          "count": 4,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 6,
+              "kind": "import",
+              "name": "./middleware/errorHandler"
+            },
+            {
+              "file": "src/middleware/errorHandler.ts",
+              "line": 3,
+              "kind": "function",
+              "name": "errorHandler"
+            },
+            {
+              "file": "src/middleware/errorHandler.ts",
+              "line": 24,
+              "kind": "class",
+              "name": "AppError"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "express-007",
+        "query": "Find auth validation logic",
+        "category": "implementation_lookup",
+        "difficulty": "medium",
+        "toolCalls": 1,
+        "charsRead": 52,
+        "estimatedTokens": 13,
+        "correctness": 1,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 3,
+              "kind": "import",
+              "name": "./routes/auth"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 7,
+              "kind": "import",
+              "name": "./middleware/auth"
+            },
+            {
+              "file": "src/middleware/auth.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "../services/authService"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "express-008",
+        "query": "Find database model for users",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 54,
+        "estimatedTokens": 14,
+        "correctness": 2,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "./routes/users"
+            },
+            {
+              "file": "src/routes/auth.ts",
+              "line": 33,
+              "kind": "route",
+              "name": "POST /forgot-password"
+            },
+            {
+              "file": "src/routes/users.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "../services/userService"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "express-009",
+        "query": "Show imports used by main app",
+        "category": "navigation",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 42,
+        "estimatedTokens": 11,
+        "correctness": 2,
+        "timeMs": 1,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 11,
+              "kind": "function",
+              "name": "createApp"
+            },
+            {
+              "file": "src/middleware/errorHandler.ts",
+              "line": 24,
+              "kind": "class",
+              "name": "AppError"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "./routes/users"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "express-010",
+        "query": "Find controller for user creation",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 54,
+        "estimatedTokens": 14,
+        "correctness": 1,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "./routes/users"
+            },
+            {
+              "file": "src/routes/auth.ts",
+              "line": 33,
+              "kind": "route",
+              "name": "POST /forgot-password"
+            },
+            {
+              "file": "src/routes/users.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "../services/userService"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "express-011",
+        "query": "Find service called by POST /users",
+        "category": "handler_lookup",
+        "difficulty": "medium",
+        "toolCalls": 1,
+        "charsRead": 53,
+        "estimatedTokens": 13,
+        "correctness": 3,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/routes/users.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "../services/userService"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "./routes/users"
+            },
+            {
+              "file": "src/middleware/auth.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "../services/authService"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "express-012",
+        "query": "Find upload route handler",
+        "category": "route_discovery",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 56,
+        "estimatedTokens": 14,
+        "correctness": 3,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 4,
+              "kind": "import",
+              "name": "./routes/upload"
+            },
+            {
+              "file": "src/middleware/validation.ts",
+              "line": 40,
+              "kind": "function",
+              "name": "validateUpload"
+            },
+            {
+              "file": "src/routes/upload.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "../services/uploadService"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "express-013",
+        "query": "Find config parsing logic",
+        "category": "implementation_lookup",
+        "difficulty": "hard",
+        "toolCalls": 1,
+        "charsRead": 33,
+        "estimatedTokens": 8,
+        "correctness": 3,
+        "timeMs": 0,
+        "response": {
+          "count": 1,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 9,
+              "kind": "import",
+              "name": "./config"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "express-014",
+        "query": "Find auth middleware",
+        "category": "middleware",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 50,
+        "estimatedTokens": 13,
+        "correctness": 2,
+        "timeMs": 1,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/app.ts",
+              "line": 7,
+              "kind": "import",
+              "name": "./middleware/auth"
+            },
+            {
+              "file": "src/middleware/auth.ts",
+              "line": 6,
+              "kind": "function",
+              "name": "authMiddleware"
+            },
+            {
+              "file": "src/app.ts",
+              "line": 3,
+              "kind": "import",
+              "name": "./routes/auth"
+            }
+          ]
+        }
+      },
+      {
+        "queryId": "express-015",
+        "query": "Find user service class",
+        "category": "handler_lookup",
+        "difficulty": "easy",
+        "toolCalls": 1,
+        "charsRead": 26,
+        "estimatedTokens": 7,
+        "correctness": 3,
+        "timeMs": 0,
+        "response": {
+          "count": 5,
+          "results": [
+            {
+              "file": "src/services/userService.ts",
+              "line": 3,
+              "kind": "class",
+              "name": "UserService"
+            },
+            {
+              "file": "src/routes/users.ts",
+              "line": 2,
+              "kind": "import",
+              "name": "../services/userService"
+            },
+            {
+              "file": "src/services/authService.ts",
+              "line": 1,
+              "kind": "class",
+              "name": "AuthService"
+            }
+          ]
+        }
+      }
+    ],
+    "totals": {
+      "totalToolCalls": 15,
+      "totalCharsRead": 768,
+      "totalTokens": 196,
+      "avgTokensPerQuery": 13,
+      "avgCorrectness": 2.33,
+      "top3HitRate": 80
+    }
+  },
+  "indexing": {
+    "fixture": "express-app",
+    "timestamp": 1777513464494,
+    "filesScanned": 15,
+    "filesSkipped": 0,
+    "rawSourceChars": 12805,
+    "signalChars": 3050,
+    "signalCount": 61,
+    "storageReductionPercent": 76,
+    "scanDurationMs": 0,
+    "signalsByKind": {},
+    "signalsByLanguage": {},
+    "lspAvailable": false,
+    "byKind": {},
+    "byLanguage": {},
+    "byFramework": {}
+  },
+  "metrics": {
+    "storageReduction": {
+      "label": "Storage Reduction",
+      "baseline": 12805,
+      "mcp": 3050,
+      "reduction": 76,
+      "success": true
+    },
+    "queryContext": {
+      "label": "Query Context",
+      "baseline": 703,
+      "mcp": 13,
+      "reduction": 98,
+      "success": true
+    },
+    "toolCalls": {
+      "label": "Tool Calls",
+      "baseline": 15,
+      "mcp": 15,
+      "reduction": 0,
+      "success": false
+    },
+    "accuracy": {
+      "label": "Accuracy",
+      "baseline": 1.6,
+      "mcp": 2.33,
+      "reduction": 0,
+      "success": true
+    },
+    "top3HitRate": {
+      "label": "Top-3 Hit Rate",
+      "baseline": 0,
+      "mcp": 80,
+      "reduction": 80,
+      "success": true
+    },
+    "breakEven": {
+      "label": "Break-Even",
+      "baseline": 0,
+      "mcp": 62,
+      "reduction": 0,
+      "success": false
+    }
+  },
+  "passed": false
+}

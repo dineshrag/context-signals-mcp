@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Benchmark Ground Truth",
+  "description": "Ground truth answers for benchmark queries",
+  "type": "object",
+  "required": ["fixture", "version", "queries"],
+  "properties": {
+    "fixture": {
+      "type": "string",
+      "description": "Name of the fixture (e.g., 'express-app', 'nextjs-app')"
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the ground truth definition"
+    },
+    "totalFiles": {
+      "type": "number",
+      "description": "Total number of source files in the fixture"
+    },
+    "totalSourceChars": {
+      "type": "number",
+      "description": "Total source characters in the fixture"
+    },
+    "queries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Query"
+      }
+    }
+  },
+  "definitions": {
+    "Query": {
+      "type": "object",
+      "required": ["id", "query", "category", "expected", "difficulty"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique query identifier (e.g., 'express-001')"
+        },
+        "query": {
+          "type": "string",
+          "description": "The natural language query to test"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["navigation", "route_discovery", "handler_lookup", "dependency_lookup", "implementation_lookup"],
+          "description": "Category of the query"
+        },
+        "expected": {
+          "type": "object",
+          "required": ["kind", "lineRequired"],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": ["route", "function", "class", "interface", "middleware", "import", "component"],
+              "description": "Expected signal kind"
+            },
+            "method": {
+              "type": "string",
+              "description": "HTTP method if route (GET, POST, PUT, DELETE, etc.)"
+            },
+            "path": {
+              "type": "string",
+              "description": "Route path if route"
+            },
+            "file": {
+              "type": "string",
+              "description": "Expected file path"
+            },
+            "handler": {
+              "type": "string",
+              "description": "Expected function/method name"
+            },
+            "lineRequired": {
+              "type": "boolean",
+              "description": "Whether line number is required in the answer"
+            }
+          }
+        },
+        "difficulty": {
+          "type": "string",
+          "enum": ["easy", "medium", "hard"],
+          "description": "Difficulty level of the query"
+        }
+      }
+    }
+  }
+}

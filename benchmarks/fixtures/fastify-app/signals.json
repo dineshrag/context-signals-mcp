@@ -1,0 +1,373 @@
+[
+  {
+    "kind": "import",
+    "name": "./routes/users",
+    "file": "src/app.ts",
+    "line": 2,
+    "text": "import { userRoutes } from \"./routes/users\""
+  },
+  {
+    "kind": "import",
+    "name": "./routes/auth",
+    "file": "src/app.ts",
+    "line": 3,
+    "text": "import { authRoutes } from \"./routes/auth\""
+  },
+  {
+    "kind": "import",
+    "name": "./routes/upload",
+    "file": "src/app.ts",
+    "line": 4,
+    "text": "import { uploadRoutes } from \"./routes/upload\""
+  },
+  {
+    "kind": "import",
+    "name": "./routes/health",
+    "file": "src/app.ts",
+    "line": 5,
+    "text": "import { healthRoutes } from \"./routes/health\""
+  },
+  {
+    "kind": "import",
+    "name": "./plugins/auth",
+    "file": "src/app.ts",
+    "line": 6,
+    "text": "import { authPlugin } from \"./plugins/auth\""
+  },
+  {
+    "kind": "import",
+    "name": "./middleware/cors",
+    "file": "src/app.ts",
+    "line": 7,
+    "text": "import { corsMiddleware } from \"./middleware/cors\""
+  },
+  {
+    "kind": "import",
+    "name": "./middleware/errorHandler",
+    "file": "src/app.ts",
+    "line": 8,
+    "text": "import { errorHandler } from \"./middleware/errorHandler\""
+  },
+  {
+    "kind": "import",
+    "name": "./config",
+    "file": "src/app.ts",
+    "line": 9,
+    "text": "import { config } from \"./config\""
+  },
+  {
+    "kind": "function",
+    "name": "buildApp",
+    "file": "src/app.ts",
+    "line": 11,
+    "text": "export async function buildApp(): Promise<FastifyInstance> {"
+  },
+  {
+    "kind": "function",
+    "name": "startServer",
+    "file": "src/app.ts",
+    "line": 32,
+    "text": "export async function startServer(): Promise<void> {"
+  },
+  {
+    "kind": "import",
+    "name": "fastify",
+    "file": "src/middleware/cors.ts",
+    "line": 1,
+    "text": "import { FastifyInstance, FastifyRequest, FastifyReply } from \"fastify\""
+  },
+  {
+    "kind": "function",
+    "name": "corsMiddleware",
+    "file": "src/middleware/cors.ts",
+    "line": 3,
+    "text": "export async function corsMiddleware("
+  },
+  {
+    "kind": "import",
+    "name": "fastify",
+    "file": "src/middleware/errorHandler.ts",
+    "line": 1,
+    "text": "import { FastifyInstance, FastifyRequest, FastifyReply } from \"fastify\""
+  },
+  {
+    "kind": "function",
+    "name": "errorHandler",
+    "file": "src/middleware/errorHandler.ts",
+    "line": 3,
+    "text": "export async function errorHandler("
+  },
+  {
+    "kind": "import",
+    "name": "fastify",
+    "file": "src/plugins/auth.ts",
+    "line": 1,
+    "text": "import { FastifyInstance } from \"fastify\""
+  },
+  {
+    "kind": "import",
+    "name": "../services/authService",
+    "file": "src/plugins/auth.ts",
+    "line": 2,
+    "text": "import { AuthService } from \"../services/authService\""
+  },
+  {
+    "kind": "function",
+    "name": "authPlugin",
+    "file": "src/plugins/auth.ts",
+    "line": 6,
+    "text": "export async function authPlugin(app: FastifyInstance): Promise<void> {"
+  },
+  {
+    "kind": "interface",
+    "name": "FastifyRequest",
+    "file": "src/plugins/auth.ts",
+    "line": 24,
+    "text": "interface FastifyRequest {"
+  },
+  {
+    "kind": "import",
+    "name": "fastify",
+    "file": "src/routes/auth.ts",
+    "line": 1,
+    "text": "import { FastifyInstance, FastifyRequest, FastifyReply } from \"fastify\""
+  },
+  {
+    "kind": "import",
+    "name": "../services/authService",
+    "file": "src/routes/auth.ts",
+    "line": 2,
+    "text": "import { AuthService } from \"../services/authService\""
+  },
+  {
+    "kind": "import",
+    "name": "../schemas/auth",
+    "file": "src/routes/auth.ts",
+    "line": 3,
+    "text": "import { loginSchema, registerSchema } from \"../schemas/auth\""
+  },
+  {
+    "kind": "function",
+    "name": "authRoutes",
+    "file": "src/routes/auth.ts",
+    "line": 7,
+    "text": "export async function authRoutes(app: FastifyInstance): Promise<void> {"
+  },
+  {
+    "kind": "route",
+    "name": "POST /login",
+    "file": "src/routes/auth.ts",
+    "line": 8,
+    "text": "app.post(\"/login\", {"
+  },
+  {
+    "kind": "route",
+    "name": "POST /register",
+    "file": "src/routes/auth.ts",
+    "line": 20,
+    "text": "app.post(\"/register\", {"
+  },
+  {
+    "kind": "route",
+    "name": "POST /logout",
+    "file": "src/routes/auth.ts",
+    "line": 29,
+    "text": "app.post(\"/logout\", async (req: FastifyRequest, reply: FastifyReply) => {"
+  },
+  {
+    "kind": "route",
+    "name": "POST /refresh",
+    "file": "src/routes/auth.ts",
+    "line": 33,
+    "text": "app.post(\"/refresh\", async (req: FastifyRequest<{ Body: { refreshToken: string } }>, reply: FastifyR"
+  },
+  {
+    "kind": "import",
+    "name": "fastify",
+    "file": "src/routes/health.ts",
+    "line": 1,
+    "text": "import { FastifyInstance, FastifyRequest, FastifyReply } from \"fastify\""
+  },
+  {
+    "kind": "function",
+    "name": "healthRoutes",
+    "file": "src/routes/health.ts",
+    "line": 3,
+    "text": "export async function healthRoutes(app: FastifyInstance): Promise<void> {"
+  },
+  {
+    "kind": "route",
+    "name": "GET /",
+    "file": "src/routes/health.ts",
+    "line": 4,
+    "text": "app.get(\"/\", async (req: FastifyRequest, reply: FastifyReply) => {"
+  },
+  {
+    "kind": "route",
+    "name": "GET /ready",
+    "file": "src/routes/health.ts",
+    "line": 8,
+    "text": "app.get(\"/ready\", async (req: FastifyRequest, reply: FastifyReply) => {"
+  },
+  {
+    "kind": "route",
+    "name": "GET /live",
+    "file": "src/routes/health.ts",
+    "line": 12,
+    "text": "app.get(\"/live\", async (req: FastifyRequest, reply: FastifyReply) => {"
+  },
+  {
+    "kind": "import",
+    "name": "fastify",
+    "file": "src/routes/upload.ts",
+    "line": 1,
+    "text": "import { FastifyInstance, FastifyRequest, FastifyReply } from \"fastify\""
+  },
+  {
+    "kind": "import",
+    "name": "../services/uploadService",
+    "file": "src/routes/upload.ts",
+    "line": 2,
+    "text": "import { UploadService } from \"../services/uploadService\""
+  },
+  {
+    "kind": "function",
+    "name": "uploadRoutes",
+    "file": "src/routes/upload.ts",
+    "line": 6,
+    "text": "export async function uploadRoutes(app: FastifyInstance): Promise<void> {"
+  },
+  {
+    "kind": "route",
+    "name": "POST /photo",
+    "file": "src/routes/upload.ts",
+    "line": 7,
+    "text": "app.post(\"/photo\", async (req: FastifyRequest<{ Body: { filename: string; data: string } }>, reply: "
+  },
+  {
+    "kind": "route",
+    "name": "POST /avatar",
+    "file": "src/routes/upload.ts",
+    "line": 16,
+    "text": "app.post(\"/avatar\", async (req: FastifyRequest<{ Body: { filename: string; data: string } }>, reply:"
+  },
+  {
+    "kind": "route",
+    "name": "GET /:id",
+    "file": "src/routes/upload.ts",
+    "line": 22,
+    "text": "app.get(\"/:id\", async (req: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {"
+  },
+  {
+    "kind": "route",
+    "name": "DELETE /:id",
+    "file": "src/routes/upload.ts",
+    "line": 30,
+    "text": "app.delete(\"/:id\", async (req: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {"
+  },
+  {
+    "kind": "import",
+    "name": "fastify",
+    "file": "src/routes/users.ts",
+    "line": 1,
+    "text": "import { FastifyInstance, FastifyRequest, FastifyReply } from \"fastify\""
+  },
+  {
+    "kind": "import",
+    "name": "../services/userService",
+    "file": "src/routes/users.ts",
+    "line": 2,
+    "text": "import { UserService } from \"../services/userService\""
+  },
+  {
+    "kind": "function",
+    "name": "userRoutes",
+    "file": "src/routes/users.ts",
+    "line": 6,
+    "text": "export async function userRoutes(app: FastifyInstance): Promise<void> {"
+  },
+  {
+    "kind": "route",
+    "name": "GET /",
+    "file": "src/routes/users.ts",
+    "line": 7,
+    "text": "app.get(\"/\", async (req: FastifyRequest, reply: FastifyReply) => {"
+  },
+  {
+    "kind": "route",
+    "name": "GET /:id",
+    "file": "src/routes/users.ts",
+    "line": 12,
+    "text": "app.get(\"/:id\", async (req: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {"
+  },
+  {
+    "kind": "route",
+    "name": "POST /",
+    "file": "src/routes/users.ts",
+    "line": 20,
+    "text": "app.post(\"/\", async (req: FastifyRequest<{ Body: { email: string; name: string; password: string } }"
+  },
+  {
+    "kind": "route",
+    "name": "PUT /:id",
+    "file": "src/routes/users.ts",
+    "line": 29,
+    "text": "app.put(\"/:id\", async (req: FastifyRequest<{ Params: { id: string }; Body: { email?: string; name?: "
+  },
+  {
+    "kind": "route",
+    "name": "DELETE /:id",
+    "file": "src/routes/users.ts",
+    "line": 37,
+    "text": "app.delete(\"/:id\", async (req: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {"
+  },
+  {
+    "kind": "class",
+    "name": "AuthService",
+    "file": "src/services/authService.ts",
+    "line": 1,
+    "text": "export class AuthService {"
+  },
+  {
+    "kind": "class",
+    "name": "UploadService",
+    "file": "src/services/uploadService.ts",
+    "line": 1,
+    "text": "export class UploadService {"
+  },
+  {
+    "kind": "import",
+    "name": "../types/user",
+    "file": "src/services/userService.ts",
+    "line": 1,
+    "text": "import { User, CreateUserInput, UpdateUserInput } from \"../types/user\""
+  },
+  {
+    "kind": "class",
+    "name": "UserService",
+    "file": "src/services/userService.ts",
+    "line": 3,
+    "text": "export class UserService {"
+  },
+  {
+    "kind": "interface",
+    "name": "User",
+    "file": "src/types/user.ts",
+    "line": 1,
+    "text": "export interface User {"
+  },
+  {
+    "kind": "interface",
+    "name": "CreateUserInput",
+    "file": "src/types/user.ts",
+    "line": 10,
+    "text": "export interface CreateUserInput {"
+  },
+  {
+    "kind": "interface",
+    "name": "UpdateUserInput",
+    "file": "src/types/user.ts",
+    "line": 16,
+    "text": "export interface UpdateUserInput {"
+  }
+]

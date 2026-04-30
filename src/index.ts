@@ -1,46 +1,39 @@
 #!/usr/bin/env node
 
-import { Server } from "@modelcontextprotocol/sdk/server/index.js"
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
-import {
-  CallToolRequestSchema,
-  ListToolsRequestSchema,
-  Tool,
-} from "@modelcontextprotocol/sdk/types.js"
-import path from "path"
-import crypto from "crypto"
-import { SignalStorage } from "./storage.js"
-import { extractSignals, detectLanguage, type Evidence } from "./extractor.js"
+import { getConfig } from "./config.js"
+import { createServer, ListToolsRequestSchema, CallToolRequestSchema, StdioServerTransport, Tool } from "./server.js"
+import { FileScanner } from "./scanner/file-scanner.js"
+import { EvidenceStore, SignalStore, IndexStore } from "./storage/index.js"
+import { extract, detectLanguage } from "./extractors/index.js"
+import { createEvidence } from "./types/evidence.js"
 import { searchSignals, getSignalKinds } from "./search.js"
+import { runBenchmarkSuite } from "./benchmark/benchmark-suite.js"
 
-const WORKTREE = process.env.WORKTREE ?? process.cwd()
-const MEMORY_DIR = path.join(WORKTREE, ".crush-memory", "signals")
-
-const storage = new SignalStorage({
-  memoryDir: MEMORY_DIR,
-  worktree: WORKTREE,
-})
+const config = getConfig()
+const scanner = new FileScanner()
+const evidenceStore = new EvidenceStore(config.memoryDir)
+const signalStore = new SignalStore(config.memoryDir)
+const indexStore = new IndexStore(config.memoryDir)
 
 const tools: Tool[] = [
   {
     name: "signals_search",
-    description: "Search context signals extracted from previous file reads. Use this before re-reading files to check if the information is already in memory.",
+    description: "Search context signals BEFORE reading files. When user asks 'where is X?', 'find X', 'show routes', 'list functions' - ALWAYS call this first. This returns file paths and line numbers WITHOUT reading files. Use for: function locations, class definitions, routes, imports, handlers, middleware.",
     inputSchema: {
       type: "object",
       properties: {
         query: {
           type: "string",
-          description: "Search query (e.g., 'upload endpoint', 'router', 'database model')",
+          description: "Search query (e.g., 'upload endpoint', 'router', 'database model', 'login function', 'API routes')",
         },
         limit: {
           type: "number",
-          description: "Maximum results to return (default: 8)",
-          default: 8,
+          description: "Maximum results to return (default: 10)",
+          default: 10,
         },
         kind: {
           type: "string",
           description: "Filter by signal type",
-          enum: getSignalKinds(),
         },
         file: {
           type: "string",
@@ -52,7 +45,7 @@ const tools: Tool[] = [
   },
   {
     name: "signals_ingest",
-    description: "Extract and store signals from tool output (read, grep, glob). This is called automatically by the agent when running file operations.",
+    description: "Extract signals from code AFTER reading files. ALWAYS call this after any file read, grep, glob, or bash command that shows code. This builds the searchable index. Call after: file reads, grep results, glob output.",
     inputSchema: {
       type: "object",
       properties: {
@@ -67,7 +60,7 @@ const tools: Tool[] = [
         },
         file: {
           type: "string",
-          description: "Optional file path associated with the tool output",
+          description: "File path associated with the tool output",
         },
         session_id: {
           type: "string",
@@ -102,12 +95,62 @@ const tools: Tool[] = [
       properties: {},
     },
   },
+  {
+    name: "signals_scan",
+    description: "SCAN all code files in the workspace. Always call this ONCE at the start of a session to build the index. Recursively scans: src/, lib/, app/, routes/, controllers/, models/, pages/, components/. Extracts all functions, classes, routes, imports in one pass.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        extensions: {
+          type: "array",
+          description: "File extensions to scan",
+          items: { type: "string" },
+          default: [".ts", ".js", ".tsx", ".jsx"],
+        },
+        exclude: {
+          type: "array",
+          description: "Folders to exclude",
+          items: { type: "string" },
+          default: ["node_modules", "dist", "build", ".next", ".git"],
+        },
+        force: {
+          type: "boolean",
+          description: "Force re-scan of all files",
+          default: false,
+        },
+      },
+    },
+  },
+  {
+    name: "signals_benchmark",
+    description: "Run benchmark evaluation on a fixture. Use 'default' for built-in queries or provide custom queries. Returns metrics: storage efficiency, query context reduction, accuracy, retrieval quality, break-even analysis.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        fixture: {
+          type: "string",
+          description: "Fixture name (e.g., 'express-app', 'fastify-app')",
+          default: "express-app",
+        },
+        fixturePath: {
+          type: "string",
+          description: "Path to fixture directory",
+          default: "./benchmarks/fixtures/express-app",
+        },
+        outputDir: {
+          type: "string",
+          description: "Directory to save results",
+          default: "./benchmarks/results",
+        },
+      },
+    },
+  },
 ]
 
 async function handleToolCall(name: string, args: Record<string, unknown>) {
   switch (name) {
     case "signals_search": {
-      const signals = await storage.loadSignals()
+      const signals = await signalStore.load()
       const results = searchSignals(signals, {
         query: String(args.query),
         limit: Number(args.limit ?? 8),
@@ -139,18 +182,18 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
       const file = args.file ? String(args.file) : undefined
       const sessionId = String(args.session_id ?? "default")
 
-      const evidence: Evidence = {
-        id: crypto.randomUUID(),
-        sessionId,
-        tool,
-        input: { file },
-        output,
-        createdAt: Date.now(),
-      }
+      const evidence = createEvidence({
+        sourceType: "tool",
+        file,
+        rawSize: output.length,
+        metadata: { tool, sessionId, output },
+      })
 
-      const signals = extractSignals(evidence)
-      const totalSignals = await storage.addSignals(signals)
-      const stats = await storage.getStats()
+      const extractionResult = extract(output, file ?? "", evidence)
+      const signals = extractionResult.signals
+
+      const result = await signalStore.addSignalsWithStats(signals)
+      const stats = await signalStore.getStats(result.totalChars)
 
       return {
         content: [
@@ -159,7 +202,9 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
             text: JSON.stringify(
               {
                 message: `Extracted ${signals.length} signals from ${tool}`,
-                totalSignals: totalSignals.length,
+                signalsCreated: result.signalsCreated,
+                signalsUpdated: result.signalsUpdated,
+                totalSignals: result.signals.length,
                 stats,
               },
               null,
@@ -171,19 +216,34 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
     }
 
     case "signals_stats": {
-      const stats = await storage.getStats()
+      const indexMeta = await indexStore.load()
+      const rawSourceChars = indexMeta?.rawSourceChars ?? 0
+      const stats = await signalStore.getStats(rawSourceChars)
+
       return {
         content: [
           {
             type: "text" as const,
-            text: JSON.stringify(stats, null, 2),
+            text: JSON.stringify({
+              filesIndexed: indexMeta?.totalFiles ?? 0,
+              signals: stats.count,
+              rawSourceChars: stats.rawSourceChars,
+              signalChars: stats.signalChars,
+              storageReductionPercent: stats.storageReductionPercent,
+              byKind: stats.byKind,
+              byLanguage: stats.byLanguage,
+              byFramework: stats.byFramework,
+            }, null, 2),
           },
         ],
       }
     }
 
     case "signals_clear": {
-      await storage.clear()
+      await signalStore.clear()
+      await evidenceStore.clear()
+      await indexStore.clear()
+      scanner.clearCache()
       return {
         content: [
           {
@@ -205,22 +265,129 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
       }
     }
 
+    case "signals_scan": {
+      const force = Boolean(args.force ?? false)
+      const exclude = (args.exclude as string[] ?? ["node_modules", "dist", "build", ".next", ".git"]) as string[]
+
+      const startTime = Date.now()
+      let filesScanned = 0
+      let filesSkipped = 0
+      let signalsCreated = 0
+      let signalsUpdated = 0
+      let rawSourceChars = 0
+      let signalChars = 0
+      const errors: string[] = []
+
+      const files = await scanner.discoverFiles(config.worktree)
+
+      for (const file of files) {
+        try {
+          const scanned = await scanner.scanFile(file, config.worktree)
+          if (!scanned) {
+            filesSkipped++
+            continue
+          }
+
+          await evidenceStore.save(scanned.evidence)
+
+          const evidence = createEvidence({
+            sourceType: "file",
+            file: scanned.path,
+            contentHash: scanned.hash,
+            rawSize: scanned.content.length,
+            metadata: { sessionId: "scan" },
+          })
+
+          const extractionResult = extract(scanned.content, scanned.path, evidence)
+          const signals = extractionResult.signals
+
+          const result = await signalStore.addSignalsWithStats(signals)
+
+          filesScanned++
+          signalsCreated += result.signalsCreated
+          signalsUpdated += result.signalsUpdated
+          rawSourceChars += scanned.content.length
+          signalChars += result.totalChars
+        } catch (error) {
+          errors.push(`Failed to process ${file}: ${error}`)
+        }
+      }
+
+      const storageReductionPercent = rawSourceChars > 0
+        ? Math.round(((rawSourceChars - signalChars) / rawSourceChars) * 100)
+        : 0
+
+      await indexStore.update({
+        lastIndexedAt: Date.now(),
+        totalFiles: files.length,
+        totalSignals: signalsCreated,
+        rawSourceChars,
+        signalChars,
+      })
+
+      const durationMs = Date.now() - startTime
+
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify({
+              filesScanned,
+              filesSkipped,
+              signalsCreated,
+              signalsUpdated,
+              rawSourceChars,
+              signalChars,
+              storageReductionPercent,
+              durationMs,
+              errors: errors.slice(0, 10),
+            }, null, 2),
+          },
+        ],
+      }
+    }
+
+    case "signals_benchmark": {
+      const fixtureName = String(args.fixture ?? "express-app")
+      const fixturePath = String(args.fixturePath ?? `./benchmarks/fixtures/${fixtureName}`)
+      const outputDir = String(args.outputDir ?? "./benchmarks/results")
+
+      const result = await runBenchmarkSuite({
+        fixtureName,
+        fixturePath,
+        outputDir,
+      })
+
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify({
+              status: result.passed ? "PASSED" : "FAILED",
+              fixture: result.fixture,
+              metrics: result.metrics,
+              summary: {
+                storageReduction: `${result.metrics.storage.reductionPercent}%`,
+                queryContextReduction: `${result.metrics.queryContext.reductionPercent}%`,
+                accuracyChange: `${result.metrics.accuracy.baselineAvg.toFixed(2)} -> ${result.metrics.accuracy.signalsAvg.toFixed(2)}`,
+                retrievalQuality: `${result.metrics.retrieval.top3HitRate}%`,
+                breakEvenQueries: result.metrics.breakEven.breakEvenQueries,
+              },
+            }, null, 2),
+          },
+        ],
+      }
+    }
+
     default:
       throw new Error(`Unknown tool: ${name}`)
   }
 }
 
-const server = new Server(
-  {
-    name: "context-signals-mcp",
-    version: "1.0.0",
-  },
-  {
-    capabilities: {
-      tools: {},
-    },
-  }
-)
+const server = createServer({
+  name: "context-signals-mcp",
+  version: "1.0.0",
+})
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   return { tools }

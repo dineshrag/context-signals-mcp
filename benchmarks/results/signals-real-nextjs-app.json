@@ -1,0 +1,312 @@
+{
+  "fixture": "nextjs-app",
+  "timestamp": 1777510283125,
+  "signalChars": 1417,
+  "signalCount": 185,
+  "queries": [
+    {
+      "queryId": "nextjs-001",
+      "query": "Where is the main app layout?",
+      "category": "navigation",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 55,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 14,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 84,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "next/server",
+        "file": "src/app/api/auth/login/route.ts",
+        "line": 1
+      }
+    },
+    {
+      "queryId": "nextjs-002",
+      "query": "Show all API routes",
+      "category": "route_discovery",
+      "difficulty": "medium",
+      "searchCalls": 1,
+      "signalCharsReturned": 55,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 14,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 54,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "next/server",
+        "file": "src/app/api/auth/login/route.ts",
+        "line": 1
+      }
+    },
+    {
+      "queryId": "nextjs-003",
+      "query": "Find GET /api/users endpoint",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 49,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 12,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 59,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "function",
+        "name": "GET",
+        "file": "src/app/api/route.ts",
+        "line": 3
+      }
+    },
+    {
+      "queryId": "nextjs-004",
+      "query": "Find POST /api/auth/login handler",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 50,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 13,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 86,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "function",
+        "name": "POST",
+        "file": "src/app/api/auth/login/route.ts",
+        "line": 6
+      }
+    },
+    {
+      "queryId": "nextjs-005",
+      "query": "Find user service class",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 26,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 7,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 96,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "class",
+        "name": "UserService",
+        "file": "src/lib/userService.ts",
+        "line": 3
+      }
+    },
+    {
+      "queryId": "nextjs-006",
+      "query": "Find upload service",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 51,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 13,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 61,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "@/lib/uploadService",
+        "file": "src/app/api/upload/photo/route.ts",
+        "line": 2
+      }
+    },
+    {
+      "queryId": "nextjs-007",
+      "query": "Find auth service",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 47,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 12,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 75,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "@/lib/authService",
+        "file": "src/app/api/auth/login/route.ts",
+        "line": 2
+      }
+    },
+    {
+      "queryId": "nextjs-008",
+      "query": "Find User type definition",
+      "category": "implementation_lookup",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 69,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 17,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 93,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "@/types/user",
+        "file": "src/lib/userService.ts",
+        "line": 1
+      }
+    },
+    {
+      "queryId": "nextjs-009",
+      "query": "Find UserList component",
+      "category": "component",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 59,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 15,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 53,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "@/components",
+        "file": "src/app/page.tsx",
+        "line": 4
+      }
+    },
+    {
+      "queryId": "nextjs-010",
+      "query": "Find UploadForm component",
+      "category": "component",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 59,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 15,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 71,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "@/components",
+        "file": "src/app/page.tsx",
+        "line": 4
+      }
+    },
+    {
+      "queryId": "nextjs-011",
+      "query": "Find POST /api/users endpoint",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 50,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 13,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 90,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "function",
+        "name": "POST",
+        "file": "src/app/api/auth/login/route.ts",
+        "line": 6
+      }
+    },
+    {
+      "queryId": "nextjs-012",
+      "query": "Find POST /api/upload/photo handler",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 50,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 13,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 98,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "function",
+        "name": "POST",
+        "file": "src/app/api/auth/login/route.ts",
+        "line": 6
+      }
+    },
+    {
+      "queryId": "nextjs-013",
+      "query": "Find Navbar component",
+      "category": "component",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 59,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 15,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 59,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "@/components",
+        "file": "src/app/page.tsx",
+        "line": 4
+      }
+    },
+    {
+      "queryId": "nextjs-014",
+      "query": "Find user creation logic",
+      "category": "handler_lookup",
+      "difficulty": "medium",
+      "searchCalls": 1,
+      "signalCharsReturned": 47,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 12,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 63,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "@/lib/userService",
+        "file": "src/app/api/users/route.ts",
+        "line": 2
+      }
+    },
+    {
+      "queryId": "nextjs-015",
+      "query": "Find registration endpoint",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 0,
+      "targetedReads": 0,
+      "fullFileReads": 0,
+      "simulatedTokens": 0,
+      "simulatedCorrectness": 0,
+      "simulatedTimeMs": 67,
+      "top3Hit": false
+    }
+  ],
+  "totals": {
+    "totalSearchCalls": 15,
+    "totalSignalChars": 726,
+    "totalTargetedReads": 14,
+    "totalFullReads": 14,
+    "totalTokens": 185,
+    "avgTokensPerQuery": 12,
+    "avgCorrectness": 1.4,
+    "top3HitRate": 93.3
+  }
+}

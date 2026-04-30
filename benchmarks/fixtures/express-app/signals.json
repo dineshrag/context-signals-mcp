@@ -1,0 +1,429 @@
+[
+  {
+    "kind": "import",
+    "name": "./routes/users",
+    "file": "src/app.ts",
+    "line": 2,
+    "text": "import { router as usersRouter } from \"./routes/users\""
+  },
+  {
+    "kind": "import",
+    "name": "./routes/auth",
+    "file": "src/app.ts",
+    "line": 3,
+    "text": "import { router as authRouter } from \"./routes/auth\""
+  },
+  {
+    "kind": "import",
+    "name": "./routes/upload",
+    "file": "src/app.ts",
+    "line": 4,
+    "text": "import { router as uploadRouter } from \"./routes/upload\""
+  },
+  {
+    "kind": "import",
+    "name": "./routes/health",
+    "file": "src/app.ts",
+    "line": 5,
+    "text": "import { router as healthRouter } from \"./routes/health\""
+  },
+  {
+    "kind": "import",
+    "name": "./middleware/errorHandler",
+    "file": "src/app.ts",
+    "line": 6,
+    "text": "import { errorHandler } from \"./middleware/errorHandler\""
+  },
+  {
+    "kind": "import",
+    "name": "./middleware/auth",
+    "file": "src/app.ts",
+    "line": 7,
+    "text": "import { authMiddleware } from \"./middleware/auth\""
+  },
+  {
+    "kind": "import",
+    "name": "./middleware/requestLogger",
+    "file": "src/app.ts",
+    "line": 8,
+    "text": "import { requestLogger } from \"./middleware/requestLogger\""
+  },
+  {
+    "kind": "import",
+    "name": "./config",
+    "file": "src/app.ts",
+    "line": 9,
+    "text": "import { config } from \"./config\""
+  },
+  {
+    "kind": "function",
+    "name": "createApp",
+    "file": "src/app.ts",
+    "line": 11,
+    "text": "export function createApp(): Application {"
+  },
+  {
+    "kind": "function",
+    "name": "startServer",
+    "file": "src/app.ts",
+    "line": 29,
+    "text": "export function startServer(): void {"
+  },
+  {
+    "kind": "import",
+    "name": "express",
+    "file": "src/middleware/auth.ts",
+    "line": 1,
+    "text": "import { Request, Response, NextFunction } from \"express\""
+  },
+  {
+    "kind": "import",
+    "name": "../services/authService",
+    "file": "src/middleware/auth.ts",
+    "line": 2,
+    "text": "import { AuthService } from \"../services/authService\""
+  },
+  {
+    "kind": "function",
+    "name": "authMiddleware",
+    "file": "src/middleware/auth.ts",
+    "line": 6,
+    "text": "export async function authMiddleware("
+  },
+  {
+    "kind": "import",
+    "name": "express",
+    "file": "src/middleware/errorHandler.ts",
+    "line": 1,
+    "text": "import { Request, Response, NextFunction } from \"express\""
+  },
+  {
+    "kind": "function",
+    "name": "errorHandler",
+    "file": "src/middleware/errorHandler.ts",
+    "line": 3,
+    "text": "export function errorHandler("
+  },
+  {
+    "kind": "class",
+    "name": "AppError",
+    "file": "src/middleware/errorHandler.ts",
+    "line": 24,
+    "text": "export class AppError extends Error {"
+  },
+  {
+    "kind": "import",
+    "name": "express",
+    "file": "src/middleware/requestLogger.ts",
+    "line": 1,
+    "text": "import { Request, Response, NextFunction } from \"express\""
+  },
+  {
+    "kind": "function",
+    "name": "requestLogger",
+    "file": "src/middleware/requestLogger.ts",
+    "line": 3,
+    "text": "export function requestLogger("
+  },
+  {
+    "kind": "import",
+    "name": "express",
+    "file": "src/middleware/validation.ts",
+    "line": 1,
+    "text": "import { Request, Response, NextFunction } from \"express\""
+  },
+  {
+    "kind": "function",
+    "name": "validateLogin",
+    "file": "src/middleware/validation.ts",
+    "line": 3,
+    "text": "export function validateLogin(req: Request, res: Response, next: NextFunction): void {"
+  },
+  {
+    "kind": "function",
+    "name": "validateRegister",
+    "file": "src/middleware/validation.ts",
+    "line": 19,
+    "text": "export function validateRegister(req: Request, res: Response, next: NextFunction): void {"
+  },
+  {
+    "kind": "function",
+    "name": "validateUpload",
+    "file": "src/middleware/validation.ts",
+    "line": 40,
+    "text": "export function validateUpload(req: Request, res: Response, next: NextFunction): void {"
+  },
+  {
+    "kind": "function",
+    "name": "isValidEmail",
+    "file": "src/middleware/validation.ts",
+    "line": 56,
+    "text": "function isValidEmail(email: string): boolean {"
+  },
+  {
+    "kind": "import",
+    "name": "express",
+    "file": "src/routes/auth.ts",
+    "line": 1,
+    "text": "import { Router, Request, Response } from \"express\""
+  },
+  {
+    "kind": "import",
+    "name": "../services/authService",
+    "file": "src/routes/auth.ts",
+    "line": 2,
+    "text": "import { AuthService } from \"../services/authService\""
+  },
+  {
+    "kind": "import",
+    "name": "../middleware/validation",
+    "file": "src/routes/auth.ts",
+    "line": 3,
+    "text": "import { validateLogin, validateRegister } from \"../middleware/validation\""
+  },
+  {
+    "kind": "route",
+    "name": "POST /login",
+    "file": "src/routes/auth.ts",
+    "line": 8,
+    "text": "router.post(\"/login\", validateLogin, async (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "route",
+    "name": "POST /register",
+    "file": "src/routes/auth.ts",
+    "line": 17,
+    "text": "router.post(\"/register\", validateRegister, async (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "route",
+    "name": "POST /logout",
+    "file": "src/routes/auth.ts",
+    "line": 23,
+    "text": "router.post(\"/logout\", async (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "route",
+    "name": "POST /refresh",
+    "file": "src/routes/auth.ts",
+    "line": 27,
+    "text": "router.post(\"/refresh\", async (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "route",
+    "name": "POST /forgot-password",
+    "file": "src/routes/auth.ts",
+    "line": 33,
+    "text": "router.post(\"/forgot-password\", async (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "route",
+    "name": "POST /reset-password",
+    "file": "src/routes/auth.ts",
+    "line": 39,
+    "text": "router.post(\"/reset-password\", async (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "import",
+    "name": "express",
+    "file": "src/routes/health.ts",
+    "line": 1,
+    "text": "import { Router, Request, Response } from \"express\""
+  },
+  {
+    "kind": "route",
+    "name": "GET /",
+    "file": "src/routes/health.ts",
+    "line": 5,
+    "text": "router.get(\"/\", (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "route",
+    "name": "GET /ready",
+    "file": "src/routes/health.ts",
+    "line": 9,
+    "text": "router.get(\"/ready\", (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "route",
+    "name": "GET /live",
+    "file": "src/routes/health.ts",
+    "line": 13,
+    "text": "router.get(\"/live\", (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "import",
+    "name": "express",
+    "file": "src/routes/upload.ts",
+    "line": 1,
+    "text": "import { Router, Request, Response } from \"express\""
+  },
+  {
+    "kind": "import",
+    "name": "../services/uploadService",
+    "file": "src/routes/upload.ts",
+    "line": 2,
+    "text": "import { UploadService } from \"../services/uploadService\""
+  },
+  {
+    "kind": "import",
+    "name": "../middleware/validation",
+    "file": "src/routes/upload.ts",
+    "line": 3,
+    "text": "import { validateUpload } from \"../middleware/validation\""
+  },
+  {
+    "kind": "route",
+    "name": "POST /photo",
+    "file": "src/routes/upload.ts",
+    "line": 8,
+    "text": "router.post(\"/photo\", validateUpload, async (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "route",
+    "name": "POST /avatar",
+    "file": "src/routes/upload.ts",
+    "line": 14,
+    "text": "router.post(\"/avatar\", async (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "route",
+    "name": "GET /:id",
+    "file": "src/routes/upload.ts",
+    "line": 20,
+    "text": "router.get(\"/:id\", async (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "route",
+    "name": "DELETE /:id",
+    "file": "src/routes/upload.ts",
+    "line": 28,
+    "text": "router.delete(\"/:id\", async (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "import",
+    "name": "express",
+    "file": "src/routes/users.ts",
+    "line": 1,
+    "text": "import { Router, Request, Response } from \"express\""
+  },
+  {
+    "kind": "import",
+    "name": "../services/userService",
+    "file": "src/routes/users.ts",
+    "line": 2,
+    "text": "import { UserService } from \"../services/userService\""
+  },
+  {
+    "kind": "route",
+    "name": "GET /",
+    "file": "src/routes/users.ts",
+    "line": 7,
+    "text": "router.get(\"/\", async (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "route",
+    "name": "GET /:id",
+    "file": "src/routes/users.ts",
+    "line": 12,
+    "text": "router.get(\"/:id\", async (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "route",
+    "name": "POST /",
+    "file": "src/routes/users.ts",
+    "line": 20,
+    "text": "router.post(\"/\", async (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "route",
+    "name": "PUT /:id",
+    "file": "src/routes/users.ts",
+    "line": 29,
+    "text": "router.put(\"/:id\", async (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "route",
+    "name": "DELETE /:id",
+    "file": "src/routes/users.ts",
+    "line": 37,
+    "text": "router.delete(\"/:id\", async (req: Request, res: Response) => {"
+  },
+  {
+    "kind": "class",
+    "name": "AuthService",
+    "file": "src/services/authService.ts",
+    "line": 1,
+    "text": "export class AuthService {"
+  },
+  {
+    "kind": "class",
+    "name": "UploadService",
+    "file": "src/services/uploadService.ts",
+    "line": 1,
+    "text": "export class UploadService {"
+  },
+  {
+    "kind": "import",
+    "name": "../types/user",
+    "file": "src/services/userService.ts",
+    "line": 1,
+    "text": "import { User, CreateUserInput, UpdateUserInput } from \"../types/user\""
+  },
+  {
+    "kind": "class",
+    "name": "UserService",
+    "file": "src/services/userService.ts",
+    "line": 3,
+    "text": "export class UserService {"
+  },
+  {
+    "kind": "interface",
+    "name": "User",
+    "file": "src/types/user.ts",
+    "line": 1,
+    "text": "export interface User {"
+  },
+  {
+    "kind": "interface",
+    "name": "CreateUserInput",
+    "file": "src/types/user.ts",
+    "line": 10,
+    "text": "export interface CreateUserInput {"
+  },
+  {
+    "kind": "interface",
+    "name": "UpdateUserInput",
+    "file": "src/types/user.ts",
+    "line": 16,
+    "text": "export interface UpdateUserInput {"
+  },
+  {
+    "kind": "import",
+    "name": "crypto",
+    "file": "src/utils/helpers.ts",
+    "line": 1,
+    "text": "import crypto from \"crypto\""
+  },
+  {
+    "kind": "class",
+    "name": "TokenService",
+    "file": "src/utils/helpers.ts",
+    "line": 3,
+    "text": "export class TokenService {"
+  },
+  {
+    "kind": "class",
+    "name": "PasswordService",
+    "file": "src/utils/helpers.ts",
+    "line": 23,
+    "text": "export class PasswordService {"
+  },
+  {
+    "kind": "function",
+    "name": "generateId",
+    "file": "src/utils/helpers.ts",
+    "line": 33,
+    "text": "export function generateId(): string {"
+  }
+]

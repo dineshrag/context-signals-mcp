@@ -1,0 +1,180 @@
+{
+  "fixture": "fastify-app",
+  "timestamp": 1777510282787,
+  "rawSourceChars": 11888,
+  "fileCount": 14,
+  "queries": [
+    {
+      "queryId": "fastify-001",
+      "query": "Where is the main app initialized?",
+      "category": "navigation",
+      "difficulty": "easy",
+      "simulatedToolCalls": 9,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 3791,
+      "simulatedCorrectness": 2.4622540459600515,
+      "simulatedTimeMs": 5120
+    },
+    {
+      "queryId": "fastify-002",
+      "query": "Show all API routes",
+      "category": "route_discovery",
+      "difficulty": "medium",
+      "simulatedToolCalls": 9,
+      "simulatedFullReads": 4,
+      "simulatedTokens": 3503,
+      "simulatedCorrectness": 2.0396649734030543,
+      "simulatedTimeMs": 5390
+    },
+    {
+      "queryId": "fastify-003",
+      "query": "Find GET /users endpoint",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 4,
+      "simulatedTokens": 3888,
+      "simulatedCorrectness": 2.013348030887254,
+      "simulatedTimeMs": 5486
+    },
+    {
+      "queryId": "fastify-004",
+      "query": "Find login handler",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 4,
+      "simulatedTokens": 4001,
+      "simulatedCorrectness": 2.166586348165158,
+      "simulatedTimeMs": 4903
+    },
+    {
+      "queryId": "fastify-005",
+      "query": "Show middleware chain",
+      "category": "navigation",
+      "difficulty": "medium",
+      "simulatedToolCalls": 8,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 3532,
+      "simulatedCorrectness": 2.618328203081631,
+      "simulatedTimeMs": 5848
+    },
+    {
+      "queryId": "fastify-006",
+      "query": "Where is error handling?",
+      "category": "implementation_lookup",
+      "difficulty": "easy",
+      "simulatedToolCalls": 9,
+      "simulatedFullReads": 4,
+      "simulatedTokens": 3723,
+      "simulatedCorrectness": 2.0182575707871786,
+      "simulatedTimeMs": 5822
+    },
+    {
+      "queryId": "fastify-007",
+      "query": "Find auth validation logic",
+      "category": "implementation_lookup",
+      "difficulty": "medium",
+      "simulatedToolCalls": 8,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 3609,
+      "simulatedCorrectness": 2.36587497698083,
+      "simulatedTimeMs": 4639
+    },
+    {
+      "queryId": "fastify-008",
+      "query": "Find database model for users",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "simulatedToolCalls": 9,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 3629,
+      "simulatedCorrectness": 2.556323490012655,
+      "simulatedTimeMs": 5779
+    },
+    {
+      "queryId": "fastify-009",
+      "query": "Show imports used by main app",
+      "category": "navigation",
+      "difficulty": "easy",
+      "simulatedToolCalls": 8,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 3871,
+      "simulatedCorrectness": 1.9589984486058485,
+      "simulatedTimeMs": 5623
+    },
+    {
+      "queryId": "fastify-010",
+      "query": "Find service for user creation",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "simulatedToolCalls": 9,
+      "simulatedFullReads": 4,
+      "simulatedTokens": 3843,
+      "simulatedCorrectness": 2.3450234543597475,
+      "simulatedTimeMs": 5278
+    },
+    {
+      "queryId": "fastify-011",
+      "query": "Find POST /auth/login handler",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "simulatedToolCalls": 8,
+      "simulatedFullReads": 4,
+      "simulatedTokens": 3600,
+      "simulatedCorrectness": 2.4232051650771016,
+      "simulatedTimeMs": 4698
+    },
+    {
+      "queryId": "fastify-012",
+      "query": "Find upload service",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "simulatedToolCalls": 8,
+      "simulatedFullReads": 4,
+      "simulatedTokens": 4093,
+      "simulatedCorrectness": 2.018517289516331,
+      "simulatedTimeMs": 4767
+    },
+    {
+      "queryId": "fastify-013",
+      "query": "Find config parsing logic",
+      "category": "implementation_lookup",
+      "difficulty": "hard",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 3622,
+      "simulatedCorrectness": 2.0254307548999826,
+      "simulatedTimeMs": 5791
+    },
+    {
+      "queryId": "fastify-014",
+      "query": "Find CORS middleware",
+      "category": "middleware",
+      "difficulty": "easy",
+      "simulatedToolCalls": 8,
+      "simulatedFullReads": 4,
+      "simulatedTokens": 3773,
+      "simulatedCorrectness": 2.2441084950549195,
+      "simulatedTimeMs": 4849
+    },
+    {
+      "queryId": "fastify-015",
+      "query": "Find auth service class",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "simulatedToolCalls": 8,
+      "simulatedFullReads": 4,
+      "simulatedTokens": 3963,
+      "simulatedCorrectness": 2.3735278656452072,
+      "simulatedTimeMs": 5522
+    }
+  ],
+  "totals": {
+    "totalToolCalls": 131,
+    "totalFullReads": 66,
+    "totalTokens": 56441,
+    "avgTokensPerQuery": 3763,
+    "avgCorrectness": 2.24
+  }
+}

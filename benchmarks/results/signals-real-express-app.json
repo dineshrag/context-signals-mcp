@@ -1,0 +1,318 @@
+{
+  "fixture": "express-app",
+  "timestamp": 1777510282757,
+  "signalChars": 1921,
+  "signalCount": 155,
+  "queries": [
+    {
+      "queryId": "express-001",
+      "query": "Where is the main app initialized?",
+      "category": "navigation",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 42,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 11,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 93,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "function",
+        "name": "createApp",
+        "file": "src/app.ts",
+        "line": 11
+      }
+    },
+    {
+      "queryId": "express-002",
+      "query": "Show all API routes",
+      "category": "route_discovery",
+      "difficulty": "medium",
+      "searchCalls": 1,
+      "signalCharsReturned": 54,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 14,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 65,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./routes/users",
+        "file": "src/app.ts",
+        "line": 2
+      }
+    },
+    {
+      "queryId": "express-003",
+      "query": "Find POST /users endpoint",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 54,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 14,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 67,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./routes/users",
+        "file": "src/app.ts",
+        "line": 2
+      }
+    },
+    {
+      "queryId": "express-004",
+      "query": "Find login handler",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 86,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 22,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 76,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "function",
+        "name": "validateLogin",
+        "file": "src/middleware/validation.ts",
+        "line": 3
+      }
+    },
+    {
+      "queryId": "express-005",
+      "query": "Show middleware chain",
+      "category": "navigation",
+      "difficulty": "medium",
+      "searchCalls": 1,
+      "signalCharsReturned": 56,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 14,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 57,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./middleware/errorHandler",
+        "file": "src/app.ts",
+        "line": 6
+      }
+    },
+    {
+      "queryId": "express-006",
+      "query": "Where is error handling?",
+      "category": "implementation_lookup",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 56,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 14,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 96,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./middleware/errorHandler",
+        "file": "src/app.ts",
+        "line": 6
+      }
+    },
+    {
+      "queryId": "express-007",
+      "query": "Find auth validation logic",
+      "category": "implementation_lookup",
+      "difficulty": "medium",
+      "searchCalls": 1,
+      "signalCharsReturned": 52,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 13,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 79,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./routes/auth",
+        "file": "src/app.ts",
+        "line": 3
+      }
+    },
+    {
+      "queryId": "express-008",
+      "query": "Find database model for users",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 54,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 14,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 88,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./routes/users",
+        "file": "src/app.ts",
+        "line": 2
+      }
+    },
+    {
+      "queryId": "express-009",
+      "query": "Show imports used by main app",
+      "category": "navigation",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 42,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 11,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 94,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "function",
+        "name": "createApp",
+        "file": "src/app.ts",
+        "line": 11
+      }
+    },
+    {
+      "queryId": "express-010",
+      "query": "Find controller for user creation",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 54,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 14,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 64,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./routes/users",
+        "file": "src/app.ts",
+        "line": 2
+      }
+    },
+    {
+      "queryId": "express-011",
+      "query": "Find service called by POST /users",
+      "category": "handler_lookup",
+      "difficulty": "medium",
+      "searchCalls": 1,
+      "signalCharsReturned": 53,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 13,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 67,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "../services/userService",
+        "file": "src/routes/users.ts",
+        "line": 2
+      }
+    },
+    {
+      "queryId": "express-012",
+      "query": "Find upload route handler",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 56,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 14,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 54,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./routes/upload",
+        "file": "src/app.ts",
+        "line": 4
+      }
+    },
+    {
+      "queryId": "express-013",
+      "query": "Find config parsing logic",
+      "category": "implementation_lookup",
+      "difficulty": "hard",
+      "searchCalls": 1,
+      "signalCharsReturned": 33,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 8,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 72,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./config",
+        "file": "src/app.ts",
+        "line": 9
+      }
+    },
+    {
+      "queryId": "express-014",
+      "query": "Find auth middleware",
+      "category": "middleware",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 50,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 13,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 51,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "import",
+        "name": "./middleware/auth",
+        "file": "src/app.ts",
+        "line": 7
+      }
+    },
+    {
+      "queryId": "express-015",
+      "query": "Find user service class",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "searchCalls": 1,
+      "signalCharsReturned": 26,
+      "targetedReads": 1,
+      "fullFileReads": 1,
+      "simulatedTokens": 7,
+      "simulatedCorrectness": 1.5,
+      "simulatedTimeMs": 61,
+      "top3Hit": true,
+      "matchedSignal": {
+        "kind": "class",
+        "name": "UserService",
+        "file": "src/services/userService.ts",
+        "line": 3
+      }
+    }
+  ],
+  "totals": {
+    "totalSearchCalls": 15,
+    "totalSignalChars": 768,
+    "totalTargetedReads": 15,
+    "totalFullReads": 15,
+    "totalTokens": 196,
+    "avgTokensPerQuery": 13,
+    "avgCorrectness": 1.5,
+    "top3HitRate": 100
+  }
+}

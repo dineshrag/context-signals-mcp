@@ -1,0 +1,41 @@
+{
+  "fixture": "fastify-app",
+  "timestamp": 1777510282935,
+  "mode": "real",
+  "passed": false,
+  "metrics": {
+    "storage": {
+      "rawSourceChars": 11888,
+      "signalChars": 1783,
+      "reductionPercent": 85,
+      "success": true
+    },
+    "queryContext": {
+      "baselineAvg": 1159,
+      "signalsAvg": 11,
+      "reductionPercent": 99,
+      "success": true
+    },
+    "toolCalls": {
+      "baselineTotal": 104,
+      "signalsTotal": 15,
+      "reductionPercent": 86,
+      "success": true
+    },
+    "accuracy": {
+      "baselineAvg": 2.37,
+      "signalsAvg": 1.5,
+      "success": false
+    },
+    "retrieval": {
+      "top3HitRate": 100,
+      "success": true
+    },
+    "breakEven": {
+      "indexingChars": 11888,
+      "avgSavingsPerQuery": 1148,
+      "breakEvenQueries": 11,
+      "success": true
+    }
+  }
+}

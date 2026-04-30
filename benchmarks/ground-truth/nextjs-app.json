@@ -1,0 +1,191 @@
+{
+  "fixture": "nextjs-app",
+  "version": "1.0.0",
+  "totalFiles": 15,
+  "totalSourceChars": 14000,
+  "queries": [
+    {
+      "id": "nextjs-001",
+      "query": "Where is the main app layout?",
+      "category": "navigation",
+      "expected": {
+        "kind": "import",
+        "file": "src/app",
+        "lineRequired": false
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "nextjs-002",
+      "query": "Show all API routes",
+      "category": "route_discovery",
+      "expected": {
+        "kind": "import",
+        "file": "src/app",
+        "lineRequired": false
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "nextjs-003",
+      "query": "Find GET /api/users endpoint",
+      "category": "route_discovery",
+      "expected": {
+        "kind": "function",
+        "method": "GET",
+        "file": "src/app/api/users",
+        "handler": "GET",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "nextjs-004",
+      "query": "Find POST /api/auth/login handler",
+      "category": "route_discovery",
+      "expected": {
+        "kind": "function",
+        "method": "POST",
+        "file": "src/app/api/auth/login",
+        "handler": "POST",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "nextjs-005",
+      "query": "Find user service class",
+      "category": "handler_lookup",
+      "expected": {
+        "kind": "class",
+        "file": "src/lib/userService.ts",
+        "handler": "UserService",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "nextjs-006",
+      "query": "Find upload service",
+      "category": "handler_lookup",
+      "expected": {
+        "kind": "class",
+        "file": "src/lib/uploadService.ts",
+        "handler": "UploadService",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "nextjs-007",
+      "query": "Find auth service",
+      "category": "handler_lookup",
+      "expected": {
+        "kind": "class",
+        "file": "src/lib/authService.ts",
+        "handler": "AuthService",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "nextjs-008",
+      "query": "Find User type definition",
+      "category": "implementation_lookup",
+      "expected": {
+        "kind": "import",
+        "file": "userService.ts",
+        "handler": "User",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "nextjs-009",
+      "query": "Find UserList component",
+      "category": "component",
+      "expected": {
+        "kind": "function",
+        "file": "src/components/UserList.tsx",
+        "handler": "UserList",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "nextjs-010",
+      "query": "Find UploadForm component",
+      "category": "component",
+      "expected": {
+        "kind": "function",
+        "file": "src/components/UploadForm.tsx",
+        "handler": "UploadForm",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "nextjs-011",
+      "query": "Find POST /api/users endpoint",
+      "category": "route_discovery",
+      "expected": {
+        "kind": "function",
+        "method": "POST",
+        "file": "route.ts",
+        "handler": "POST",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "nextjs-012",
+      "query": "Find POST /api/upload/photo handler",
+      "category": "route_discovery",
+      "expected": {
+        "kind": "function",
+        "method": "POST",
+        "file": "src/app/api/upload/photo",
+        "handler": "POST",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "nextjs-013",
+      "query": "Find Navbar component",
+      "category": "component",
+      "expected": {
+        "kind": "function",
+        "file": "src/components/Navbar.tsx",
+        "handler": "Navbar",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    },
+    {
+      "id": "nextjs-014",
+      "query": "Find user creation logic",
+      "category": "handler_lookup",
+      "expected": {
+        "kind": "import",
+        "file": "route.ts",
+        "handler": "UserService",
+        "lineRequired": true
+      },
+      "difficulty": "medium"
+    },
+    {
+      "id": "nextjs-015",
+      "query": "Find registration endpoint",
+      "category": "route_discovery",
+      "expected": {
+        "kind": "function",
+        "method": "POST",
+        "file": "route.ts",
+        "handler": "POST",
+        "lineRequired": true
+      },
+      "difficulty": "easy"
+    }
+  ]
+}

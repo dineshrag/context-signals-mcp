@@ -1,0 +1,41 @@
+{
+  "fixture": "nextjs-app",
+  "timestamp": 1777510283128,
+  "mode": "real",
+  "passed": true,
+  "metrics": {
+    "storage": {
+      "rawSourceChars": 9445,
+      "signalChars": 1417,
+      "reductionPercent": 85,
+      "success": true
+    },
+    "queryContext": {
+      "baselineAvg": 535,
+      "signalsAvg": 12,
+      "reductionPercent": 98,
+      "success": true
+    },
+    "toolCalls": {
+      "baselineTotal": 100,
+      "signalsTotal": 15,
+      "reductionPercent": 85,
+      "success": true
+    },
+    "accuracy": {
+      "baselineAvg": 1.57,
+      "signalsAvg": 1.4,
+      "success": true
+    },
+    "retrieval": {
+      "top3HitRate": 93.3,
+      "success": true
+    },
+    "breakEven": {
+      "indexingChars": 9445,
+      "avgSavingsPerQuery": 523,
+      "breakEvenQueries": 19,
+      "success": true
+    }
+  }
+}

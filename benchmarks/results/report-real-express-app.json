@@ -1,0 +1,41 @@
+{
+  "fixture": "express-app",
+  "timestamp": 1777510282762,
+  "mode": "real",
+  "passed": false,
+  "metrics": {
+    "storage": {
+      "rawSourceChars": 12805,
+      "signalChars": 1921,
+      "reductionPercent": 85,
+      "success": true
+    },
+    "queryContext": {
+      "baselineAvg": 1156,
+      "signalsAvg": 13,
+      "reductionPercent": 99,
+      "success": true
+    },
+    "toolCalls": {
+      "baselineTotal": 104,
+      "signalsTotal": 15,
+      "reductionPercent": 86,
+      "success": true
+    },
+    "accuracy": {
+      "baselineAvg": 2.37,
+      "signalsAvg": 1.5,
+      "success": false
+    },
+    "retrieval": {
+      "top3HitRate": 100,
+      "success": true
+    },
+    "breakEven": {
+      "indexingChars": 12805,
+      "avgSavingsPerQuery": 1143,
+      "breakEvenQueries": 12,
+      "success": true
+    }
+  }
+}

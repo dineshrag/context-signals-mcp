@@ -1,0 +1,282 @@
+[
+  {
+    "kind": "import",
+    "name": "next/server",
+    "file": "src/app/api/auth/login/route.ts",
+    "line": 1,
+    "text": "import { NextRequest, NextResponse } from \"next/server\""
+  },
+  {
+    "kind": "import",
+    "name": "@/lib/authService",
+    "file": "src/app/api/auth/login/route.ts",
+    "line": 2,
+    "text": "import { AuthService } from \"@/lib/authService\""
+  },
+  {
+    "kind": "function",
+    "name": "POST",
+    "file": "src/app/api/auth/login/route.ts",
+    "line": 6,
+    "text": "export async function POST(request: NextRequest) {"
+  },
+  {
+    "kind": "import",
+    "name": "next/server",
+    "file": "src/app/api/auth/register/route.ts",
+    "line": 1,
+    "text": "import { NextRequest, NextResponse } from \"next/server\""
+  },
+  {
+    "kind": "import",
+    "name": "@/lib/authService",
+    "file": "src/app/api/auth/register/route.ts",
+    "line": 2,
+    "text": "import { AuthService } from \"@/lib/authService\""
+  },
+  {
+    "kind": "function",
+    "name": "POST",
+    "file": "src/app/api/auth/register/route.ts",
+    "line": 6,
+    "text": "export async function POST(request: NextRequest) {"
+  },
+  {
+    "kind": "import",
+    "name": "next/server",
+    "file": "src/app/api/route.ts",
+    "line": 1,
+    "text": "import { NextRequest, NextResponse } from \"next/server\""
+  },
+  {
+    "kind": "function",
+    "name": "GET",
+    "file": "src/app/api/route.ts",
+    "line": 3,
+    "text": "export async function GET(request: NextRequest) {"
+  },
+  {
+    "kind": "import",
+    "name": "next/server",
+    "file": "src/app/api/upload/photo/route.ts",
+    "line": 1,
+    "text": "import { NextRequest, NextResponse } from \"next/server\""
+  },
+  {
+    "kind": "import",
+    "name": "@/lib/uploadService",
+    "file": "src/app/api/upload/photo/route.ts",
+    "line": 2,
+    "text": "import { UploadService } from \"@/lib/uploadService\""
+  },
+  {
+    "kind": "function",
+    "name": "POST",
+    "file": "src/app/api/upload/photo/route.ts",
+    "line": 6,
+    "text": "export async function POST(request: NextRequest) {"
+  },
+  {
+    "kind": "import",
+    "name": "next/server",
+    "file": "src/app/api/upload/[id]/route.ts",
+    "line": 1,
+    "text": "import { NextRequest, NextResponse } from \"next/server\""
+  },
+  {
+    "kind": "import",
+    "name": "@/lib/uploadService",
+    "file": "src/app/api/upload/[id]/route.ts",
+    "line": 2,
+    "text": "import { UploadService } from \"@/lib/uploadService\""
+  },
+  {
+    "kind": "function",
+    "name": "GET",
+    "file": "src/app/api/upload/[id]/route.ts",
+    "line": 6,
+    "text": "export async function GET("
+  },
+  {
+    "kind": "import",
+    "name": "next/server",
+    "file": "src/app/api/users/route.ts",
+    "line": 1,
+    "text": "import { NextRequest, NextResponse } from \"next/server\""
+  },
+  {
+    "kind": "import",
+    "name": "@/lib/userService",
+    "file": "src/app/api/users/route.ts",
+    "line": 2,
+    "text": "import { UserService } from \"@/lib/userService\""
+  },
+  {
+    "kind": "function",
+    "name": "GET",
+    "file": "src/app/api/users/route.ts",
+    "line": 6,
+    "text": "export async function GET() {"
+  },
+  {
+    "kind": "function",
+    "name": "POST",
+    "file": "src/app/api/users/route.ts",
+    "line": 11,
+    "text": "export async function POST(request: NextRequest) {"
+  },
+  {
+    "kind": "import",
+    "name": "next/server",
+    "file": "src/app/api/users/[id]/route.ts",
+    "line": 1,
+    "text": "import { NextRequest, NextResponse } from \"next/server\""
+  },
+  {
+    "kind": "import",
+    "name": "@/lib/userService",
+    "file": "src/app/api/users/[id]/route.ts",
+    "line": 2,
+    "text": "import { UserService } from \"@/lib/userService\""
+  },
+  {
+    "kind": "function",
+    "name": "GET",
+    "file": "src/app/api/users/[id]/route.ts",
+    "line": 6,
+    "text": "export async function GET("
+  },
+  {
+    "kind": "function",
+    "name": "PUT",
+    "file": "src/app/api/users/[id]/route.ts",
+    "line": 17,
+    "text": "export async function PUT("
+  },
+  {
+    "kind": "function",
+    "name": "DELETE",
+    "file": "src/app/api/users/[id]/route.ts",
+    "line": 29,
+    "text": "export async function DELETE("
+  },
+  {
+    "kind": "function",
+    "name": "RootLayout",
+    "file": "src/app/layout.tsx",
+    "line": 9,
+    "text": "export default function RootLayout({"
+  },
+  {
+    "kind": "import",
+    "name": "react",
+    "file": "src/app/page.tsx",
+    "line": 3,
+    "text": "import { useState } from \"react\""
+  },
+  {
+    "kind": "import",
+    "name": "@/components",
+    "file": "src/app/page.tsx",
+    "line": 4,
+    "text": "import { Navbar, UserList, UploadForm } from \"@/components\""
+  },
+  {
+    "kind": "function",
+    "name": "HomePage",
+    "file": "src/app/page.tsx",
+    "line": 6,
+    "text": "export default function HomePage() {"
+  },
+  {
+    "kind": "function",
+    "name": "Navbar",
+    "file": "src/components/Navbar.tsx",
+    "line": 1,
+    "text": "export function Navbar() {"
+  },
+  {
+    "kind": "import",
+    "name": "react",
+    "file": "src/components/UploadForm.tsx",
+    "line": 3,
+    "text": "import { useState } from \"react\""
+  },
+  {
+    "kind": "function",
+    "name": "UploadForm",
+    "file": "src/components/UploadForm.tsx",
+    "line": 5,
+    "text": "export function UploadForm() {"
+  },
+  {
+    "kind": "function",
+    "name": "handleSubmit",
+    "file": "src/components/UploadForm.tsx",
+    "line": 9,
+    "text": "async function handleSubmit(e: React.FormEvent) {"
+  },
+  {
+    "kind": "import",
+    "name": "react",
+    "file": "src/components/UserList.tsx",
+    "line": 3,
+    "text": "import { useState } from \"react\""
+  },
+  {
+    "kind": "function",
+    "name": "UserList",
+    "file": "src/components/UserList.tsx",
+    "line": 5,
+    "text": "export function UserList() {"
+  },
+  {
+    "kind": "class",
+    "name": "AuthService",
+    "file": "src/lib/authService.ts",
+    "line": 1,
+    "text": "export class AuthService {"
+  },
+  {
+    "kind": "class",
+    "name": "UploadService",
+    "file": "src/lib/uploadService.ts",
+    "line": 1,
+    "text": "export class UploadService {"
+  },
+  {
+    "kind": "import",
+    "name": "@/types/user",
+    "file": "src/lib/userService.ts",
+    "line": 1,
+    "text": "import { User, CreateUserInput, UpdateUserInput } from \"@/types/user\""
+  },
+  {
+    "kind": "class",
+    "name": "UserService",
+    "file": "src/lib/userService.ts",
+    "line": 3,
+    "text": "export class UserService {"
+  },
+  {
+    "kind": "interface",
+    "name": "User",
+    "file": "src/types/user.ts",
+    "line": 1,
+    "text": "export interface User {"
+  },
+  {
+    "kind": "interface",
+    "name": "CreateUserInput",
+    "file": "src/types/user.ts",
+    "line": 10,
+    "text": "export interface CreateUserInput {"
+  },
+  {
+    "kind": "interface",
+    "name": "UpdateUserInput",
+    "file": "src/types/user.ts",
+    "line": 16,
+    "text": "export interface UpdateUserInput {"
+  }
+]

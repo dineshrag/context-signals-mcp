@@ -1,0 +1,180 @@
+{
+  "fixture": "express-app",
+  "timestamp": 1777508383633,
+  "rawSourceChars": 12805,
+  "fileCount": 15,
+  "queries": [
+    {
+      "queryId": "express-001",
+      "query": "Where is the main app initialized?",
+      "category": "navigation",
+      "difficulty": "easy",
+      "simulatedToolCalls": 8,
+      "simulatedFullReads": 6,
+      "simulatedTokens": 3611,
+      "simulatedCorrectness": 1.894411506722108,
+      "simulatedTimeMs": 5238
+    },
+    {
+      "queryId": "express-002",
+      "query": "Show all API routes",
+      "category": "route_discovery",
+      "difficulty": "medium",
+      "simulatedToolCalls": 9,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 4091,
+      "simulatedCorrectness": 1.9064294324840048,
+      "simulatedTimeMs": 5637
+    },
+    {
+      "queryId": "express-003",
+      "query": "Find POST /users endpoint",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "simulatedToolCalls": 8,
+      "simulatedFullReads": 4,
+      "simulatedTokens": 3780,
+      "simulatedCorrectness": 2.695309423940209,
+      "simulatedTimeMs": 5292
+    },
+    {
+      "queryId": "express-004",
+      "query": "Find login handler",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "simulatedToolCalls": 8,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 4104,
+      "simulatedCorrectness": 2.3814940652994467,
+      "simulatedTimeMs": 5430
+    },
+    {
+      "queryId": "express-005",
+      "query": "Show middleware chain",
+      "category": "navigation",
+      "difficulty": "medium",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 3638,
+      "simulatedCorrectness": 1.7320140476023906,
+      "simulatedTimeMs": 4779
+    },
+    {
+      "queryId": "express-006",
+      "query": "Where is error handling?",
+      "category": "implementation_lookup",
+      "difficulty": "easy",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 3717,
+      "simulatedCorrectness": 2.685243327443624,
+      "simulatedTimeMs": 5769
+    },
+    {
+      "queryId": "express-007",
+      "query": "Find auth validation logic",
+      "category": "implementation_lookup",
+      "difficulty": "medium",
+      "simulatedToolCalls": 9,
+      "simulatedFullReads": 4,
+      "simulatedTokens": 4163,
+      "simulatedCorrectness": 2.608857841403889,
+      "simulatedTimeMs": 4929
+    },
+    {
+      "queryId": "express-008",
+      "query": "Find database model for users",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 4,
+      "simulatedTokens": 3585,
+      "simulatedCorrectness": 2.4250923753015905,
+      "simulatedTimeMs": 5369
+    },
+    {
+      "queryId": "express-009",
+      "query": "Show imports used by main app",
+      "category": "navigation",
+      "difficulty": "easy",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 4041,
+      "simulatedCorrectness": 2.1069391844818735,
+      "simulatedTimeMs": 5097
+    },
+    {
+      "queryId": "express-010",
+      "query": "Find controller for user creation",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 3930,
+      "simulatedCorrectness": 2.4074309234484845,
+      "simulatedTimeMs": 5590
+    },
+    {
+      "queryId": "express-011",
+      "query": "Find service called by POST /users",
+      "category": "handler_lookup",
+      "difficulty": "medium",
+      "simulatedToolCalls": 9,
+      "simulatedFullReads": 4,
+      "simulatedTokens": 3700,
+      "simulatedCorrectness": 2.1673322695698456,
+      "simulatedTimeMs": 5133
+    },
+    {
+      "queryId": "express-012",
+      "query": "Find upload route handler",
+      "category": "route_discovery",
+      "difficulty": "easy",
+      "simulatedToolCalls": 10,
+      "simulatedFullReads": 4,
+      "simulatedTokens": 3670,
+      "simulatedCorrectness": 2.194160695939787,
+      "simulatedTimeMs": 5465
+    },
+    {
+      "queryId": "express-013",
+      "query": "Find config parsing logic",
+      "category": "implementation_lookup",
+      "difficulty": "hard",
+      "simulatedToolCalls": 8,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 3582,
+      "simulatedCorrectness": 2.095669474636198,
+      "simulatedTimeMs": 5757
+    },
+    {
+      "queryId": "express-014",
+      "query": "Find auth middleware",
+      "category": "middleware",
+      "difficulty": "easy",
+      "simulatedToolCalls": 8,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 4105,
+      "simulatedCorrectness": 2.301494979587096,
+      "simulatedTimeMs": 4890
+    },
+    {
+      "queryId": "express-015",
+      "query": "Find user service class",
+      "category": "handler_lookup",
+      "difficulty": "easy",
+      "simulatedToolCalls": 8,
+      "simulatedFullReads": 5,
+      "simulatedTokens": 4134,
+      "simulatedCorrectness": 2.115864590915733,
+      "simulatedTimeMs": 5342
+    }
+  ],
+  "totals": {
+    "totalToolCalls": 135,
+    "totalFullReads": 71,
+    "totalTokens": 57851,
+    "avgTokensPerQuery": 3857,
+    "avgCorrectness": 2.25
+  }
+}
