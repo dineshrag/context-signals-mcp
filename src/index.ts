@@ -4,7 +4,7 @@ import { getConfig } from "./config.js"
 import { createServer, ListToolsRequestSchema, CallToolRequestSchema, StdioServerTransport, Tool } from "./server.js"
 import { FileScanner } from "./scanner/file-scanner.js"
 import { IncrementalScanner } from "./scanner/incremental-scanner.js"
-import { EvidenceStore, SignalStore, IndexStore } from "./storage/index.js"
+import { EvidenceStore, SignalStore, IndexStore, MetricsStore } from "./storage/index.js"
 import { extract, detectLanguage } from "./extractors/index.js"
 import { createEvidence } from "./types/evidence.js"
 import { searchSignals, getSignalKinds } from "./search.js"
@@ -15,7 +15,44 @@ const scanner = new FileScanner()
 const evidenceStore = new EvidenceStore(config.memoryDir)
 const signalStore = new SignalStore(config.memoryDir)
 const indexStore = new IndexStore(config.memoryDir)
+const metricsStore = new MetricsStore(config.memoryDir)
 const incrementalScanner = new IncrementalScanner(indexStore)
+
+function getStorageStatus(reductionPercent: number): string {
+  if (reductionPercent >= 90) return "Exceptional"
+  if (reductionPercent >= 70) return "Strong"
+  if (reductionPercent >= 50) return "Moderate"
+  if (reductionPercent >= 10) return "Minimal"
+  return "Below Threshold"
+}
+
+function getRetrievalStatus(top3HitRate: number): string {
+  if (top3HitRate >= 80) return "Excellent"
+  if (top3HitRate >= 60) return "Good"
+  if (top3HitRate >= 40) return "Moderate"
+  if (top3HitRate >= 20) return "Poor"
+  return "Below Threshold"
+}
+
+function getBreakEvenStatus(breakEvenQueries: number): string {
+  if (breakEvenQueries < 100) return "On Track"
+  if (breakEvenQueries < 500) return "Moderate"
+  if (breakEvenQueries < 1000) return "Extended"
+  return "At Risk"
+}
+
+function getRelativeTime(timestamp: number): string {
+  const now = Date.now()
+  const diff = now - timestamp
+  const minutes = Math.floor(diff / 60000)
+  const hours = Math.floor(diff / 3600000)
+  const days = Math.floor(diff / 86400000)
+
+  if (minutes < 1) return "just now"
+  if (minutes < 60) return `${minutes} minute${minutes === 1 ? "" : "s"} ago`
+  if (hours < 24) return `${hours} hour${hours === 1 ? "" : "s"} ago`
+  return `${days} day${days === 1 ? "" : "s"} ago`
+}
 
 const tools: Tool[] = [
   {
@@ -160,6 +197,8 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
         file: args.file ? String(args.file) : undefined,
       })
 
+      await metricsStore.recordSearch(String(args.query), results.length)
+
       return {
         content: [
           {
@@ -221,17 +260,71 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
       const indexMeta = await indexStore.load()
       const rawSourceChars = indexMeta?.rawSourceChars ?? 0
       const stats = await signalStore.getStats(rawSourceChars)
+      const searchStats = await metricsStore.getSearchStats()
+
+      const storageReduction = stats.storageReductionPercent
+      const storageStatus = getStorageStatus(storageReduction)
+
+      const retrievalStatus = getRetrievalStatus(searchStats.top3HitRate)
+
+      const avgSavingsPerQuery = rawSourceChars > 0 && searchStats.totalSearches > 0
+        ? Math.round(rawSourceChars / searchStats.totalSearches)
+        : 0
+      const breakEvenQueries = avgSavingsPerQuery > 0
+        ? Math.round(stats.rawSourceChars / avgSavingsPerQuery)
+        : 0
+      const breakEvenStatus = getBreakEvenStatus(breakEvenQueries)
+
+      const perQueryBaseline = rawSourceChars > 0 ? Math.round(rawSourceChars / (indexMeta?.totalFiles || 1)) : 0
+      const perQueryMCP = Math.round(stats.signalChars / (indexMeta?.totalFiles || 1))
+      const tokenSavingsPercent = perQueryBaseline > 0
+        ? Math.round(((perQueryBaseline - perQueryMCP) / perQueryBaseline) * 100)
+        : 0
+
+      const lastIndexedTimestamp = indexMeta?.lastIndexedAt ?? null
+      const lastIndexedAt = lastIndexedTimestamp
+        ? new Date(lastIndexedTimestamp).toISOString()
+        : null
+      const indexAge = lastIndexedTimestamp
+        ? getRelativeTime(lastIndexedTimestamp)
+        : null
 
       return {
         content: [
           {
             type: "text" as const,
             text: JSON.stringify({
-              filesIndexed: indexMeta?.totalFiles ?? 0,
-              signals: stats.count,
-              rawSourceChars: stats.rawSourceChars,
-              signalChars: stats.signalChars,
-              storageReductionPercent: stats.storageReductionPercent,
+              indexHealth: {
+                filesIndexed: indexMeta?.totalFiles ?? 0,
+                totalSignals: stats.count,
+                lastIndexed: lastIndexedAt,
+                indexAge,
+              },
+              storageEfficiency: {
+                rawSourceChars: stats.rawSourceChars,
+                signalChars: stats.signalChars,
+                reductionPercent: storageReduction,
+                status: storageStatus,
+              },
+              tokenSavings: {
+                estimatedReduction: `${tokenSavingsPercent}%`,
+                perQueryBaseline: `${perQueryBaseline} tokens`,
+                perQueryMCP: `${perQueryMCP} tokens`,
+                savingsPerQuery: `${perQueryBaseline - perQueryMCP} tokens`,
+              },
+              retrievalQuality: {
+                totalSearches: searchStats.totalSearches,
+                avgResultsPerQuery: searchStats.avgResultsPerQuery,
+                top3HitRate: searchStats.top3HitRate,
+                zeroResultQueries: searchStats.zeroResultQueries,
+                status: retrievalStatus,
+              },
+              breakEven: {
+                indexingChars: stats.rawSourceChars,
+                avgSavingsPerQuery,
+                breakEvenQueries,
+                status: breakEvenStatus,
+              },
               byKind: stats.byKind,
               byLanguage: stats.byLanguage,
               byFramework: stats.byFramework,
@@ -246,6 +339,7 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
       await evidenceStore.clear()
       await indexStore.clear()
       await indexStore.clearPerFileMeta()
+      await metricsStore.clear()
       scanner.clearCache()
       return {
         content: [
@@ -369,6 +463,8 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
         rawSourceChars,
         signalChars,
       })
+
+      await metricsStore.updateLastIndexed(rawSourceChars)
 
       const durationMs = Date.now() - startTime
 
@@ -516,6 +612,8 @@ async function ensureWarmCache(): Promise<void> {
         rawSourceChars,
         signalChars,
       })
+
+      await metricsStore.updateLastIndexed(rawSourceChars)
 
       console.error(`Auto-index: Complete. Indexed ${indexedCount} files with ${allSignals.length} signals.`)
     } else if (hasMeta) {

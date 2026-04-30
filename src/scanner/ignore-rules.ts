@@ -23,6 +23,14 @@ export const DEFAULT_SUPPORTED_EXTENSIONS = [
   ".jsx",
   ".mjs",
   ".cjs",
+  ".py",
+  ".go",
+  ".java",
+  ".rb",
+  ".php",
+  ".rs",
+  ".swift",
+  ".kt",
 ]
 
 export interface IgnoreRules {

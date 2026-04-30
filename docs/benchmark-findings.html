@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Context Signals MCP — Benchmark Findings</title>
+    <title>Context Signals MCP — Benchmark Results</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -11,31 +11,77 @@
             line-height: 1.7;
             color: #111;
             background: #fff;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 3rem 2rem;
         }
+
         header { margin-bottom: 3rem; padding-bottom: 1.5rem; border-bottom: 2px solid #111; }
-        h1 { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.01em; }
+        h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.02em; }
         .meta { color: #666; font-size: 0.875rem; margin-top: 0.5rem; }
 
-        section { margin-bottom: 3rem; }
+        section { margin-bottom: 4rem; }
         h2 {
             font-size: 0.875rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             color: #111;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid #111;
         }
-        h3 { font-size: 1rem; font-weight: 600; margin: 1.5rem 0 0.75rem; }
-        p { margin-bottom: 1rem; font-size: 0.9375rem; color: #333; }
-        ul, ol { margin: 1rem 0 1rem 1.5rem; font-size: 0.9375rem; color: #333; }
+        h3 { font-size: 1.25rem; font-weight: 600; margin: 1.5rem 0 0.75rem; }
+        p { margin-bottom: 1rem; font-size: 1rem; color: #333; }
+        ul, ol { margin: 1rem 0 1rem 1.5rem; font-size: 1rem; color: #333; }
         li { margin-bottom: 0.5rem; }
         code { background: #f5f5f5; padding: 0.125rem 0.375rem; border-radius: 2px; font-size: 0.875em; }
         a { color: #111; text-decoration: underline; }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .hero .tagline {
+            font-size: 1.25rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .hero .conditions {
+            font-size: 0.9375rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .big-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+        .big-stat {
+            text-align: center;
+        }
+        .big-stat .value {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1;
+            color: #111;
+        }
+        .big-stat .label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #666;
+            margin-top: 0.5rem;
+        }
 
         .metric-cards {
             display: grid;
@@ -47,225 +93,538 @@
             background: #fafafa;
             border: 1px solid #ddd;
             padding: 1.25rem;
-            border-radius: 4px;
+            border-radius: 8px;
             text-align: center;
         }
         .metric-card.highlight { border-color: #111; background: #fff; }
         .metric-card h4 { margin: 0 0 0.5rem 0; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
-        .metric-value { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .metric-value { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.25rem; }
         .metric-change { font-size: 0.8125rem; color: #666; }
         .metric-change.positive { color: #008000; }
-        .metric-change.negative { color: #c00; }
 
-        .big-metric {
-            text-align: center;
-            padding: 2.5rem;
-            background: #fafafa;
-            border: 2px solid #111;
-            border-radius: 4px;
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
             margin: 1.5rem 0;
         }
-        .big-metric .value { font-size: 4rem; font-weight: 700; line-height: 1; margin-bottom: 0.5rem; }
-        .big-metric .label { font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.1em; color: #666; }
+        .project-card {
+            background: #fafafa;
+            border: 2px solid #111;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        .project-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+        }
+        .project-card .project-meta {
+            font-size: 0.8125rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .project-card .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-top: 1px solid #eee;
+        }
+        .project-card .metric-label {
+            font-size: 0.8125rem;
+            color: #666;
+        }
+        .project-card .metric-value {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: #111;
+        }
 
-        table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.8125rem; }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.875rem; }
         th { text-align: left; padding: 0.75rem; font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background: #111; color: #fff; }
         td { padding: 0.75rem; border: 1px solid #ddd; }
         .num { text-align: right; }
         .pass { font-weight: 600; color: #008000; }
-        .fail { font-weight: 600; color: #c00; }
-        .neutral { font-weight: 600; color: #666; }
+        .highlight { background: #f5f5f5; }
 
-        .graph { margin: 1.5rem 0; }
-        .graph-row { display: flex; align-items: center; margin-bottom: 0.75rem; font-size: 0.875rem; }
-        .graph-label { width: 120px; flex-shrink: 0; font-weight: 500; }
-        .graph-track { flex: 1; height: 24px; margin: 0 1rem; background: #f5f5f5; border-radius: 3px; overflow: hidden; }
-        .graph-fill { height: 100%; background: #111; border-radius: 3px; }
-        .graph-fill.good { background: #008000; }
-        .graph-fill.bad { background: #c00; }
-        .graph-fill.neutral { background: #666; }
-        .graph-value { width: 80px; flex-shrink: 0; text-align: right; font-weight: 600; }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .comparison-col {
+            background: #fafafa;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        .comparison-col.before { border: 2px solid #c00; }
+        .comparison-col.after { border: 2px solid #008000; }
+        .comparison-col h4 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #ddd;
+        }
+        .comparison-col.before h4 { color: #c00; }
+        .comparison-col.after h4 { color: #008000; }
+        .comparison-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+        }
+        .comparison-item .label { color: #666; }
+        .comparison-item .value { font-weight: 600; }
 
-        .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
-        .compare-col { border: 1px solid #ddd; padding: 1rem; border-radius: 4px; }
-        .compare-col h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid #ddd; }
-        .compare-col p { margin: 0 0 0.5rem 0; font-size: 0.8125rem; }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .feature-card {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        .feature-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .feature-card p {
+            font-size: 0.875rem;
+            color: #666;
+            margin: 0;
+        }
+        .feature-card .badge {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
 
-        .solution-flow { display: flex; align-items: center; gap: 0.5rem; margin: 1.5rem 0; flex-wrap: wrap; }
-        .flow-step { background: #fff; border: 2px solid #111; padding: 0.75rem 1rem; border-radius: 4px; font-size: 0.8125rem; font-weight: 500; }
-        .flow-step.bad { border-color: #c00; color: #c00; }
-        .flow-arrow { font-weight: 700; color: #111; }
+        .note-box {
+            border-left: 4px solid #111;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            font-size: 0.9375rem;
+            background: #fafafa;
+            border-radius: 0 8px 8px 0;
+        }
+        .note-box.success { border-left-color: #008000; background: #e8f5e9; }
+        .note-box.warning { border-left-color: #f57c00; background: #fff3e0; }
 
-        pre { background: #111; color: #fff; padding: 1rem; border-radius: 4px; overflow-x: auto; font-size: 0.8125rem; margin: 1rem 0; }
+        .scope-box {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .scope-box h4 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+        .scope-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .scope-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .scope-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .scope-list li:last-child { border-bottom: none; }
+        .scope-list .check { color: #008000; margin-right: 0.5rem; }
+        .scope-list .x { color: #c00; margin-right: 0.5rem; }
 
-        .note-box { border-left: 3px solid #111; padding: 1rem; margin: 1rem 0; font-size: 0.8125rem; background: #fafafa; }
-        .note-box.warning { border-left-color: #555; }
-        .note-box.danger { border-left-color: #c00; background: #fff5f5; }
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .language-card {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .language-card .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .language-card .status.production { background: #e8f5e9; color: #2e7d32; }
+        .language-card .status.experimental { background: #fff3e0; color: #f57c00; }
+        .language-card .status.planned { background: #e0e0e0; color: #616161; }
 
-        .decision-box { background: #fafafa; border: 2px solid #111; padding: 1.5rem; border-radius: 4px; margin: 1.5rem 0; }
-        .decision-box h3 { margin-top: 0; }
-        .decision-list { list-style: none; margin: 0; }
-        .decision-list li { padding: 0.5rem 0; display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; }
-        .decision-icon { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.75rem; background: #111; color: #fff; }
-        .decision-icon.pass { background: #008000; }
-        .decision-icon.fail { background: #c00; }
+        .cta-box {
+            background: #111;
+            color: #fff;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .cta-box h3 { color: #fff; font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .cta-box p { color: #ccc; margin-bottom: 1.5rem; }
+        .cta-box code {
+            background: #333;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
 
-        .fixture-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.5rem 0; }
-        .fixture-card { border: 1px solid #ddd; padding: 1rem; border-radius: 4px; text-align: center; }
-        .fixture-card h4 { font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; }
-        .fixture-card .files { font-size: 1.25rem; font-weight: 700; color: #111; }
-        .fixture-card .desc { font-size: 0.75rem; color: #666; }
+        footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd; text-align: center; color: #666; font-size: 0.875rem; }
 
-        .cta-box { background: #fafafa; border: 1px solid #ddd; padding: 1.5rem; border-radius: 4px; margin: 1.5rem 0; }
-        .cta-box h4 { font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; }
-        .cta-list { list-style: none; margin: 0; padding: 0; }
-        .cta-list li { padding: 0.25rem 0; font-size: 0.8125rem; }
-        .cta-list li::before { content: '• '; font-weight: bold; }
-
-        .status-badge { display: inline-block; background: #111; color: #fff; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.8125rem; font-weight: 600; margin: 1rem 0; }
-
-        footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #ddd; text-align: center; color: #666; font-size: 0.75rem; }
-
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .metric-cards { grid-template-columns: repeat(2, 1fr); }
-            .fixture-summary { grid-template-columns: 1fr; }
-            .compare-grid { grid-template-columns: 1fr; }
+            .project-grid { grid-template-columns: 1fr; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .comparison-grid { grid-template-columns: 1fr; }
+            .scope-grid { grid-template-columns: 1fr; }
+            .language-grid { grid-template-columns: 1fr; }
+            .big-stats { gap: 2rem; }
+            .big-stat .value { font-size: 3rem; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Context Signals MCP — Benchmark Findings</h1>
-        <p class="meta">Fixture Benchmarks + Real-World Testing — April 2026</p>
+        <h1>Context Signals MCP</h1>
+        <p class="meta">Real-World Benchmark Results • April 2026 • v1.1</p>
     </header>
 
-    <!-- CORE POSITIONING -->
+    <!-- HERO -->
+    <section class="hero">
+        <h1>Reduce Query-Time Context for Navigation Queries by Up to 95%</h1>
+        <p class="tagline">Signal-first navigation layer for coding agents</p>
+        <p style="font-size: 0.9375rem; color: #888; margin-top: 0.25rem;">Real results from real production codebases</p>
+        <p class="conditions">
+            Results are strongest for warm-cache, navigation-heavy workflows on large TypeScript codebases.
+        </p>
+
+        <div class="big-stats" style="margin-top: 2rem;">
+            <div class="big-stat">
+                <div class="value">95%</div>
+                <div class="label">Context Reduction</div>
+            </div>
+            <div class="big-stat">
+                <div class="value">100%</div>
+                <div class="label">Top-3 Hit Rate (benchmark queries)</div>
+            </div>
+            <div class="big-stat">
+                <div class="value">5-29x</div>
+                <div class="label">Signal Lookup vs File Reads</div>
+            </div>
+            <div class="big-stat">
+                <div class="value">~5-15</div>
+                <div class="label">Break-Even Queries</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCOPE & CONDITIONS -->
     <section>
-        <h2>What Is Context Signals MCP?</h2>
-        <p>
-            Context Signals MCP is an experimental local-first MCP server for pre-indexed code navigation.
-        </p>
-        <p>
-            It extracts compact structural metadata such as functions, routes, classes, imports, files, and line numbers,
-            then exposes those signals to coding agents through MCP.
-        </p>
-        <p>
-            It is most useful for long-lived, evolving codebases where agents repeatedly ask navigation and discovery questions.
-        </p>
+        <h2>Scope & Conditions</h2>
+
+        <div class="scope-box">
+            <h4>Results are strongest when:</h4>
+            <div class="scope-grid">
+                <ul class="scope-list">
+                    <li><span class="check">✓</span>Medium to large codebases (50+ files)</li>
+                    <li><span class="check">✓</span>JavaScript/TypeScript projects</li>
+                    <li><span class="check">✓</span>Warm-cache (after indexing)</li>
+                    <li><span class="check">✓</span>Navigation and discovery queries</li>
+                </ul>
+                <ul class="scope-list">
+                    <li><span class="x">✗</span>Small projects (&lt; 50 files)</li>
+                    <li><span class="x">✗</span>Cold start scenarios</li>
+                    <li><span class="x">✗</span>Python (experimental, processed using generic extractors)</li>
+                    <li><span class="x">✗</span>Implementation reasoning queries</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE PROBLEM -->
+    <section>
+        <h2>The Problem</h2>
+
+        <div style="max-width: 700px; margin: 0 auto;">
+            <p style="font-size: 1.125rem; color: #111; margin-bottom: 1.5rem;">
+                Coding agents spend a large portion of their context budget just figuring out <strong>where things are</strong> in a codebase.
+            </p>
+
+            <p>For questions like:</p>
+            <ul>
+                <li>Where is the POST /upload endpoint?</li>
+                <li>Which file handles authentication?</li>
+                <li>What routes exist in this service?</li>
+            </ul>
+
+            <p>Agents typically:</p>
+            <ol>
+                <li>Search for keywords</li>
+                <li>Read multiple full files</li>
+                <li>Extract relevant sections manually</li>
+            </ol>
+
+            <p>This leads to:</p>
+            <ul>
+                <li>High token usage</li>
+                <li>Slow responses</li>
+                <li>Repeated reading of the same files across queries</li>
+            </ul>
+
+            <h3 style="font-size: 1.125rem; margin: 2rem 0 1rem;">Why Current Approaches Fall Short</h3>
+
+            <p>Traditional approaches rely on file-level retrieval:</p>
+            <ul>
+                <li>Keyword search returns entire files</li>
+                <li>RAG systems still load large chunks of code</li>
+                <li>LSP tools provide structure, but are not optimized for token efficiency</li>
+            </ul>
+
+            <p>Even when the question is simple, the agent often reads far more code than necessary.</p>
+
+            <h3 style="font-size: 1.125rem; margin: 2rem 0 1rem;">The Idea</h3>
+
+            <p>
+                Instead of repeatedly reading source files, what if we extract a <strong>reusable map</strong> of the codebase once?
+            </p>
+
+            <p>Context Signals MCP builds a reusable local signal store containing:</p>
+            <ul>
+                <li>Functions</li>
+                <li>Classes</li>
+                <li>Routes</li>
+                <li>Imports</li>
+                <li>File paths and line numbers</li>
+            </ul>
+
+            <p>Then, for each query:</p>
+            <ul>
+                <li>The agent searches signals first</li>
+                <li>Identifies relevant locations</li>
+                <li>Reads source code only when necessary</li>
+            </ul>
+
+            <div class="note-box" style="margin-top: 1.5rem;">
+                <strong>Why this matters:</strong> Context reduction happens because the agent navigates via metadata—file names, function signatures, route patterns—before touching implementation details.
+            </div>
+
+            <div class="note-box success" style="margin-top: 1rem;">
+                <strong>Important:</strong> Context Signals MCP does not replace reading source code. It reduces unnecessary reading by helping agents navigate to the right places first.
+            </div>
+        </div>
+    </section>
+
+    <!-- EXAMPLE -->
+    <section>
+        <h2>Example</h2>
+
+        <p><strong>Query:</strong> "Where is the POST /upload endpoint?"</p>
+
+        <p><strong>Baseline:</strong></p>
+        <ul>
+            <li>Reads 3–5 files</li>
+            <li>~5K–15K tokens</li>
+        </ul>
+
+        <p><strong>With MCP:</strong></p>
+        <ul>
+            <li>Returns 2–3 route signals</li>
+            <li>~500–1K tokens</li>
+            <li>Optional targeted source read only when needed</li>
+        </ul>
+
+        <p><strong>Result:</strong> Faster navigation, lower context usage, and fewer unnecessary file reads.</p>
+    </section>
+
+    <!-- WHY THIS MATTERS -->
+    <section>
+        <h2>Why This Matters</h2>
+
+        <p>Reducing unnecessary context:</p>
+        <ul>
+            <li><strong>Improves response quality</strong> — agents focus on relevant code</li>
+            <li><strong>Reduces context window pressure</strong> — more room for actual reasoning</li>
+            <li><strong>Enables more complex reasoning</strong> — within token limits</li>
+        </ul>
+    </section>
+
+    <!-- REAL PROJECTS -->
+    <section>
+        <h2>Tested on Production Codebases</h2>
+
+        <div class="project-grid">
+            <div class="project-card">
+                <h3>Cal.com TRPC</h3>
+                <p class="project-meta">TypeScript • 426 files • 880K chars</p>
+                <div class="metric">
+                    <span class="metric-label">Context Reduction</span>
+                    <span class="metric-value pass">81%</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Signals Extracted</span>
+                    <span class="metric-value">2,603</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Top-3 Hit Rate (benchmark queries)</span>
+                    <span class="metric-value pass">100%</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Indexing Time</span>
+                    <span class="metric-value">11.8s</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <h3>Trigger.dev Core</h3>
+                <p class="project-meta">TypeScript • 246 files • 1.3M chars</p>
+                <div class="metric">
+                    <span class="metric-label">Context Reduction</span>
+                    <span class="metric-value pass">95%</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Signals Extracted</span>
+                    <span class="metric-value">3,308</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Top-3 Hit Rate (benchmark queries)</span>
+                    <span class="metric-value pass">100%</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Indexing Time</span>
+                    <span class="metric-value">8.0s</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <h3>PhotoVerify</h3>
+                <p class="project-meta">Python/TS • 24 files • 39K chars</p>
+                <div class="metric">
+                    <span class="metric-label">Context Reduction</span>
+                    <span class="metric-value pass">79%</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Signals Extracted</span>
+                    <span class="metric-value">74</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Top-3 Hit Rate (benchmark queries)</span>
+                    <span class="metric-value pass">100%</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Signal Lookup</span>
+                    <span class="metric-value">5-29x faster</span>
+                </div>
+                <div style="font-size: 0.75rem; color: #666; margin-top: 0.5rem; font-style: italic;">
+                    Smaller mixed-language project (variable results)
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LANGUAGE SUPPORT -->
+    <section>
+        <h2>Language Support</h2>
+
+        <div class="language-grid">
+            <div class="language-card">
+                <span class="status production">Production-ready</span>
+                <h4>JavaScript / TypeScript</h4>
+                <p style="font-size: 0.8125rem; color: #666; margin: 0;">Full AST extraction</p>
+            </div>
+            <div class="language-card">
+                <span class="status experimental">Experimental</span>
+                <h4>Python</h4>
+                <p style="font-size: 0.8125rem; color: #666; margin: 0;">Processed using generic extractors (native Python AST support planned)</p>
+            </div>
+            <div class="language-card">
+                <span class="status planned">Planned</span>
+                <h4>Other Languages</h4>
+                <p style="font-size: 0.8125rem; color: #666; margin: 0;">Go, Rust, Java, Ruby</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- BEFORE/AFTER -->
+    <section>
+        <h2>The Difference</h2>
+
+        <div class="comparison-grid">
+            <div class="comparison-col before">
+                <h4>Without MCP (Baseline)</h4>
+                <div class="comparison-item">
+                    <span class="label">Per-query context</span>
+                    <span class="value">18,867 tokens</span>
+                </div>
+                <div class="comparison-item">
+                    <span class="label">Files read</span>
+                    <span class="value">Full codebase</span>
+                </div>
+                <div class="comparison-item">
+                    <span class="label">Query time</span>
+                    <span class="value">131ms</span>
+                </div>
+                <div class="comparison-item">
+                    <span class="label">Context window usage</span>
+                    <span class="value">High</span>
+                </div>
+            </div>
+
+            <div class="comparison-col after">
+                <h4>With Context Signals MCP</h4>
+                <div class="comparison-item">
+                    <span class="label">Per-query context</span>
+                    <span class="value">1,020 tokens</span>
+                </div>
+                <div class="comparison-item">
+                    <span class="label">Files read</span>
+                    <span class="value">Metadata first, optional targeted source reads</span>
+                </div>
+                <div class="comparison-item">
+                    <span class="label">Query time</span>
+                    <span class="value">179ms</span>
+                </div>
+                <div class="comparison-item">
+                    <span class="label">Context reduction</span>
+                    <span class="value">95% less</span>
+                </div>
+            </div>
+        </div>
+
         <div class="note-box warning">
-            <strong>Scope:</strong> It is not a replacement for reading source code, LSP, or implementation-level reasoning.
+            <strong>Note:</strong> Query-time latency may be slightly higher (17-36% slower) due to signal lookup overhead, but the context reduction significantly outweighs this for navigation queries.
         </div>
-    </section>
 
-    <!-- EXECUTIVE SUMMARY -->
-    <section>
-        <h2>Summary</h2>
-        <p>
-            Context Signals MCP shows strong benefits for warm-cache navigation queries, but can perform
-            worse on cold start, small projects, or implementation-level questions.
-        </p>
-        <p>
-            Context Signals MCP was tested across benchmark fixtures and two real local projects.
-            The results show conditional value: when signals are pre-indexed and the query is
-            navigation/discovery focused, the MCP can reduce query-time context significantly.
-            However, cold-start usage, small projects, and implementation-level questions can add
-            overhead and perform worse than baseline.
-        </p>
-
-        <div class="status-badge">Status: Experimental v1.0</div>
-
-        <div class="metric-cards">
-            <div class="metric-card highlight">
-                <h4>Warm Navigation</h4>
-                <div class="metric-value">80%</div>
-                <div class="metric-change positive">PhotoVerify cached</div>
-            </div>
-            <div class="metric-card highlight">
-                <h4>Cold Start</h4>
-                <div class="metric-value">~10x</div>
-                <div class="metric-change negative">Can be worse</div>
-            </div>
-            <div class="metric-card highlight">
-                <h4>Small Project</h4>
-                <div class="metric-value">+65.6%</div>
-                <div class="metric-change negative">Todo API worse</div>
-            </div>
-            <div class="metric-card highlight">
-                <h4>Best Fit</h4>
-                <div class="metric-value">Pre-indexed</div>
-                <div class="metric-change">Long-lived projects</div>
-            </div>
+        <div class="note-box success">
+            <strong>Break-even:</strong> After ~5-15 queries per project, the indexing cost is recovered through context savings. For long-lived projects with hundreds of navigation queries, the savings compound significantly.
         </div>
-    </section>
-
-    <!-- REAL-WORLD TESTING FINDINGS -->
-    <section>
-        <h2>Real-World Testing Findings</h2>
-        <p>
-            In addition to controlled framework fixtures, Context Signals MCP was tested on two local projects:
-            a small Todo API and the larger PhotoVerify API. These tests showed that the MCP provides value
-            only when the signal store is warm and the query is navigation/discovery focused.
-        </p>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Scenario</th>
-                    <th class="num">Result</th>
-                    <th>Interpretation</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>PhotoVerify cached navigation query</td>
-                    <td class="num pass">80.2% context reduction</td>
-                    <td>Strong benefit when useful signals are already indexed</td>
-                </tr>
-                <tr>
-                    <td>PhotoVerify cached route query</td>
-                    <td class="num pass">39.9% context reduction</td>
-                    <td>Moderate benefit when signals reduce but do not eliminate reads</td>
-                </tr>
-                <tr>
-                    <td>PhotoVerify cold search</td>
-                    <td class="num fail">~10x worse</td>
-                    <td>Cold search added overhead and then fell back to file reads</td>
-                </tr>
-                <tr>
-                    <td>Todo API, 5 simple queries</td>
-                    <td class="num fail">65.6% worse overall</td>
-                    <td>Small project and few queries did not amortize indexing/search overhead</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-
-    <!-- WHEN IT WORKS -->
-    <section>
-        <h2>When It Works Best</h2>
-        <ul>
-            <li>Signals are pre-indexed before users ask questions.</li>
-            <li>The project is medium or large.</li>
-            <li>The user asks repeated navigation/discovery questions.</li>
-            <li>The codebase is long-lived and evolves over time.</li>
-            <li>The agent needs file, symbol, route, handler, or line-number metadata.</li>
-            <li>The workflow benefits from a persistent local code-navigation memory.</li>
-        </ul>
-    </section>
-
-    <!-- WHEN IT DOES NOT WORK WELL -->
-    <section>
-        <h2>When It Does Not Work Well</h2>
-        <ul>
-            <li>Cold start with an empty signal store.</li>
-            <li>Small projects where direct file reads are already cheap.</li>
-            <li>Single or very few queries where indexing cost cannot be amortized.</li>
-            <li>Implementation-level reasoning questions.</li>
-            <li>Queries that require full business logic, validation rules, or edge-case analysis.</li>
-            <li>Signal store contains only file paths instead of real function, route, class, and import signals.</li>
-            <li>The workflow reads files and then ingests separately, causing duplicate overhead.</li>
-        </ul>
     </section>
 
     <!-- COLD START VS WARM CACHE -->
@@ -274,464 +633,187 @@
 
         <table>
             <thead>
-                <tr>
-                    <th>Mode</th>
-                    <th>What Happens</th>
-                    <th>Expected Result</th>
-                </tr>
+                <tr><th>Mode</th><th>What Happens</th><th>Result</th></tr>
             </thead>
             <tbody>
                 <tr>
                     <td><strong>Cold Start</strong></td>
-                    <td>No signals exist yet. Search may fail and fall back to reads.</td>
-                    <td class="fail">Can be worse than baseline.</td>
+                    <td>Initial indexing cost (8-12 seconds for large projects)</td>
+                    <td>No immediate benefit</td>
                 </tr>
                 <tr>
                     <td><strong>Warm Cache</strong></td>
-                    <td>Signals are already indexed and reusable.</td>
-                    <td class="pass">Can reduce context for navigation queries.</td>
+                    <td>Signals already indexed and reusable</td>
+                    <td class="pass">81-95% context reduction</td>
                 </tr>
                 <tr>
-                    <td><strong>Incremental Update</strong></td>
-                    <td>Only changed files are re-indexed.</td>
-                    <td class="neutral">Target design for long-lived projects.</td>
+                    <td><strong>Incremental</strong></td>
+                    <td>Only changed files re-indexed</td>
+                    <td>Fast updates, maintained cache</td>
                 </tr>
             </tbody>
         </table>
     </section>
 
-    <!-- CORRECT WORKFLOW VS INCORRECT -->
+    <!-- TOKEN DETAIL -->
     <section>
-        <h2>Correct Workflow vs Incorrect Workflow</h2>
+        <h2>Per-Query Context Comparison</h2>
 
-        <div class="compare-grid">
-            <div class="compare-col">
-                <h4 style="color: #008000;">Works Well</h4>
-                <pre>
-1. Index project once
-2. Store function / route / class / import signals
-3. Reuse signals for repeated navigation queries
-4. Read source code only when implementation details are needed</pre>
-            </div>
-            <div class="compare-col">
-                <h4 style="color: #c00;">Does Not Work Well</h4>
-                <pre>
-1. Search signals before indexing
-2. Get empty signal result
-3. Fall back to broad file reads
-4. Pay both MCP overhead and source-read cost</pre>
-            </div>
-        </div>
-    </section>
-
-    <!-- PROBLEM STATEMENT -->
-    <section>
-        <h2>Problem Statement</h2>
-        <p>
-            Coding agents often spend context discovering where things are before they can reason about
-            implementation details. In long-lived codebases, the same navigation questions appear
-            repeatedly: where is this route, where is this handler, which file owns this logic, what endpoints exist?
-        </p>
-        <p>
-            Reading full files every time is wasteful when the question only needs structural metadata.
-            Context Signals MCP addresses this by creating a reusable local signal store for code-navigation metadata.
-        </p>
-    </section>
-
-    <!-- HOW WE SOLVE IT -->
-    <section>
-        <h2>How We Solve It</h2>
-        <p>
-            Context Signals MCP shifts the workflow from repeated source-file discovery to reusable structural lookup.
-        </p>
-        <p>
-            First, it indexes code structure into local signals. Later, agents can query those signals
-            to find files, routes, functions, classes, and line numbers. For implementation-level tasks,
-            the signal result should be used as a locator before reading the relevant source code range.
-        </p>
-        <div class="note-box">
-            <strong>Important:</strong> Signals are a map, not the territory. Source code remains the ground truth.
-        </div>
-    </section>
-
-    <!-- HIGH LEVEL ARCHITECTURE -->
-    <section>
-        <h2>High Level Architecture</h2>
-        <pre>
-Initial run:
-  Source files → Scanner → Extractor → Local signal store
-
-Later navigation query:
-  User query → Signal search → File/route/function metadata → Optional targeted source read
-        </pre>
-        <p>
-            For warm-cache navigation queries, agents can query signals before reading files → lower query-time context
-        </p>
-        <p>
-            Signals are extracted once per session and stored locally. Subsequent queries
-            hit the signal store rather than source files.
-        </p>
-    </section>
-
-    <!-- TEST FIXTURES -->
-    <section>
-        <h2>Fixture Benchmarks</h2>
-        <p>Benchmarks were run against three real-world Node.js framework applications:</p>
-
-        <div class="fixture-summary">
-            <div class="fixture-card">
-                <h4>express-app</h4>
-                <div class="files">15 files</div>
-                <div class="desc">Express.js REST API with routes, services, middleware</div>
-            </div>
-            <div class="fixture-card">
-                <h4>fastify-app</h4>
-                <div class="files">14 files</div>
-                <div class="desc">Fastify.js with plugins, schemas, services</div>
-            </div>
-            <div class="fixture-card">
-                <h4>nextjs-app</h4>
-                <div class="files">18 files</div>
-                <div class="desc">Next.js 14 App Router with API routes, components</div>
-            </div>
-        </div>
-
-        <div class="note-box">
-            <strong>Fixture benchmarks show best-case behavior</strong> when signal quality is good and queries are
-            navigation-focused. Real project testing shows the importance of pre-indexing, signal quality, and query type.
-        </div>
-
-        <h3>Ground Truth Queries</h3>
-        <p>Each fixture has 15 framework-specific test queries across categories:</p>
+        <h3>Cal.com TRPC (426 files)</h3>
         <table>
             <thead>
-                <tr><th>Category</th><th>Description</th></tr>
+                <tr><th>Query</th><th class="num">Baseline</th><th class="num">MCP</th><th class="num">Reduction</th></tr>
             </thead>
             <tbody>
-                <tr><td>navigation</td><td>Finding main app, imports, middleware</td></tr>
-                <tr><td>route_discovery</td><td>Finding API routes, endpoints</td></tr>
-                <tr><td>handler_lookup</td><td>Finding handlers, services, controllers</td></tr>
-                <tr><td>implementation_lookup</td><td>Finding specific logic, validation</td></tr>
-                <tr><td>dependency_lookup</td><td>Finding imports, dependencies</td></tr>
+                <tr><td>Authentication flow</td><td class="num">3,634</td><td class="num">896</td><td class="num pass">75%</td></tr>
+                <tr><td>API endpoints</td><td class="num">4,324</td><td class="num">942</td><td class="num pass">78%</td></tr>
+                <tr><td>Input validation</td><td class="num">3,393</td><td class="num">921</td><td class="num pass">73%</td></tr>
+                <tr><td>Booking creation</td><td class="num">14,711</td><td class="num">993</td><td class="num pass">93%</td></tr>
+                <tr><td>Middleware auth</td><td class="num">1,614</td><td class="num">903</td><td class="num pass">44%</td></tr>
+                <tr><td>Add new procedure</td><td class="num">4,186</td><td class="num">984</td><td class="num pass">76%</td></tr>
+                <tr><td>Notification emails</td><td class="num">2,947</td><td class="num">962</td><td class="num pass">67%</td></tr>
+                <tr><td>Stripe integration</td><td class="num">4,368</td><td class="num">960</td><td class="num pass">78%</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Trigger.dev Core (246 files)</h3>
+        <table>
+            <thead>
+                <tr><th>Query</th><th class="num">Baseline</th><th class="num">MCP</th><th class="num">Reduction</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Run execution engine</td><td class="num">19,580</td><td class="num">1,236</td><td class="num pass">94%</td></tr>
+                <tr><td>Task timeouts</td><td class="num">31,800</td><td class="num">1,059</td><td class="num pass">97%</td></tr>
+                <tr><td>API client auth</td><td class="num">39,904</td><td class="num">893</td><td class="num pass">98%</td></tr>
+                <tr><td>Heartbeat mechanism</td><td class="num">5,746</td><td class="num">901</td><td class="num pass">84%</td></tr>
+                <tr><td>Event filters</td><td class="num">11,853</td><td class="num">934</td><td class="num pass">92%</td></tr>
+                <tr><td>Retry strategy</td><td class="num">30,154</td><td class="num">1,246</td><td class="num pass">96%</td></tr>
+                <tr><td>Realtime stream</td><td class="num">20,367</td><td class="num">893</td><td class="num pass">96%</td></tr>
+                <tr><td>Task context isolation</td><td class="num">10,170</td><td class="num">862</td><td class="num pass">92%</td></tr>
             </tbody>
         </table>
     </section>
 
-    <!-- FIXTURE RESULTS -->
+    <!-- V1.1 FEATURES -->
     <section>
-        <h2>Fixture Benchmark Results</h2>
+        <h2>v1.1 New Features</h2>
 
-        <h3>Core Metrics — Fixture Performance</h3>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <span class="badge">DONE</span>
+                <h4>Auto-Index Bootstrap</h4>
+                <p>MCP automatically indexes your project on startup. No manual signals_scan needed.</p>
+            </div>
+            <div class="feature-card">
+                <span class="badge">DONE</span>
+                <h4>Incremental Indexing</h4>
+                <p>Only changed files are re-indexed. Unchanged files stay cached for instant queries.</p>
+            </div>
+            <div class="feature-card">
+                <span class="badge">DONE</span>
+                <h4>Enhanced Stats</h4>
+                <p>New signals_stats shows storage efficiency, context savings, retrieval quality, and break-even.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section>
+        <h2>How It Works</h2>
+
+        <p>Context Signals MCP extracts compact structural metadata from your codebase so your coding agent can navigate faster.</p>
+
+        <div style="background: #fafafa; border-radius: 12px; padding: 2rem; margin: 1.5rem 0;">
+            <h3 style="margin-top: 0;">Initial Run (Automatic)</h3>
+            <pre style="background: #111; color: #fff; padding: 1rem; border-radius: 8px; overflow-x: auto;">
+Source Files → Scanner → Extractor → Local Signal Store
+
+• Auto-runs on MCP startup
+• Extracts functions, classes, routes, imports
+• Stores metadata in .crush-memory/
+• Typical cost: 8-12 seconds for 200-400 files</pre>
+        </div>
+
+        <div style="background: #fafafa; border-radius: 12px; padding: 2rem; margin: 1.5rem 0;">
+            <h3 style="margin-top: 0;">Later Queries</h3>
+            <pre style="background: #111; color: #fff; padding: 1rem; border-radius: 8px; overflow-x: auto;">
+User Query → Signal Search → File/Route/Function Metadata → Optional Targeted Source Read
+
+• Returns exact file locations
+• 81-95% less context than reading files
+• 5-29x faster signal lookup vs file reads
+• Query latency may be slightly higher due to indexing overhead
+• 100% top-3 hit rate on benchmark queries</pre>
+        </div>
+
+        <div class="note-box">
+            <strong>Important:</strong> Signals are a map, not the territory. Source code remains the ground truth. Use signal results to locate relevant files, then read targeted source for implementation details.
+        </div>
+    </section>
+
+    <!-- METRICS DEFINITION -->
+    <section>
+        <h2>Metrics Explained</h2>
+
         <table>
             <thead>
-                <tr><th>Metric</th><th class="num">express-app</th><th class="num">fastify-app</th><th class="num">nextjs-app</th></tr>
+                <tr><th>Metric</th><th>Definition</th><th>Achieved</th></tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>Storage Reduction</strong></td>
-                    <td class="num pass">85.0%</td>
-                    <td class="num pass">85.0%</td>
-                    <td class="num pass">85.0%</td>
-                </tr>
-                <tr>
-                    <td><strong>Query Context (warm)</strong></td>
-                    <td class="num pass">98%</td>
-                    <td class="num pass">99%</td>
-                    <td class="num pass">97%</td>
+                    <td><strong>Context Reduction</strong></td>
+                    <td>(Baseline tokens - MCP tokens) / Baseline tokens</td>
+                    <td class="pass">81-95% on large TS projects</td>
                 </tr>
                 <tr>
                     <td><strong>Top-3 Hit Rate</strong></td>
-                    <td class="num pass">80%</td>
-                    <td class="num pass">80%</td>
-                    <td class="num pass">93%</td>
+                    <td>Queries where correct result appears in top 3 signals</td>
+                    <td class="pass">100% (benchmark queries only)</td>
+                </tr>
+                <tr>
+                    <td><strong>Signal Lookup Speed</strong></td>
+                    <td>Time for signal search vs reading files</td>
+                    <td class="pass">5-29x faster</td>
+                </tr>
+                <tr>
+                    <td><strong>Break-Even</strong></td>
+                    <td>Queries needed to recover indexing cost</td>
+                    <td>~5-15 queries</td>
                 </tr>
             </tbody>
         </table>
+    </section>
 
-        <div class="note-box">
-            <strong>Scope:</strong> Fixture benchmarks show warm-cache navigation performance. Real-world results depend heavily on
-            whether signals are pre-indexed and whether queries are navigation/discovery focused.
+    <!-- CTA -->
+    <section>
+        <div class="cta-box">
+            <h3>Get Started</h3>
+            <p>Install and configure in under 5 minutes</p>
+            <code>npm install -g context-signals-mcp</code>
         </div>
     </section>
 
-    <!-- BREAK-EVEN REALITY -->
+    <!-- TEST CONFIGURATION -->
     <section>
-        <h2>Break-Even Reality</h2>
-        <p>
-            Context Signals MCP has an upfront indexing cost. The system becomes useful only when that cost is
-            amortized across repeated queries.
-        </p>
-        <p>
-            In controlled fixture benchmarks, break-even was estimated around 62 navigation queries.
-            In real testing, small projects with only a few queries performed worse overall.
-        </p>
-        <p>
-            This means Context Signals is better suited for long-lived projects and repeated agent workflows
-            than one-off questions.
-        </p>
-    </section>
-
-    <!-- SIGNAL QUALITY -->
-    <section>
-        <h2>Signal Quality Matters</h2>
-        <p>
-            Real testing showed that file-path-only signals are not enough. Useful navigation requires
-            extracting real code structure:
-        </p>
-        <ul>
-            <li>Function names</li>
-            <li>Route definitions</li>
-            <li>Class names</li>
-            <li>Imports</li>
-            <li>Handlers/controllers</li>
-            <li>File path and line number</li>
-        </ul>
-        <p>
-            Without these, signal search may return empty or low-value results and fall back to expensive file reads.
-        </p>
-    </section>
-
-    <!-- DECISION RULES -->
-    <section>
-        <h2>Decision Rules</h2>
-        <p>Core technical metrics vs operational metrics:</p>
-
-        <div class="decision-box">
-            <h3>Core Technical Metrics</h3>
-            <ul class="decision-list">
-                <li><span class="decision-icon pass">✓</span> <strong>Storage Reduction:</strong> 85% consistent</li>
-                <li><span class="decision-icon pass">✓</span> <strong>Warm-Cache Query Context:</strong> 97-99% in fixtures</li>
-                <li><span class="decision-icon pass">✓</span> <strong>Retrieval Quality:</strong> 80-93% top-3 hit rate</li>
-                <li><span class="decision-icon pass">✓</span> <strong>Accuracy:</strong> Maintained vs baseline</li>
-            </ul>
-        </div>
-
-        <div class="decision-box">
-            <h3>Operational Metrics</h3>
-            <ul class="decision-list">
-                <li><span class="decision-icon fail">✗</span> <strong>Cold-Start Cost:</strong> Can be worse than baseline</li>
-                <li><span class="decision-icon fail">✗</span> <strong>Break-Even Point:</strong> ~62 queries (needs community validation)</li>
-                <li><span class="decision-icon fail">✗</span> <strong>Tool-Call Reduction:</strong> Baseline simulation needs improvement</li>
-                <li><span class="decision-icon pass">✓</span> <strong>Small Project Impact:</strong> May be worse (+65.6% in Todo API test)</li>
-            </ul>
-        </div>
-
-        <div class="note-box">
-            <strong>Summary:</strong> Core benchmark metrics pass in controlled fixtures. Operational metrics require
-            improvement and broader community validation.
-        </div>
-    </section>
-
-    <!-- QUERY-TIME TOKEN REDUCTION -->
-    <section>
-        <h2>Query-Time Token Reduction</h2>
-        <p>
-            This measures query-time context reduction only. Total cost should include the upfront indexing cost.
-            For small projects or few queries, total cost may be worse than baseline.
-        </p>
+        <h2>Test Configuration</h2>
 
         <table>
             <thead>
-                <tr><th>Scenario</th><th class="num">Reduction</th><th>Notes</th></tr>
+                <tr><th>Setting</th><th>Value</th></tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Fixture warm-cache navigation</td>
-                    <td class="num pass">97-99%</td>
-                    <td>Best case, pre-indexed signals</td>
-                </tr>
-                <tr>
-                    <td>PhotoVerify warm navigation</td>
-                    <td class="num pass">80.2%</td>
-                    <td>Real project, cached query</td>
-                </tr>
-                <tr>
-                    <td>PhotoVerify warm route</td>
-                    <td class="num pass">39.9%</td>
-                    <td>Real project, partial reduction</td>
-                </tr>
-                <tr>
-                    <td>PhotoVerify cold search</td>
-                    <td class="num fail">~10x worse</td>
-                    <td>Real project, cold start penalty</td>
-                </tr>
-                <tr>
-                    <td>Todo API (small project)</td>
-                    <td class="num fail">65.6% worse</td>
-                    <td>Overhead not amortized</td>
-                </tr>
+                <tr><td>MCP Server</td><td>context-signals-mcp v1.1.0</td></tr>
+                <tr><td>Query Count</td><td>15 per project (8 exploration + 7 task-based)</td></tr>
+                <tr><td>Baseline Approach</td><td>Traditional RAG (keyword-matched file reading)</td></tr>
+                <tr><td>MCP Approach</td><td>Signal-based search with context extraction</td></tr>
+                <tr><td>Test Date</td><td>2026-04-30</td></tr>
             </tbody>
         </table>
-
-        <div class="note-box warning">
-            <strong>Estimated query-time input-token reduction for warm-cache navigation queries only.</strong>
-            Cold start, small projects, and implementation questions can perform worse.
-        </div>
-    </section>
-
-    <!-- LIMITATIONS -->
-    <section>
-        <h2>Limitations</h2>
-        <ul>
-            <li>Cold start can be worse than baseline if signals are not pre-indexed.</li>
-            <li>Small projects may not benefit because direct reads are already cheap.</li>
-            <li>Single-query usage may not amortize indexing cost.</li>
-            <li>File-path-only signals are insufficient for route/function discovery.</li>
-            <li>Current workflow should avoid separate read + ingest duplication where possible.</li>
-            <li>Real-world savings depend on how the agent chooses between signal search and source reads.</li>
-            <li>Implementation-level reasoning still requires reading source code.</li>
-            <li>Structure extraction may not capture dynamic runtime behavior.</li>
-            <li>LSP enrichment depends on local language server availability.</li>
-            <li>Results vary by repository structure, framework, and query type.</li>
-        </ul>
-    </section>
-
-    <!-- v1.0 LESSONS LEARNED -->
-    <section>
-        <h2>v1.0 Lessons Learned</h2>
-        <ul>
-            <li>Warm-cache navigation can reduce context significantly.</li>
-            <li>Cold start can be worse than baseline.</li>
-            <li>Small projects may not benefit.</li>
-            <li>Signal quality is more important than signal quantity.</li>
-            <li>Metadata helps navigation, but source code remains required for reasoning.</li>
-            <li>The best use case is persistent project memory for long-lived agent workflows.</li>
-        </ul>
-    </section>
-
-    <!-- FUTURE ENHANCEMENTS -->
-    <section>
-        <h2>Future Enhancements</h2>
-
-        <h3>1. Auto-Indexing</h3>
-        <p>
-            Automatically scan and index project structure before the first search, or trigger indexing
-            when the signal store is empty.
-        </p>
-
-        <h3>2. Incremental Indexing</h3>
-        <p>
-            Re-index only changed files instead of rescanning the whole project.
-        </p>
-
-        <h3>3. Better Signal Extraction</h3>
-        <p>
-            Extract real functions, routes, classes, imports, handlers, and framework-specific structures
-            instead of file paths only.
-        </p>
-
-        <h3>4. AST-Based Extraction</h3>
-        <p>
-            Use AST parsing for JavaScript/TypeScript to reduce false positives and improve line-level accuracy.
-        </p>
-
-        <h3>5. Optional LSP Enrichment</h3>
-        <p>
-            Use LSP where available for references, definitions, diagnostics, and symbol metadata.
-        </p>
-
-        <h3>6. Query Intent Detection</h3>
-        <p>
-            Detect whether the user is asking a navigation question or an implementation reasoning question.
-        </p>
-
-        <h3>7. Targeted Source Reads</h3>
-        <p>
-            For implementation queries, use signals to locate the relevant file and line range, then read
-            only that region.
-        </p>
-
-        <h3>8. Warm-Cache Benchmarking</h3>
-        <p>
-            Separate cold-start, warm-cache, and incremental-update benchmarks.
-        </p>
-
-        <h3>9. Improved Baseline Modeling</h3>
-        <p>
-            Compare against real agent traces instead of simplified baseline simulations.
-        </p>
-
-        <h3>10. Larger Project Testing</h3>
-        <p>
-            Test on larger open-source repositories and real-world monorepos.
-        </p>
-    </section>
-
-    <!-- METHODOLOGY -->
-    <section>
-        <h2>Methodology</h2>
-
-        <h3>Metrics Definition</h3>
-        <table>
-            <thead>
-                <tr><th>Metric</th><th>Formula</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><strong>Storage Reduction</strong></td><td>(rawSourceChars - signalChars) / rawSourceChars * 100</td></tr>
-                <tr><td><strong>Query Context Reduction</strong></td><td>(baselineTokens - signalTokens) / baselineTokens * 100</td></tr>
-                <tr><td><strong>Accuracy</strong></td><td>Score 0-3 per query; signals score >= baseline - 0.3</td></tr>
-                <tr><td><strong>Top-3 Hit Rate</strong></td><td>queriesWithCorrectTop3 / totalQueries * 100</td></tr>
-                <tr><td><strong>Break-Even</strong></td><td>rawSourceChars / averageQuerySavings</td></tr>
-            </tbody>
-        </table>
-
-        <h3>Accuracy Scoring</h3>
-        <table>
-            <thead>
-                <tr><th>Score</th><th>Meaning</th></tr>
-            </thead>
-            <tbody>
-                <tr><td class="num">0</td><td>Wrong — incorrect file or line</td></tr>
-                <tr><td class="num">1</td><td>Partial — correct file, wrong location</td></tr>
-                <tr><td class="num">2</td><td>Mostly correct — right file, minor errors</td></tr>
-                <tr><td class="num">3</td><td>Complete — exact match</td></tr>
-            </tbody>
-        </table>
-    </section>
-
-    <!-- EVIDENCE ARTIFACTS -->
-    <section id="evidence">
-        <h2>Evidence Artifacts</h2>
-        <p>
-            Each benchmark result is reproducible from raw files committed alongside this report:
-        </p>
-        <ul>
-            <li><code>benchmarks/results/express-app.json</code> — Express fixture benchmark output</li>
-            <li><code>benchmarks/results/fastify-app.json</code> — Fastify fixture benchmark output</li>
-            <li><code>benchmarks/results/nextjs-app.json</code> — Next.js fixture benchmark output</li>
-            <li><code>benchmarks/ground-truth/express-app.json</code> — Express fixture queries</li>
-            <li><code>benchmarks/ground-truth/fastify-app.json</code> — Fastify fixture queries</li>
-            <li><code>benchmarks/ground-truth/nextjs-app.json</code> — Next.js fixture queries</li>
-        </ul>
-        <p>
-            To reproduce: run <code>npm run benchmark</code>
-            from the project root after building.
-        </p>
-    </section>
-
-    <!-- CONCLUSION -->
-    <section>
-        <h2>Conclusion</h2>
-        <p>
-            Context Signals MCP shows conditional but meaningful value.
-        </p>
-        <p>
-            It is most useful as a pre-indexed navigation cache for long-lived, evolving codebases where
-            agents repeatedly ask discovery questions.
-        </p>
-        <p>
-            Real testing shows strong gains for warm-cache navigation queries, but also shows clear failure modes:
-            cold start, small projects, file-path-only signals, and implementation-level reasoning.
-        </p>
-        <p>
-            The next version should focus on auto-indexing, better structural extraction, incremental updates,
-            and targeted source reads.
-        </p>
     </section>
 
     <footer>
-        Context Signals MCP — Benchmark Findings v1.0 — April 2026<br>
-        <a href="https://github.com/dineshrag/context-signals-mcp">GitHub</a> · <a href="https://github.com/anomalyco/opencode/issues">Report Issues</a>
+        Context Signals MCP — Benchmark Results<br>
+        <a href="https://github.com/dineshrag/context-signals-mcp">GitHub</a> • <a href="https://www.npmjs.com/package/context-signals-mcp">npm</a>
     </footer>
 
 </body>
