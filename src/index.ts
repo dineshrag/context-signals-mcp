@@ -3,6 +3,7 @@
 import { getConfig } from "./config.js"
 import { createServer, ListToolsRequestSchema, CallToolRequestSchema, StdioServerTransport, Tool } from "./server.js"
 import { FileScanner } from "./scanner/file-scanner.js"
+import { IncrementalScanner } from "./scanner/incremental-scanner.js"
 import { EvidenceStore, SignalStore, IndexStore } from "./storage/index.js"
 import { extract, detectLanguage } from "./extractors/index.js"
 import { createEvidence } from "./types/evidence.js"
@@ -14,6 +15,7 @@ const scanner = new FileScanner()
 const evidenceStore = new EvidenceStore(config.memoryDir)
 const signalStore = new SignalStore(config.memoryDir)
 const indexStore = new IndexStore(config.memoryDir)
+const incrementalScanner = new IncrementalScanner(indexStore)
 
 const tools: Tool[] = [
   {
@@ -243,6 +245,7 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
       await signalStore.clear()
       await evidenceStore.clear()
       await indexStore.clear()
+      await indexStore.clearPerFileMeta()
       scanner.clearCache()
       return {
         content: [
@@ -272,46 +275,88 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
       const startTime = Date.now()
       let filesScanned = 0
       let filesSkipped = 0
+      let filesRemoved = 0
       let signalsCreated = 0
       let signalsUpdated = 0
       let rawSourceChars = 0
       let signalChars = 0
       const errors: string[] = []
 
-      const files = await scanner.discoverFiles(config.worktree)
+      const scanOptions = {
+        root: config.worktree,
+        force,
+        exclude,
+      }
 
-      for (const file of files) {
+      const scanResult = await incrementalScanner.scan(scanOptions)
+      const hasExistingMeta = await incrementalScanner.hasExistingMeta()
+
+      if (!hasExistingMeta && !force) {
+        return {
+          content: [
+            {
+              type: "text" as const,
+              text: JSON.stringify({
+                filesScanned: 0,
+                filesSkipped: scanResult.totalFiles,
+                filesRemoved: 0,
+                signalsCreated: 0,
+                signalsUpdated: 0,
+                rawSourceChars: 0,
+                signalChars: 0,
+                storageReductionPercent: 0,
+                scanMode: "incremental",
+                message: "No existing index metadata found. Run with force:true to perform full scan.",
+                errors: [],
+              }, null, 2),
+            },
+          ],
+        }
+      }
+
+      for (const file of scanResult.filesToRemove) {
+        await incrementalScanner.removeMetaForFile(file)
+        const fileSignals = await signalStore.getByFile(file)
+        if (fileSignals.length > 0) {
+          const allSignals = await signalStore.load()
+          const filtered = allSignals.filter(s => s.file !== file)
+          await signalStore.save(filtered)
+          filesRemoved++
+        }
+      }
+
+      const filesToProcess = await incrementalScanner.getFilesToIndex(scanOptions)
+
+      for (const { file, content, meta, evidence } of filesToProcess) {
         try {
-          const scanned = await scanner.scanFile(file, config.worktree)
-          if (!scanned) {
-            filesSkipped++
-            continue
-          }
+          await evidenceStore.save(evidence)
 
-          await evidenceStore.save(scanned.evidence)
-
-          const evidence = createEvidence({
+          const evidenceData = createEvidence({
             sourceType: "file",
-            file: scanned.path,
-            contentHash: scanned.hash,
-            rawSize: scanned.content.length,
+            file: file,
+            contentHash: meta.hash,
+            rawSize: content.length,
             metadata: { sessionId: "scan" },
           })
 
-          const extractionResult = extract(scanned.content, scanned.path, evidence)
+          const extractionResult = extract(content, file, evidenceData)
           const signals = extractionResult.signals
 
           const result = await signalStore.addSignalsWithStats(signals)
 
+          await incrementalScanner.updateMetaForFile(file, meta)
+
           filesScanned++
           signalsCreated += result.signalsCreated
           signalsUpdated += result.signalsUpdated
-          rawSourceChars += scanned.content.length
+          rawSourceChars += content.length
           signalChars += result.totalChars
         } catch (error) {
           errors.push(`Failed to process ${file}: ${error}`)
         }
       }
+
+      filesSkipped = scanResult.filesUnchanged.length
 
       const storageReductionPercent = rawSourceChars > 0
         ? Math.round(((rawSourceChars - signalChars) / rawSourceChars) * 100)
@@ -319,7 +364,7 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
 
       await indexStore.update({
         lastIndexedAt: Date.now(),
-        totalFiles: files.length,
+        totalFiles: scanResult.totalFiles,
         totalSignals: signalsCreated,
         rawSourceChars,
         signalChars,
@@ -334,12 +379,14 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
             text: JSON.stringify({
               filesScanned,
               filesSkipped,
+              filesRemoved,
               signalsCreated,
               signalsUpdated,
               rawSourceChars,
               signalChars,
               storageReductionPercent,
               durationMs,
+              scanMode: force ? "full" : "incremental",
               errors: errors.slice(0, 10),
             }, null, 2),
           },
