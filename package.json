@@ -1,6 +1,6 @@
 {
   "name": "context-signals-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "MCP server for context signal extraction and memory - reduces tokens by extracting code structure",
   "author": "Dinesh Raghupatruni",
   "type": "module",
