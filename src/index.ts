@@ -459,7 +459,90 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   }
 })
 
+async function ensureWarmCache(): Promise<void> {
+  try {
+    const signals = await signalStore.load()
+    const hasMeta = await incrementalScanner.hasExistingMeta()
+
+    if (signals.length === 0 && !hasMeta) {
+      console.error("Auto-index: No existing index found. Starting background indexing...")
+
+      const scanOptions = {
+        root: config.worktree,
+        force: false,
+        exclude: ["node_modules", "dist", "build", ".next", ".git"],
+      }
+
+      const scanResult = await incrementalScanner.scan(scanOptions)
+
+      if (scanResult.totalFiles === 0) {
+        console.error("Auto-index: No files found to index.")
+        return
+      }
+
+      console.error(`Auto-index: Found ${scanResult.totalFiles} files. Indexing...`)
+
+      const filesToProcess = await incrementalScanner.getFilesToIndex(scanOptions)
+      let indexedCount = 0
+      let rawSourceChars = 0
+      let signalChars = 0
+
+      for (const { file, content, meta, evidence } of filesToProcess) {
+        await evidenceStore.save(evidence)
+
+        const evidenceData = createEvidence({
+          sourceType: "file",
+          file: file,
+          contentHash: meta.hash,
+          rawSize: content.length,
+          metadata: { sessionId: "auto-index" },
+        })
+
+        const extractionResult = extract(content, file, evidenceData)
+        const sigs = extractionResult.signals
+        const result = await signalStore.addSignalsWithStats(sigs)
+        await incrementalScanner.updateMetaForFile(file, meta)
+        indexedCount++
+        rawSourceChars += content.length
+        signalChars += result.totalChars
+      }
+
+      const allSignals = await signalStore.load()
+
+      await indexStore.update({
+        lastIndexedAt: Date.now(),
+        totalFiles: scanResult.totalFiles,
+        totalSignals: allSignals.length,
+        rawSourceChars,
+        signalChars,
+      })
+
+      console.error(`Auto-index: Complete. Indexed ${indexedCount} files with ${allSignals.length} signals.`)
+    } else if (hasMeta) {
+      const scanOptions = {
+        root: config.worktree,
+        force: false,
+        exclude: ["node_modules", "dist", "build", ".next", ".git"],
+      }
+      const scanResult = await incrementalScanner.scan(scanOptions)
+      const changedCount = scanResult.filesToIndex.length
+      const removedCount = scanResult.filesToRemove.length
+
+      if (changedCount > 0 || removedCount > 0) {
+        console.error(`Auto-index: ${changedCount} files changed, ${removedCount} removed. Run signals_scan for incremental update.`)
+      } else {
+        console.error("Auto-index: Cache warm. No changes detected.")
+      }
+    } else {
+      console.error("Auto-index: Signals exist but no metadata. Run signals_scan with force:true to rebuild index.")
+    }
+  } catch (error) {
+    console.error(`Auto-index error: ${error instanceof Error ? error.message : String(error)}`)
+  }
+}
+
 async function main() {
+  await ensureWarmCache()
   const transport = new StdioServerTransport()
   await server.connect(transport)
   console.error("Context Signals MCP server running on stdio")
