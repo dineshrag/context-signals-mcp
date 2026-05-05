@@ -49,7 +49,7 @@ It helps agents find the right place before reading source code.
 
 ---
 
-## 10-second example
+## Before vs After
 
 Query:
 
