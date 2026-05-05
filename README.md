@@ -1,6 +1,12 @@
 # Context Signals MCP
 
+[![npm version](https://img.shields.io/npm/v/context-signals-mcp)](https://www.npmjs.com/package/context-signals-mcp)
+[![npm downloads](https://img.shields.io/npm/dw/context-signals-mcp)](https://www.npmjs.com/package/context-signals-mcp)
+[![license](https://img.shields.io/npm/l/context-signals-mcp)](./LICENSE)
+
 ![Context Signals MCP](./assets/noise-to-signal.png)
+
+Works with Claude Desktop, OpenCode, Cursor/Roo-style MCP clients, and any MCP-compatible coding agent.
 
 **Stop coding agents from wasting context while finding where things live in your codebase.**
 
@@ -81,6 +87,20 @@ Then it can read only the relevant file or line range.
 
 ---
 
+## Quick start
+
+```bash
+npm install -g context-signals-mcp
+```
+
+Or use with npx:
+
+```bash
+npx context-signals-mcp
+```
+
+---
+
 ## What it extracts
 
 Context Signals MCP builds a local signal store containing:
@@ -145,20 +165,6 @@ This is probably not useful for:
 - cold-start-only usage
 - deep implementation reasoning where the full source must be read anyway
 - unsupported languages where structural extraction is limited
-
----
-
-## Quick start
-
-```bash
-npm install -g context-signals-mcp
-```
-
-Or use with npx:
-
-```bash
-npx context-signals-mcp
-```
 
 ---
 
