@@ -372,6 +372,7 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
       let filesRemoved = 0
       let signalsCreated = 0
       let signalsUpdated = 0
+      let signalsRemoved = 0
       let rawSourceChars = 0
       let signalChars = 0
       const errors: string[] = []
@@ -436,6 +437,7 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
           const extractionResult = extract(content, file, evidenceData)
           const signals = extractionResult.signals
 
+          const removed = await signalStore.removeByFile(file)
           const result = await signalStore.addSignalsWithStats(signals)
 
           await incrementalScanner.updateMetaForFile(file, meta)
@@ -443,6 +445,7 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
           filesScanned++
           signalsCreated += result.signalsCreated
           signalsUpdated += result.signalsUpdated
+          signalsRemoved += removed
           rawSourceChars += content.length
           signalChars += result.totalChars
         } catch (error) {
@@ -465,6 +468,9 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
       })
 
       await metricsStore.updateLastIndexed(rawSourceChars)
+      metricsStore.reindexMetrics.signalsRemoved += signalsRemoved
+      metricsStore.reindexMetrics.signalsCreated += signalsCreated
+      metricsStore.reindexMetrics.filesReindexed += filesScanned
 
       const durationMs = Date.now() - startTime
 
@@ -478,6 +484,7 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
               filesRemoved,
               signalsCreated,
               signalsUpdated,
+              signalsRemoved,
               rawSourceChars,
               signalChars,
               storageReductionPercent,
@@ -596,11 +603,14 @@ async function ensureWarmCache(): Promise<void> {
 
         const extractionResult = extract(content, file, evidenceData)
         const sigs = extractionResult.signals
+
+        await signalStore.removeByFile(file)
         const result = await signalStore.addSignalsWithStats(sigs)
         await incrementalScanner.updateMetaForFile(file, meta)
         indexedCount++
         rawSourceChars += content.length
         signalChars += result.totalChars
+        metricsStore.reindexMetrics.signalsCreated += result.signalsCreated
       }
 
       const allSignals = await signalStore.load()

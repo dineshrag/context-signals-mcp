@@ -1,223 +1,170 @@
 # Context Signals MCP
 
-<h1 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: #111;">
-  Reduce Query-Time Context for Navigation Queries by Up to 95%
-</h1>
+![Context Signals MCP](./assets/noise-to-signal.png)
 
-<p style="font-size: 1.125rem; color: #333; margin-bottom: 1.5rem;">
-  Context Signals MCP extracts compact structural metadata from your codebase—functions, routes, classes, imports, files, and line numbers—so your coding agent spends less context on navigation and discovery.
-</p>
+**Stop coding agents from wasting context while finding where things live in your codebase.**
 
-<p style="font-size: 0.9375rem; color: #666; font-style: italic; margin-bottom: 1rem;">
-  Signal-first navigation layer for coding agents
-</p>
+Context Signals MCP gives AI coding agents a compact structural map of your project — routes, functions, classes, imports, files, and line numbers — before they read full source files.
 
-<div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem;">
-  <span style="background: #111; color: #fff; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.875rem; font-weight: 600;">v1.1</span>
-  <span style="background: #e8f5e9; color: #2e7d32; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.875rem; font-weight: 600;">Auto-Index ✓</span>
-  <span style="background: #e8f5e9; color: #2e7d32; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.875rem; font-weight: 600;">Incremental ✓</span>
-</div>
+Instead of blindly opening multiple files, the agent can ask:
 
-## Real Benchmark Results
+> “Where is the upload endpoint?”  
+> “Which function handles authentication?”  
+> “What routes exist in this service?”  
+> “Where is this class/component defined?”
 
-<div style="background: #fafafa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;">
-  <p style="margin-bottom: 1rem; font-size: 0.9375rem; color: #666;">
-    Benchmarks on production codebases:
-  </p>
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-    <div style="background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 1rem;">
-      <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #666; margin-bottom: 0.5rem;">Cal.com TRPC</div>
-      <div style="font-size: 1.5rem; font-weight: 700; color: #111;">81%</div>
-      <div style="font-size: 0.8125rem; color: #666;">context reduction</div>
-      <div style="font-size: 0.75rem; color: #999; margin-top: 0.5rem;">426 files • 880K chars</div>
-    </div>
-    <div style="background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 1rem;">
-      <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #666; margin-bottom: 0.5rem;">Trigger.dev Core</div>
-      <div style="font-size: 1.5rem; font-weight: 700; color: #111;">95%</div>
-      <div style="font-size: 0.8125rem; color: #666;">context reduction</div>
-      <div style="font-size: 0.75rem; color: #999; margin-top: 0.5rem;">246 files • 1.3M chars</div>
-    </div>
-    <div style="background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 1rem;">
-      <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #666; margin-bottom: 0.5rem;">PhotoVerify</div>
-      <div style="font-size: 1.5rem; font-weight: 700; color: #111;">79%</div>
-      <div style="font-size: 0.8125rem; color: #666;">context reduction</div>
-      <div style="font-size: 0.75rem; color: #999; margin-top: 0.5rem;">24 files • 39K chars</div>
-      <div style="font-size: 0.6875rem; color: #999; margin-top: 0.25rem;">Smaller mixed-language project (variable results)</div>
-    </div>
-  </div>
-</div>
+And get precise structural signals first.
 
-<h2 id="the-problem">The Problem</h2>
+---
 
-<p>
-  Coding agents spend a large portion of their context budget just figuring out <strong>where things are</strong> in a codebase.
-</p>
+## Why this exists
 
-<p>For questions like:</p>
-<ul>
-  <li>Where is the POST /upload endpoint?</li>
-  <li>Which file handles authentication?</li>
-  <li>What routes exist in this service?</li>
-</ul>
+AI coding agents are good at editing code once they know where to work.
 
-<p>Agents typically:</p>
-<ol>
-  <li>Search for keywords</li>
-  <li>Read multiple full files</li>
-  <li>Extract relevant sections manually</li>
-</ol>
+But they often waste a lot of context during discovery:
 
-<p>This leads to:</p>
-<ul>
-  <li>High token usage</li>
-  <li>Slow responses</li>
-  <li>Repeated reading of the same files across queries</li>
-</ul>
+1. Search keywords
+2. Open multiple full files
+3. Read unrelated implementation details
+4. Repeat the same discovery work again later
 
-<h2 id="why-current-approaches-fall-short">Why Current Approaches Fall Short</h2>
+That creates:
 
-<p>Traditional approaches rely on file-level retrieval:</p>
-<ul>
-  <li>Keyword search returns entire files</li>
-  <li>RAG systems still load large chunks of code</li>
-  <li>LSP tools provide structure, but are not optimized for token efficiency</li>
-</ul>
+- high token usage
+- slower responses
+- noisy context
+- less room for actual reasoning
+- wrong-file exploration
 
-<p>Even when the question is simple, the agent often reads far more code than necessary.</p>
+Context Signals MCP solves the navigation problem first.
 
-<h2 id="why-not-just-use-rag">Why Not Just Use RAG?</h2>
+It does **not** replace reading source code.  
+It helps agents find the right place before reading source code.
 
-<p>
-  RAG retrieves large chunks of code. Context Signals MCP retrieves <strong>structured metadata first</strong>,
-  then reads source only when necessary.
-</p>
-<p>
-  This reduces unnecessary context usage by guiding the agent to exact file locations
-  before diving into implementation details.
-</p>
+---
 
-<h2 id="the-idea">The Idea</h2>
+## 10-second example
 
-<p>
-  Instead of repeatedly reading source files, what if we extract a <strong>reusable map</strong> of the codebase once?
-</p>
+Query:
 
-<p>Context Signals MCP builds a reusable local signal store containing:</p>
-<ul>
-  <li>Functions</li>
-  <li>Classes</li>
-  <li>Routes</li>
-  <li>Imports</li>
-  <li>File paths and line numbers</li>
-</ul>
+> Where is the `POST /upload` endpoint?
 
-<p>Then, for each query:</p>
-<ul>
-  <li>The agent searches signals first</li>
-  <li>Identifies relevant locations</li>
-  <li>Reads source code only when necessary</li>
-</ul>
+### Without Context Signals
 
-<p>
-  <strong>Why this matters:</strong> Context reduction happens because the agent navigates via metadata—file names, function signatures, route patterns—before touching implementation details.
-</p>
+The agent may read:
 
-<p>
-  <strong>Important:</strong> Context Signals MCP does not replace reading source code.
-  It reduces unnecessary reading by helping agents navigate to the right places first.
-</p>
-
-## Example
-
-<p><strong>Query:</strong> "Where is the POST /upload endpoint?"</p>
-
-<p><strong>Baseline:</strong></p>
-<ul>
-  <li>Reads 3–5 files</li>
-  <li>~5K–15K tokens</li>
-</ul>
-
-<p><strong>With MCP:</strong></p>
-<ul>
-  <li>Returns 2–3 route signals</li>
-  <li>~500–1K tokens</li>
-  <li>Optional targeted source read only when needed</li>
-</ul>
-
-<p><strong>Result:</strong> Faster navigation, lower context usage, and fewer unnecessary file reads.</p>
-
-## Why This Matters
-
-Reducing unnecessary context:
-
-- Improves response quality — agents focus on relevant code
-- Reduces context window pressure — more room for actual reasoning
-- Enables more complex reasoning within token limits
-
-## Key Metrics
-
-| Metric | Value | Notes |
-|--------|-------|-------|
-| **Context Reduction** | 81-95% | Warm-cache navigation queries on large codebases |
-| **Top-3 Hit Rate** | 100% | In evaluated benchmark queries only |
-| **Signal Lookup Speed** | 5-29x faster | Lookup vs reading files |
-| **Break-Even** | ~5-15 queries | Depends on project size |
-| **Auto-Index** | On startup | No manual scan needed |
-
-## Scope & Conditions
-
-Results are strongest when:
-- Medium to large codebases (50+ files)
-- JavaScript/TypeScript projects
-- Warm-cache (after indexing)
-- Navigation and discovery queries
-
-Results may vary for:
-- Small projects (< 50 files)
-- Cold start scenarios (initial indexing cost)
-- Python (experimental, processed using TS extractors)
-- Deep implementation reasoning queries
-
-## When Not to Use
-
-Context Signals MCP is not the right tool when:
-
-- **Small projects** (&lt; 10–20 files) — indexing cost outweighs benefit
-- **One-off queries** — no repeated navigation savings
-- **Full implementation reasoning** — requires reading source code anyway
-- **Cold-cache scenarios** — initial indexing before first query
-
-## Language Support
-
-| Language | Status | Notes |
-|----------|--------|-------|
-| JavaScript / TypeScript | ✅ Production-ready | Full AST extraction |
-| Python | 🟡 Experimental | Processed using generic extractors (native Python AST support planned) |
-| Other languages | 🔲 Planned | Go, Rust, Java, Ruby |
-
-## How It Works
-
-```
-Initial run (automatic):
-  Source files → Scanner → Extractor → Local signal store
-
-Later queries:
-  User query → Signal search → File/route/function metadata → Optional targeted source read
+```text
+src/server.ts
+src/routes/index.ts
+src/routes/upload.ts
+src/controllers/uploadController.ts
+src/middleware/auth.ts
 ```
 
-**Important:** Signals are a map, not the territory. Source code remains the ground truth.
+Often this costs thousands of tokens before the agent even knows where the endpoint lives.
 
-## Quick Start
+### With Context Signals
 
-### Setup
+The agent first receives compact metadata:
+
+```text
+route: POST /upload
+file: src/routes/upload.ts
+line: 42
+handler: uploadFileHandler
+imports:
+  - authMiddleware
+  - uploadService
+```
+
+Then it can read only the relevant file or line range.
+
+---
+
+## What it extracts
+
+Context Signals MCP builds a local signal store containing:
+
+- functions
+- classes
+- interfaces/types
+- imports
+- API routes
+- React components
+- file paths
+- line numbers
+
+Signals are a map, not the territory.
+Source code remains the ground truth.
+
+---
+
+## Benchmark results
+
+Tested on real projects.
+
+| Project          | Files     | Code Size  | Context Reduction |
+| ---------------- | --------- | ---------- | ----------------- |
+| Cal.com TRPC     | 426 files | 880K chars | 81%               |
+| Trigger.dev Core | 246 files | 1.3M chars | 95%               |
+| PhotoVerify      | 24 files  | 39K chars  | 79%               |
+
+### Key metrics
+
+| Metric               | Result        | Notes                            |
+| -------------------- | ------------- | -------------------------------- |
+| Context reduction    | 81–95%        | Warm-cache navigation queries    |
+| Top-3 hit rate       | 100%          | Evaluated benchmark queries only |
+| Signal lookup speed  | 5–29x faster  | Compared with reading files      |
+| Break-even point     | ~5–15 queries | Depends on project size          |
+| Auto-indexing        | Yes           | Indexes on startup               |
+| Incremental indexing | Yes           | Re-indexes changed files only    |
+
+These results apply mainly to navigation and discovery queries, not full implementation reasoning.
+
+---
+
+## When this works best
+
+Context Signals MCP is useful when:
+
+- the project has 50+ files
+- agents repeatedly ask “where is…”, “find…”, “show routes…”
+- the codebase is JavaScript or TypeScript
+- the agent needs to locate files/functions/routes before editing
+- the workflow is long-lived, not one-off
+
+---
+
+## When not to use it
+
+This is probably not useful for:
+
+- very small projects
+- one-off questions
+- cold-start-only usage
+- deep implementation reasoning where the full source must be read anyway
+- unsupported languages where structural extraction is limited
+
+---
+
+## Quick start
 
 ```bash
 npm install -g context-signals-mcp
 ```
 
-### For OpenCode
+Or use with npx:
 
-Add to `crush.json`:
+```bash
+npx context-signals-mcp
+```
+
+---
+
+## OpenCode setup
+
+Add to your MCP configuration:
 
 ```json
 {
@@ -226,15 +173,21 @@ Add to `crush.json`:
       "type": "stdio",
       "command": "npx",
       "args": ["context-signals-mcp"],
-      "env": { "WORKTREE": "${PWD}" }
+      "env": {
+        "WORKTREE": "${PWD}"
+      }
     }
   }
 }
 ```
 
-### For Claude Desktop
+---
 
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+## Claude Desktop setup
+
+Add to:
+
+`~/Library/Application Support/Claude/claude_desktop_config.json`
 
 ```json
 {
@@ -247,78 +200,103 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 }
 ```
 
-## v1.1 New Features
+---
 
-- **Auto-Index Bootstrap** - MCP automatically indexes your project on startup. No manual `signals_scan` needed.
-- **Incremental Indexing** - Only changed files are re-indexed. Unchanged files stay cached.
-- **Enhanced Stats** - New `signals_stats` shows storage efficiency, token savings, retrieval quality, and break-even status.
+## Recommended agent workflow
 
-## Recommended Workflow
+1. Start the MCP server
+2. Let it auto-index the project
+3. Ask navigation/discovery questions using `signals_search`
+4. Use returned file paths and line numbers
+5. Read source only when implementation details are needed
+6. Changed files are re-indexed automatically
 
-1. MCP auto-indexes on startup (no action needed)
-2. Use `signals_search` for navigation/discovery queries
-3. Use returned file/line metadata to decide if source reading is needed
-4. For implementation questions, read targeted source ranges
-5. Changed files are incrementally re-indexed automatically
+---
 
-## Cold Start vs Warm Cache
+## Cold start vs warm cache
 
-| Mode | What Happens | Result |
-|------|--------------|--------|
-| **Cold Start** | Initial indexing cost (8-12 seconds for large projects) | No immediate benefit |
-| **Warm Cache** | Signals already indexed | 81-95% context reduction |
-| **Incremental** | Only changed files re-indexed | Fast updates |
+| Mode        | What happens                  | Result                      |
+| ----------- | ----------------------------- | --------------------------- |
+| Cold start  | Initial indexing              | First query may not benefit |
+| Warm cache  | Signals already indexed       | Highest context savings     |
+| Incremental | Only changed files re-indexed | Faster updates              |
 
-## When It Works Best
+---
 
-- Medium to large codebases (50+ files)
-- Repeated navigation and discovery questions
-- Long-lived projects with evolving codebases
-- Agents that ask "where is...", "find...", "show routes..."
-- Persistent agent workflows
+## Language support
 
-## Per-Query Results (Evaluated Benchmarks)
+| Language   | Status           | Notes                     |
+| ---------- | ---------------- | ------------------------- |
+| JavaScript | Production-ready | AST extraction            |
+| TypeScript | Production-ready | AST extraction            |
+| Python     | Experimental     | Native Python AST planned |
+| Go         | Planned          | Future support            |
+| Rust       | Planned          | Future support            |
+| Java       | Planned          | Future support            |
 
-### Cal.com TRPC (426 files)
+---
 
-| Query Type | Avg Context Reduction |
-|------------|---------------------|
-| Exploration queries | 71% |
-| Task-based queries | 67% |
+## Why not just use RAG?
 
-### Trigger.dev Core (246 files)
+RAG is useful for semantic similarity.
 
-| Query Type | Avg Context Reduction |
-|------------|---------------------|
-| Exploration queries | 94% |
-| Task-based queries | 92% |
+Context Signals MCP is different.
 
-## Signal Types
+RAG asks:
 
-| Kind | Description |
-|------|-------------|
-| `function` | Function definitions |
-| `class` | Classes, interfaces, types |
-| `import` | Import statements |
-| `route` | API routes |
-| `component` | React components |
+> “Which code chunks are semantically similar to this query?”
 
-## Roadmap (v1.1 Complete ✓)
+Context Signals asks:
 
-- [x] Auto-index when signal store is empty
-- [x] Incremental indexing for changed files
-- [x] Enhanced signals_stats with user-facing metrics
-- [ ] Multi-language support (Python experimental, others planned)
-- [ ] Framework extractors for Django, Flask, Gin
-- [ ] Optional LSP enrichment
-- [ ] Query intent detection
-- [ ] Targeted file/range reads
+> “Which structural entry points match this route, function, class, component, import, or file?”
+
+They can work together.
+
+Use Context Signals first for navigation.
+Use RAG or source reads later for deeper reasoning.
+
+---
 
 ## Privacy
 
-- No code sent to external servers
-- Signals stored locally in `.crush-memory/`
+- No code is sent to external servers
+- Signal store is local
 - Users control generated signal files
+- Designed for local coding-agent workflows
+
+---
+
+## Current scope
+
+This project focuses on one narrow problem:
+
+**Reduce unnecessary source-file reading during codebase discovery.**
+
+It is not trying to be:
+
+- a full semantic code search engine
+- a replacement for LSP
+- a replacement for source-code reading
+- a complete coding-agent memory system
+
+---
+
+## Roadmap
+
+- native Python AST support
+- framework-specific extractors
+  - Django
+  - Flask
+  - Express
+  - Fastify
+  - Next.js
+- optional LSP enrichment
+- query intent detection
+- targeted file/range read support
+- stronger benchmark harness
+- comparison with grep, ripgrep, LSP, and semantic search
+
+---
 
 ## License
 

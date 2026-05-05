@@ -5,6 +5,7 @@ import { extractFastifyRoutes, isFastifyApp, hasFastifyRoutes } from "./framewor
 import { extractNextJsRoutes, isNextJsProject, isNextJsApiRoute } from "./framework/nextjs.js"
 import { extractReactComponents, isReactProject, hasReactComponents } from "./framework/react.js"
 import { createSignal } from "../types/signal.js"
+import { signalKey } from "../utils/signal-key.js"
 import type { Evidence } from "../types/evidence.js"
 
 export type Signal = ReturnType<typeof createSignal>
@@ -137,16 +138,6 @@ function deduplicateSignals(signals: Signal[]): Signal[] {
   }
 
   return result
-}
-
-function signalKey(signal: Signal): string {
-  return [
-    signal.kind,
-    signal.file ?? "",
-    signal.name ?? "",
-    signal.lineStart ?? "",
-    signal.text,
-  ].join("|")
 }
 
 function detectLanguage(file: string): "typescript" | "javascript" {

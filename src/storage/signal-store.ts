@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile, rm, stat } from "fs/promises"
 import path from "path"
+import { signalKey } from "../utils/signal-key.js"
 
 export interface SignalRecord {
   id: string
@@ -116,6 +117,17 @@ export class SignalStore {
     this.cache = null
   }
 
+  async removeByFile(file: string): Promise<number> {
+    const existing = await this.load()
+    const before = existing.length
+    const filtered = existing.filter(s => s.file !== file)
+    const removed = before - filtered.length
+    if (removed > 0) {
+      await this.save(filtered)
+    }
+    return removed
+  }
+
   async getStats(rawSourceChars = 0): Promise<SignalStoreStats> {
     const signals = await this.load()
     let sizeBytes = 0
@@ -157,8 +169,4 @@ export class SignalStore {
     await writeFile(this.signalsFile, JSON.stringify(signals, null, 2), "utf-8")
     this.cache = signals
   }
-}
-
-function signalKey(signal: SignalRecord): string {
-  return [signal.kind, signal.file ?? "", signal.name ?? "", signal.lineStart ?? "", signal.text].join("|")
 }

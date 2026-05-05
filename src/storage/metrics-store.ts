@@ -7,6 +7,12 @@ export interface SearchRecord {
   timestamp: number
 }
 
+export interface ReindexMetrics {
+  signalsRemoved: number
+  signalsCreated: number
+  filesReindexed: number
+}
+
 export interface MetricsData {
   searches: SearchRecord[]
   lastIndexedAt: number | null
@@ -16,6 +22,7 @@ export interface MetricsData {
 export class MetricsStore {
   private metricsFile: string
   private cache: MetricsData | null = null
+  reindexMetrics: ReindexMetrics = { signalsRemoved: 0, signalsCreated: 0, filesReindexed: 0 }
 
   constructor(memoryDir: string) {
     this.metricsFile = path.join(memoryDir, "metrics.json")
