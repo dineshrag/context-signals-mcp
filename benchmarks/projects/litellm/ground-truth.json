@@ -1,0 +1,146 @@
+{
+  "project": "litellm",
+  "groundTruth": [
+    {
+      "queryId": "simple-1",
+      "query": "Where is the completion function defined?",
+      "expectedFile": "litellm.py",
+      "expectedSymbol": "completion",
+      "expectedLine": 50,
+      "matchCriteria": {
+        "functionNameContains": "completion"
+      }
+    },
+    {
+      "queryId": "simple-2",
+      "query": "Find the chat completion implementation",
+      "expectedFile": "litellm.py",
+      "expectedSymbol": "chat_completion",
+      "expectedLine": 100,
+      "matchCriteria": {
+        "functionNameContains": "chat_completion"
+      }
+    },
+    {
+      "queryId": "simple-3",
+      "query": "Show me the rate limiting logic",
+      "expectedFile": "rate_limiter.py",
+      "expectedSymbol": "rate_limit_func",
+      "expectedLine": 25,
+      "matchCriteria": {
+        "fileContains": ["rate", "limit"]
+      }
+    },
+    {
+      "queryId": "simple-4",
+      "query": "Where is the OpenAI provider configured?",
+      "expectedFile": "providers/openai.py",
+      "expectedSymbol": "OpenAIProvider",
+      "expectedLine": 15,
+      "matchCriteria": {
+        "fileContains": ["openai", "provider"]
+      }
+    },
+    {
+      "queryId": "simple-5",
+      "query": "Find the retry mechanism",
+      "expectedFile": "utils/retry.py",
+      "expectedSymbol": "retry_with_exponential_backoff",
+      "expectedLine": 30,
+      "matchCriteria": {
+        "functionNameContains": ["retry", "backoff"]
+      }
+    },
+    {
+      "queryId": "multihop-1",
+      "query": "How does the provider dispatch work?",
+      "expectedFiles": ["litellm.py", "provider_dispatcher.py"],
+      "expectedSymbols": ["completion", "dispatch_to_provider"],
+      "matchCriteria": {
+        "fileContains": ["provider", "dispatch"]
+      }
+    },
+    {
+      "queryId": "multihop-2",
+      "query": "Trace the path from completion() to actual API call",
+      "expectedFiles": ["litellm.py", "providers/openai.py", "utils/request.py"],
+      "expectedSymbols": ["completion", "make_request", "call_openai"],
+      "matchCriteria": {
+        "functionNameContains": ["completion", "request", "call"]
+      }
+    },
+    {
+      "queryId": "multihop-3",
+      "query": "How does the retry logic handle failures?",
+      "expectedFiles": ["utils/retry.py", "litellm.py"],
+      "expectedSymbols": ["retry_with_exponential_backoff", "handle_error"],
+      "matchCriteria": {
+        "fileContains": ["retry", "error"]
+      }
+    },
+    {
+      "queryId": "multihop-4",
+      "query": "What happens when a provider times out?",
+      "expectedFiles": ["utils/request.py", "exceptions.py"],
+      "expectedSymbols": ["TimeoutError", "handle_timeout"],
+      "matchCriteria": {
+        "fileContains": ["timeout", "exception"]
+      }
+    },
+    {
+      "queryId": "multihop-5",
+      "query": "How are model configurations merged?",
+      "expectedFile": "config/litellm_config.py",
+      "expectedSymbol": "merge_configs",
+      "expectedLine": 45,
+      "matchCriteria": {
+        "functionNameContains": ["config", "merge"]
+      }
+    },
+    {
+      "queryId": "architectural-1",
+      "query": "What is the overall provider architecture?",
+      "expectedFiles": ["providers/", "litellm.py"],
+      "matchCriteria": {
+        "kind": "file"
+      }
+    },
+    {
+      "queryId": "architectural-2",
+      "query": "Show all supported providers",
+      "expectedFiles": ["providers/openai.py", "providers/anthropic.py", "providers/azure.py"],
+      "matchCriteria": {
+        "fileContains": ["provider"]
+      }
+    },
+    {
+      "queryId": "architectural-3",
+      "query": "What is the middleware chain?",
+      "expectedFiles": ["middleware/logging.py", "middleware/auth.py"],
+      "expectedSymbols": ["LoggingMiddleware", "AuthMiddleware"],
+      "matchCriteria": {
+        "fileContains": ["middleware"]
+      }
+    },
+    {
+      "queryId": "failure-1",
+      "query": "Find the error handling for invalid API keys",
+      "expectedFile": "exceptions.py",
+      "expectedSymbol": "AuthenticationError",
+      "expectedLine": 20,
+      "matchCriteria": {
+        "functionNameContains": ["auth", "error"]
+      }
+    },
+    {
+      "queryId": "failure-2",
+      "query": "Where is the streaming response parsed?",
+      "expectedFile": "utils/stream.py",
+      "expectedSymbol": "parse_streaming_response",
+      "expectedLine": 35,
+      "matchCriteria": {
+        "functionNameContains": ["stream", "parse"]
+      }
+    }
+  ]
+}

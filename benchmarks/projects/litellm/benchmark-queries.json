@@ -1,0 +1,171 @@
+{
+  "project": "litellm",
+  "description": "LiteLLM - unified interface for multiple LLM providers. Complex async, retry logic, provider dispatch",
+  "version": "1.0.0",
+  "queries": [
+    {
+      "id": "simple-1",
+      "query": "Where is the completion function defined?",
+      "type": "simple",
+      "category": "navigation",
+      "expected": {
+        "kind": "function",
+        "fileContains": "completion",
+        "requiresLine": true
+      }
+    },
+    {
+      "id": "simple-2",
+      "query": "Find the chat completion implementation",
+      "type": "simple",
+      "category": "navigation",
+      "expected": {
+        "kind": "function",
+        "fileContains": "chat",
+        "requiresLine": true
+      }
+    },
+    {
+      "id": "simple-3",
+      "query": "Show me the rate limiting logic",
+      "type": "simple",
+      "category": "navigation",
+      "expected": {
+        "kind": "function",
+        "fileContains": "rate_limit",
+        "requiresLine": true
+      }
+    },
+    {
+      "id": "simple-4",
+      "query": "Where is the OpenAI provider configured?",
+      "type": "simple",
+      "category": "navigation",
+      "expected": {
+        "kind": "function",
+        "fileContains": "openai",
+        "requiresLine": true
+      }
+    },
+    {
+      "id": "simple-5",
+      "query": "Find the retry mechanism",
+      "type": "simple",
+      "category": "navigation",
+      "expected": {
+        "kind": "function",
+        "fileContains": "retry",
+        "requiresLine": true
+      }
+    },
+    {
+      "id": "multihop-1",
+      "query": "How does the provider dispatch work?",
+      "type": "multi-hop",
+      "category": "reasoning",
+      "expected": {
+        "kind": "function",
+        "fileContains": "provider",
+        "requiresLine": true
+      }
+    },
+    {
+      "id": "multihop-2",
+      "query": "Trace the path from completion() to actual API call",
+      "type": "multi-hop",
+      "category": "reasoning",
+      "expected": {
+        "kind": "function",
+        "fileContains": "completion",
+        "requiresLine": true
+      }
+    },
+    {
+      "id": "multihop-3",
+      "query": "How does the retry logic handle failures?",
+      "type": "multi-hop",
+      "category": "reasoning",
+      "expected": {
+        "kind": "function",
+        "fileContains": "retry",
+        "requiresLine": true
+      }
+    },
+    {
+      "id": "multihop-4",
+      "query": "What happens when a provider times out?",
+      "type": "multi-hop",
+      "category": "reasoning",
+      "expected": {
+        "kind": "function",
+        "fileContains": "timeout",
+        "requiresLine": true
+      }
+    },
+    {
+      "id": "multihop-5",
+      "query": "How are model configurations merged?",
+      "type": "multi-hop",
+      "category": "reasoning",
+      "expected": {
+        "kind": "function",
+        "fileContains": "config",
+        "requiresLine": true
+      }
+    },
+    {
+      "id": "architectural-1",
+      "query": "What is the overall provider architecture?",
+      "type": "architectural",
+      "category": "structure",
+      "expected": {
+        "kind": "file",
+        "requiresLine": false
+      }
+    },
+    {
+      "id": "architectural-2",
+      "query": "Show all supported providers",
+      "type": "architectural",
+      "category": "structure",
+      "expected": {
+        "kind": "function",
+        "fileContains": "provider",
+        "requiresLine": false
+      }
+    },
+    {
+      "id": "architectural-3",
+      "query": "What is the middleware chain?",
+      "type": "architectural",
+      "category": "structure",
+      "expected": {
+        "kind": "function",
+        "fileContains": "middleware",
+        "requiresLine": true
+      }
+    },
+    {
+      "id": "failure-1",
+      "query": "Find the error handling for invalid API keys",
+      "type": "failure-case",
+      "category": "debug",
+      "expected": {
+        "kind": "function",
+        "fileContains": "auth",
+        "requiresLine": true
+      }
+    },
+    {
+      "id": "failure-2",
+      "query": "Where is the streaming response parsed?",
+      "type": "failure-case",
+      "category": "debug",
+      "expected": {
+        "kind": "function",
+        "fileContains": "stream",
+        "requiresLine": true
+      }
+    }
+  ]
+}

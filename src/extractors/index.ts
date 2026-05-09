@@ -4,24 +4,63 @@ import { extractExpressRoutes, isExpressApp, hasExpressRoutes } from "./framewor
 import { extractFastifyRoutes, isFastifyApp, hasFastifyRoutes } from "./framework/fastify.js"
 import { extractNextJsRoutes, isNextJsProject, isNextJsApiRoute } from "./framework/nextjs.js"
 import { extractReactComponents, isReactProject, hasReactComponents } from "./framework/react.js"
+import { PythonAdapter } from "./ast/python.js"
 import { createSignal } from "../types/signal.js"
 import { signalKey } from "../utils/signal-key.js"
 import type { Evidence } from "../types/evidence.js"
+import type { CallEdge, ImportEdge } from "../storage/sql-store.js"
 
 export type Signal = ReturnType<typeof createSignal>
 
 export interface ExtractOptions {
-  forceLanguage?: "typescript" | "javascript"
+  forceLanguage?: "typescript" | "javascript" | "python"
   includeFrameworkRoutes?: boolean
   includeComponents?: boolean
 }
 
 export interface ExtractResult {
   signals: Signal[]
+  calls: CallEdge[]
+  imports: ImportEdge[]
   errors: string[]
-  language: "typescript" | "javascript"
+  language: "typescript" | "javascript" | "python" | "unknown"
   isReactComponent: boolean
   detectedFrameworks: string[]
+}
+
+let pythonAdapter: PythonAdapter | null = null
+
+function getPythonAdapter(): PythonAdapter {
+  if (!pythonAdapter) {
+    pythonAdapter = new PythonAdapter("python")
+  }
+  return pythonAdapter
+}
+
+export async function extractAsync(content: string, file: string, evidence: Evidence, options: ExtractOptions = {}): Promise<ExtractResult> {
+  const ext = file.slice(file.lastIndexOf(".")).toLowerCase()
+
+  if (ext === ".py") {
+    const adapter = getPythonAdapter()
+    await adapter.init()
+    const result = await adapter.extract(content, file)
+
+    return {
+      signals: result.signals.map(s => ({
+        ...s,
+        evidenceId: evidence.id,
+        createdAt: s.createdAt || Date.now(),
+      })),
+      calls: result.calls,
+      imports: result.imports,
+      errors: result.errors,
+      language: "python",
+      isReactComponent: false,
+      detectedFrameworks: result.signals.filter(s => s.framework).map(s => s.framework!),
+    }
+  }
+
+  return extract(content, file, evidence, options) as ExtractResult
 }
 
 export function extract(content: string, file: string, evidence: Evidence, options: ExtractOptions = {}): ExtractResult {
@@ -46,16 +85,28 @@ export function extract(content: string, file: string, evidence: Evidence, optio
   }
 
   if (includeFrameworkRoutes) {
-    if (isExpressApp(content) || hasExpressRoutes(content)) {
+    const isExpress = isExpressApp(content)
+    const isFastify = isFastifyApp(content)
+
+    if (isExpress) {
       detectedFrameworks.push("express")
       const routes = extractExpressRoutes(content, file, evidence.id)
       signals.push(...routes)
-    }
-
-    if (isFastifyApp(content) || hasFastifyRoutes(content)) {
+    } else if (isFastify) {
       detectedFrameworks.push("fastify")
       const routes = extractFastifyRoutes(content, file, evidence.id)
       signals.push(...routes)
+    } else {
+      if (hasExpressRoutes(content)) {
+        detectedFrameworks.push("express")
+        const routes = extractExpressRoutes(content, file, evidence.id)
+        signals.push(...routes)
+      }
+      if (hasFastifyRoutes(content)) {
+        detectedFrameworks.push("fastify")
+        const routes = extractFastifyRoutes(content, file, evidence.id)
+        signals.push(...routes)
+      }
     }
 
     if (isNextJsProject(content, file) || isNextJsApiRoute(file)) {
@@ -75,6 +126,8 @@ export function extract(content: string, file: string, evidence: Evidence, optio
 
   return {
     signals: deduplicated,
+    calls: [],
+    imports: [],
     errors,
     language,
     isReactComponent,
@@ -154,3 +207,4 @@ export { isFastifyApp, hasFastifyRoutes } from "./framework/fastify.js"
 export { isNextJsProject, isNextJsApiRoute } from "./framework/nextjs.js"
 export { isReactProject, hasReactComponents } from "./framework/react.js"
 export { detectLanguage }
+export { PythonAdapter }

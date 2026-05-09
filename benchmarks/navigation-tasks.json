@@ -1,0 +1,182 @@
+{
+  "version": "v0.7-navigation-benchmark",
+  "description": "Navigation Outcome Benchmark - measures navigation efficiency without LLM",
+  "tasks": [
+    {
+      "taskId": "litellm-nav-001",
+      "query": "Where is the completion function defined?",
+      "goal": "Find completion function definition",
+      "expectedFiles": ["index.ts"],
+      "expectedSymbols": ["completion"],
+      "successCriteria": {
+        "maxFileOpens": 3,
+        "maxWrongFiles": 1
+      }
+    },
+    {
+      "taskId": "litellm-nav-002",
+      "query": "Find the retry mechanism implementation",
+      "goal": "Find retry logic",
+      "expectedFiles": ["index.ts"],
+      "expectedSymbols": ["completionWithRetry", "retry"],
+      "successCriteria": {
+        "maxFileOpens": 3,
+        "maxWrongFiles": 1
+      }
+    },
+    {
+      "taskId": "litellm-nav-003",
+      "query": "Where is the OpenAI provider configured?",
+      "goal": "Find OpenAI provider setup",
+      "expectedFiles": ["providers/openai.ts"],
+      "expectedSymbols": ["OpenAIProvider", "createOpenAIProvider"],
+      "successCriteria": {
+        "maxFileOpens": 3,
+        "maxWrongFiles": 1
+      }
+    },
+    {
+      "taskId": "litellm-nav-004",
+      "query": "Find where model configurations are merged",
+      "goal": "Find config merge logic",
+      "expectedFiles": ["providers/config.ts"],
+      "expectedSymbols": ["mergeConfigs"],
+      "successCriteria": {
+        "maxFileOpens": 4,
+        "maxWrongFiles": 2
+      }
+    },
+    {
+      "taskId": "litellm-nav-005",
+      "query": "Show me the middleware chain implementation",
+      "goal": "Find middleware chain",
+      "expectedFiles": ["middleware/index.ts"],
+      "expectedSymbols": ["MiddlewareChain"],
+      "successCriteria": {
+        "maxFileOpens": 3,
+        "maxWrongFiles": 1
+      }
+    },
+    {
+      "taskId": "litellm-nav-006",
+      "query": "Find rate limiting logic",
+      "goal": "Find rate limit implementation",
+      "expectedFiles": ["middleware/index.ts"],
+      "expectedSymbols": ["createRateLimitMiddleware", "rate-limit"],
+      "successCriteria": {
+        "maxFileOpens": 4,
+        "maxWrongFiles": 2
+      }
+    },
+    {
+      "taskId": "flask-nav-001",
+      "query": "Find user registration handler",
+      "goal": "Find registration endpoint",
+      "expectedFiles": ["src/routes/users.ts"],
+      "expectedSymbols": ["register", "createUser"],
+      "successCriteria": {
+        "maxFileOpens": 3,
+        "maxWrongFiles": 1
+      }
+    },
+    {
+      "taskId": "flask-nav-002",
+      "query": "Find login handler",
+      "goal": "Find login endpoint",
+      "expectedFiles": ["src/routes/auth.ts"],
+      "expectedSymbols": ["login", "authenticate"],
+      "successCriteria": {
+        "maxFileOpens": 3,
+        "maxWrongFiles": 1
+      }
+    },
+    {
+      "taskId": "flask-nav-003",
+      "query": "Where is health check endpoint defined?",
+      "goal": "Find health check",
+      "expectedFiles": ["src/routes/health.ts"],
+      "expectedSymbols": ["health", "check"],
+      "successCriteria": {
+        "maxFileOpens": 3,
+        "maxWrongFiles": 1
+      }
+    },
+    {
+      "taskId": "flask-nav-004",
+      "query": "Find authentication middleware",
+      "goal": "Find auth middleware",
+      "expectedFiles": ["src/middleware/auth.ts"],
+      "expectedSymbols": ["authMiddleware"],
+      "successCriteria": {
+        "maxFileOpens": 3,
+        "maxWrongFiles": 1
+      }
+    },
+    {
+      "taskId": "fastapi-nav-001",
+      "query": "Find user registration endpoint",
+      "goal": "Find registration route",
+      "expectedFiles": ["src/routes/users.py"],
+      "expectedSymbols": ["register", "UserCreate"],
+      "successCriteria": {
+        "maxFileOpens": 3,
+        "maxWrongFiles": 1
+      }
+    },
+    {
+      "taskId": "fastapi-nav-002",
+      "query": "Find login handler",
+      "goal": "Find login route",
+      "expectedFiles": ["src/routes/auth.py"],
+      "expectedSymbols": ["login", "Token"],
+      "successCriteria": {
+        "maxFileOpens": 3,
+        "maxWrongFiles": 1
+      }
+    },
+    {
+      "taskId": "fastapi-nav-003",
+      "query": "Find database connection setup",
+      "goal": "Find database config",
+      "expectedFiles": ["src/config/database.py"],
+      "expectedSymbols": ["engine", "Base", "get_db"],
+      "successCriteria": {
+        "maxFileOpens": 4,
+        "maxWrongFiles": 2
+      }
+    },
+    {
+      "taskId": "drf-nav-001",
+      "query": "Find UserViewSet definition",
+      "goal": "Find user viewset",
+      "expectedFiles": ["views/user.py"],
+      "expectedSymbols": ["UserViewSet"],
+      "successCriteria": {
+        "maxFileOpens": 3,
+        "maxWrongFiles": 1
+      }
+    },
+    {
+      "taskId": "drf-nav-002",
+      "query": "Find serializer definitions",
+      "goal": "Find serializers",
+      "expectedFiles": ["serializers/user.py", "serializers/post.py"],
+      "expectedSymbols": ["UserSerializer", "PostSerializer"],
+      "successCriteria": {
+        "maxFileOpens": 4,
+        "maxWrongFiles": 2
+      }
+    },
+    {
+      "taskId": "drf-nav-003",
+      "query": "Find pagination configuration",
+      "goal": "Find pagination",
+      "expectedFiles": ["views/post.py"],
+      "expectedSymbols": ["PostPagination"],
+      "successCriteria": {
+        "maxFileOpens": 3,
+        "maxWrongFiles": 1
+      }
+    }
+  ]
+}

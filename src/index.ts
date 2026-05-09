@@ -447,13 +447,15 @@ async function handleToolCall(name: string, args: Record<string, unknown>) {
           signalsUpdated += result.signalsUpdated
           signalsRemoved += removed
           rawSourceChars += content.length
-          signalChars += result.totalChars
         } catch (error) {
           errors.push(`Failed to process ${file}: ${error}`)
         }
       }
 
       filesSkipped = scanResult.filesUnchanged.length
+
+      const finalStats = await signalStore.getStats(rawSourceChars)
+      signalChars = finalStats.signalChars
 
       const storageReductionPercent = rawSourceChars > 0
         ? Math.round(((rawSourceChars - signalChars) / rawSourceChars) * 100)

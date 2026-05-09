@@ -1,0 +1,116 @@
+{
+  "benchmark_version": "v0.8-agent-navigation",
+  "description": "Agent navigation benchmark using OpenCode + MiniMax M2.7 against real LiteLLM repo (Python)",
+  "tasks": [
+    {
+      "taskId": "litellm-001",
+      "question": "Find the main completion entry point for LiteLLM",
+      "expectedFiles": ["litellm/main.py"],
+      "expectedSymbols": ["def completion"],
+      "successCriteria": {
+        "minExpectedFilesFound": 1,
+        "minExpectedSymbolsFound": 1,
+        "maxWrongFiles": 5
+      }
+    },
+    {
+      "taskId": "litellm-002",
+      "question": "Trace where model configuration is merged before being sent to provider",
+      "expectedFiles": ["litellm/utils.py"],
+      "expectedSymbols": ["get_model_info", "_get_model_info_helper"],
+      "successCriteria": {
+        "minExpectedFilesFound": 1,
+        "minExpectedSymbolsFound": 1,
+        "maxWrongFiles": 5
+      }
+    },
+    {
+      "taskId": "litellm-003",
+      "question": "Find where provider routing happens based on model name",
+      "expectedFiles": ["litellm/router.py"],
+      "expectedSymbols": ["def completion", "get_model_info"],
+      "successCriteria": {
+        "minExpectedFilesFound": 1,
+        "minExpectedSymbolsFound": 1,
+        "maxWrongFiles": 5
+      }
+    },
+    {
+      "taskId": "litellm-004",
+      "question": "Find where fallback model selection logic is implemented",
+      "expectedFiles": ["litellm/router.py"],
+      "expectedSymbols": ["should_retry_this_error", "_should_retry"],
+      "successCriteria": {
+        "minExpectedFilesFound": 1,
+        "minExpectedSymbolsFound": 1,
+        "maxWrongFiles": 5
+      }
+    },
+    {
+      "taskId": "litellm-005",
+      "question": "Find where retry logic with exponential backoff is implemented",
+      "expectedFiles": ["litellm/main.py"],
+      "expectedSymbols": ["completion_with_retries", "exponential_backoff_retry"],
+      "successCriteria": {
+        "minExpectedFilesFound": 1,
+        "minExpectedSymbolsFound": 1,
+        "maxWrongFiles": 5
+      }
+    },
+    {
+      "taskId": "litellm-006",
+      "question": "Find where streaming responses from providers are handled",
+      "expectedFiles": ["litellm/router.py"],
+      "expectedSymbols": ["completion_stream", "_completion_streaming_iterator"],
+      "successCriteria": {
+        "minExpectedFilesFound": 1,
+        "minExpectedSymbolsFound": 1,
+        "maxWrongFiles": 5
+      }
+    },
+    {
+      "taskId": "litellm-007",
+      "question": "Find where the OpenAI provider call is constructed",
+      "expectedFiles": ["litellm/llms/openai/openai.py"],
+      "expectedSymbols": ["async def acompletion"],
+      "successCriteria": {
+        "minExpectedFilesFound": 1,
+        "minExpectedSymbolsFound": 1,
+        "maxWrongFiles": 5
+      }
+    },
+    {
+      "taskId": "litellm-008",
+      "question": "Find where authentication/API key configuration is resolved",
+      "expectedFiles": ["litellm/utils.py"],
+      "expectedSymbols": ["def get_api_key"],
+      "successCriteria": {
+        "minExpectedFilesFound": 1,
+        "minExpectedSymbolsFound": 1,
+        "maxWrongFiles": 5
+      }
+    },
+    {
+      "taskId": "litellm-009",
+      "question": "Find where model aliases are mapped to provider-specific model names",
+      "expectedFiles": ["litellm/router.py"],
+      "expectedSymbols": ["model_alias_map", "get_model_list_from_model_alias"],
+      "successCriteria": {
+        "minExpectedFilesFound": 1,
+        "minExpectedSymbolsFound": 1,
+        "maxWrongFiles": 5
+      }
+    },
+    {
+      "taskId": "litellm-010",
+      "question": "Find where proxy server middleware is defined",
+      "expectedFiles": ["litellm/proxy/proxy_server.py"],
+      "expectedSymbols": ["add_middleware", "CORSMiddleware"],
+      "successCriteria": {
+        "minExpectedFilesFound": 1,
+        "minExpectedSymbolsFound": 1,
+        "maxWrongFiles": 5
+      }
+    }
+  ]
+}

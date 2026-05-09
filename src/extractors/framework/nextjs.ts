@@ -19,8 +19,9 @@ export function extractNextJsRoutes(content: string, file: string, evidenceId: s
   const fileName = path.basename(file)
   const dirName = path.dirname(file)
 
-  const isAppRouter = dirName.includes("app") && (fileName === "route.ts" || fileName === "route.js")
-  const isPagesRouter = dirName.includes("pages") && fileName.startsWith("api/")
+  const dirParts = dirName.replace(/\\/g, "/").split("/")
+  const isAppRouter = dirParts.includes("app") && (fileName === "route.ts" || fileName === "route.js")
+  const isPagesRouter = dirParts.includes("pages") && fileName.startsWith("api/")
 
   if (isAppRouter) {
     const routes = extractAppRouterRoutes(content, file, evidenceId, dirName)
@@ -146,14 +147,13 @@ function extractPagesRouterRoutes(content: string, file: string, evidenceId: str
 }
 
 function extractApiPath(dirName: string): string {
-  const appIndex = dirName.indexOf("app")
-  if (appIndex === -1) return "/api"
+  const parts = dirName.replace(/\\/g, "/").split("/")
+  const appIdx = parts.indexOf("app")
+  if (appIdx === -1) return "/api"
 
-  const afterApp = dirName.substring(appIndex + 4)
-  const parts = afterApp.split(path.sep).filter(p => p && p !== "api")
-
+  const routeParts = parts.slice(appIdx + 1).filter(p => p && p !== "api")
   let apiPath = "/api"
-  for (const part of parts) {
+  for (const part of routeParts) {
     if (part === "[...slug]" || part === "[...catchAll]") {
       apiPath += "/*"
       break
@@ -168,13 +168,14 @@ function extractApiPath(dirName: string): string {
 }
 
 function extractPagesApiPath(dirName: string, file: string): string {
-  const pagesIndex = dirName.indexOf("pages")
-  if (pagesIndex === -1) return "/api"
+  const parts = dirName.replace(/\\/g, "/").split("/")
+  const pagesIdx = parts.indexOf("pages")
+  if (pagesIdx === -1) return "/api"
 
-  const afterPages = dirName.substring(pagesIndex + 7)
+  const afterParts = parts.slice(pagesIdx + 1)
   const fileName = path.basename(file, path.extname(file))
 
-  let apiPath = afterPages.replace(/\\/g, "/")
+  let apiPath = "/" + afterParts.join("/")
 
   if (fileName !== "index") {
     if (apiPath.endsWith("/index")) {
@@ -269,6 +270,7 @@ export function isNextJsProject(content: string, file: string): boolean {
 export function isNextJsApiRoute(file: string): boolean {
   const fileName = path.basename(file)
   const dirName = path.dirname(file)
-  return (dirName.includes("app") && (fileName === "route.ts" || fileName === "route.js")) ||
-    (dirName.includes("pages") && dirName.includes("api"))
+  const dirParts = dirName.replace(/\\/g, "/").split("/")
+  return (dirParts.includes("app") && (fileName === "route.ts" || fileName === "route.js")) ||
+    (dirParts.includes("pages") && dirParts.includes("api"))
 }

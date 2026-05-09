@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
+
+# Signal store (auto-generated local cache)
 .crush-memory/
+
 # Build output
 dist/
 
@@ -9,6 +12,7 @@ dist/
 
 # Environment
 .env
+.env.example
 
 # OS files
 .DS_Store
@@ -20,15 +24,34 @@ Thumbs.db
 # Test coverage
 coverage/
 
-# Internal design work (publish later if needed)
-# Keep these in repo but not committed
+# ---------------------------------------------------------------
+# Benchmark artifacts — downloaded repos and generated output
+# ---------------------------------------------------------------
+
+# Downloaded git repositories for benchmarking (huge: ~527 MB)
+benchmarks/repos/
+
+# Generated benchmark results, logs, and reports
+benchmarks/results/
+benchmarks/logs/
+benchmarks/reports/
+benchmarks/agent/*/results/
+
+# ---------------------------------------------------------------
+# Root-level generated/compiled scripts
+# ---------------------------------------------------------------
+run-*.js
+scripts/python-worker.py
+
+# ---------------------------------------------------------------
+# Internal design documents (not for public distribution)
+# ---------------------------------------------------------------
 agents.md
 feedback.md
 PRD.md
-benchmarks/results/report-*.md
-benchmarks/README.md
 EVAL_BENCHMARK_IMPLEMENTATION.md
 EVALBENCHMARK.md
 DEVIATIONS.md
 IMPLEMENTATION_PLAN.md
 docs/phase2-*.md
+docs/feedback.txt

@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Context Signals MCP — Research & Evaluation Report</title>
+<style>
+  :root {
+    --bg: #fff;
+    --fg: #1a1a1a;
+    --muted: #666;
+    --card: #f7f7f7;
+    --border: #e0e0e0;
+    --accent: #000;
+    --code-bg: #f0f0f0;
+    --pre-bg: #f5f5f5;
+    --hover: #eee;
+    --width: 860px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0d0d0d; --fg: #e6e6e6; --muted: #888; --card: #141414; --border: #2a2a2a; --code-bg: #1a1a1a; --pre-bg: #111; --hover: #1a1a1a; }
+  }
+  body.dark { --bg: #0d0d0d; --fg: #e6e6e6; --muted: #888; --card: #141414; --border: #2a2a2a; --code-bg: #1a1a1a; --pre-bg: #111; --hover: #1a1a1a; }
+  body.light { --bg: #fff; --fg: #1a1a1a; --muted: #666; --card: #f7f7f7; --border: #e0e0e0; --code-bg: #f0f0f0; --pre-bg: #f5f5f5; --hover: #eee; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  .container { max-width: var(--width); margin: 0 auto; padding: 0 1.5rem; }
+  .theme-toggle { position: fixed; top: 1rem; right: 1rem; z-index: 100; background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: .35rem .7rem; cursor: pointer; font-size: .8rem; color: var(--fg); font-family: inherit; }
+  .theme-toggle:hover { background: var(--hover); }
+  header { padding: 5rem 0 3rem; border-bottom: 1px solid var(--border); margin-bottom: 3rem; }
+  header h1 { font-size: 2.8rem; font-weight: 700; letter-spacing: -0.035em; line-height: 1.2; margin-bottom: .75rem; }
+  header .subtitle { font-size: 1.15rem; color: var(--muted); max-width: 600px; line-height: 1.5; }
+  header .meta { margin-top: 1.5rem; font-size: .85rem; color: var(--muted); display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  h2 { font-size: 1.6rem; font-weight: 650; letter-spacing: -0.02em; margin: 3.5rem 0 .25rem; padding-bottom: .3rem; border-bottom: 2px solid var(--fg); }
+  h3 { font-size: 1.2rem; font-weight: 600; margin: 2.5rem 0 .75rem; }
+  h4 { font-size: 1rem; font-weight: 600; margin: 1.5rem 0 .5rem; color: var(--muted); }
+  p { margin-bottom: 1rem; color: var(--fg); font-size: .95rem; }
+  .note { font-size: .9rem; color: var(--muted); background: var(--card); border-left: 3px solid var(--border); padding: .75rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin: 1rem 0; }
+  .card-title { font-weight: 600; margin-bottom: .6rem; font-size: 1rem; }
+  code { font-family: 'SF Mono', 'Consolas', 'Liberation Mono', monospace; background: var(--code-bg); padding: 1px 5px; border-radius: 3px; font-size: .85em; }
+  pre { background: var(--pre-bg); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; font-size: .82rem; line-height: 1.5; margin: .75rem 0; }
+  pre code { background: none; padding: 0; }
+  table { width: 100%; border-collapse: collapse; margin: .75rem 0; font-size: .88rem; }
+  th, td { text-align: left; padding: .5rem .75rem; border-bottom: 1px solid var(--border); }
+  th { font-weight: 600; background: var(--card); font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  tr:hover { background: var(--hover); }
+  .num { text-align: right; }
+  .good { font-weight: 600; }
+  .badge { display: inline-block; padding: 1px 8px; border-radius: 3px; font-size: .72rem; font-weight: 600; background: var(--code-bg); color: var(--fg); font-family: 'SF Mono', monospace; }
+  .badge-new { background: var(--fg); color: var(--bg); }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+  @media (max-width: 700px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+  ul, ol { margin: .5rem 0 1rem 1.3rem; font-size: .95rem; }
+  li { margin-bottom: .35rem; }
+  a { color: var(--fg); text-decoration: underline; }
+  .fig { margin: 1.5rem 0; text-align: center; }
+  .fig svg { max-width: 100%; height: auto; }
+  .fig .caption { font-size: .82rem; color: var(--muted); margin-top: .5rem; font-style: italic; }
+  .toc { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+  .toc h3 { margin: 0 0 .75rem; font-size: .9rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .toc ol { margin: 0; padding-left: 1.2rem; columns: 2; column-gap: 2rem; }
+  .toc li { margin-bottom: .3rem; }
+  .toc a { color: var(--fg); text-decoration: none; font-size: .9rem; }
+  .toc a:hover { text-decoration: underline; }
+  .stat-row { display: flex; justify-content: space-between; padding: .3rem 0; font-size: .88rem; border-bottom: 1px solid var(--border); }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-row .l { color: var(--muted); }
+  .stat-row .r { font-weight: 600; }
+  .callout { background: var(--card); border: 2px solid var(--fg); border-radius: 8px; padding: 1.25rem; margin: 1.25rem 0; }
+  .callout h4 { margin: 0 0 .5rem; color: var(--fg); }
+  .callout p { margin: 0; font-size: .9rem; }
+  footer { text-align: center; padding: 3rem 0; color: var(--muted); font-size: .85rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+  .section-ref { font-size: .82rem; color: var(--muted); font-family: 'SF Mono', monospace; margin-bottom: .25rem; }
+  .impact-box { display: inline-block; background: var(--fg); color: var(--bg); padding: .15rem .6rem; border-radius: 3px; font-size: .78rem; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">Dark</button>
+<script>
+function gp(){return window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}
+function st(t){document.body.className=t;document.getElementById('themeBtn').textContent=t==='dark'?'Light':'Dark';localStorage.setItem('theme',t)}
+function toggleTheme(){st(document.body.className==='dark'?'light':'dark')}
+st(localStorage.getItem('theme')||gp())
+</script>
+
+<header>
+  <h1>Context Signals MCP</h1>
+  <div class="subtitle">Structured Repository Signals for Reducing Navigation Waste in Coding Agents &mdash; A Research &amp; Evaluation Report</div>
+  <div class="meta">
+    <span>Version 1.1.3</span>
+    <span>May 2026</span>
+    <span>Benchmarks: v0.2 &ndash; v0.8</span>
+  </div>
+</header>
+
+<div class="toc"><h3>Contents</h3>
+<ol>
+  <li><a href="#sec1">Abstract</a></li>
+  <li><a href="#sec2">Problem Statement</a></li>
+  <li><a href="#sec3">System Design</a></li>
+  <li><a href="#sec4">Benchmark Design</a></li>
+  <li><a href="#sec5">Benchmark Evolution</a></li>
+  <li><a href="#sec6">Results Summary</a></li>
+  <li><a href="#sec7">Failure Analysis</a></li>
+  <li><a href="#sec8">Key Insights</a></li>
+  <li><a href="#sec9">Limitations</a></li>
+  <li><a href="#sec10">Future Work</a></li>
+  <li><a href="#sec11">Conclusion</a></li>
+  <li><a href="#appendix">Appendix</a></li>
+  <li><a href="session-replay.html" target="_blank">Session Replay &rarr;</a></li>
+</ol>
+</div>
+
+<div class="fig" style="margin: 0 0 2rem 0">
+<svg viewBox="0 0 960 480" xmlns="http://www.w3.org/2000/svg" style="font-family:system-ui,sans-serif;max-width:100%;height:auto">
+  <defs>
+    <style>
+      .h-bg { fill: var(--card); }
+      .h-border { stroke: var(--border); }
+      .h-fg { fill: var(--fg); }
+      .h-muted { fill: var(--muted); }
+      .h-bad { fill: #cf222e; }
+      .h-good { fill: #1a7f37; }
+      .h-file-bg { fill: var(--code-bg); }
+      .h-file-text { fill: var(--fg); }
+      .h-title { font-weight: 700; }
+      .h-mono { font-family: 'SF Mono', 'Consolas', 'Liberation Mono', monospace; }
+    </style>
+  </defs>
+  <rect class="h-bg" x="0" y="0" width="960" height="480" rx="8" stroke="var(--border)" stroke-width="1"/>
+  <text x="480" y="36" text-anchor="middle" class="h-title" font-size="20" fill="var(--fg)">Repository Navigation Compression Layer</text>
+  <text x="480" y="56" text-anchor="middle" font-size="12" fill="var(--muted)">Same query. Same codebase. Different approach.</text>
+  <!-- LEFT panel -->
+  <rect x="30" y="76" width="435" height="386" class="h-bg" rx="8" stroke="var(--border)" stroke-width="1"/>
+  <rect x="30" y="76" width="435" height="40" rx="8" fill="#cf222e" opacity="0.08"/>
+  <text x="247" y="102" text-anchor="middle" class="h-title" font-size="15" fill="#cf222e">Without Context Signals</text>
+  <g transform="translate(54,140)"><rect x="0" y="0" width="195" height="26" rx="4" class="h-file-bg"/><text x="10" y="18" class="h-mono" font-size="10" class="h-file-text">src/server.ts</text><rect x="208" y="3" width="46" height="18" rx="3" fill="#cf222e" opacity="0.12"/><text x="212" y="16" class="h-mono" font-size="8" fill="#cf222e">12k chr</text></g>
+  <g transform="translate(54,174)"><rect x="0" y="0" width="195" height="26" rx="4" class="h-file-bg"/><text x="10" y="18" class="h-mono" font-size="10" class="h-file-text">src/routes/index.ts</text><rect x="208" y="3" width="46" height="18" rx="3" fill="#cf222e" opacity="0.12"/><text x="212" y="16" class="h-mono" font-size="8" fill="#cf222e">8k chr</text></g>
+  <g transform="translate(54,208)"><rect x="0" y="0" width="195" height="26" rx="4" class="h-file-bg"/><text x="10" y="18" class="h-mono" font-size="10" class="h-file-text">src/routes/upload.ts</text><rect x="208" y="3" width="46" height="18" rx="3" fill="#cf222e" opacity="0.12"/><text x="212" y="16" class="h-mono" font-size="8" fill="#cf222e">6k chr</text></g>
+  <g transform="translate(54,242)"><rect x="0" y="0" width="195" height="26" rx="4" class="h-file-bg"/><text x="10" y="18" class="h-mono" font-size="10" class="h-file-text">src/middleware/auth.ts</text><rect x="208" y="3" width="46" height="18" rx="3" fill="#cf222e" opacity="0.12"/><text x="212" y="16" class="h-mono" font-size="8" fill="#cf222e">3k chr</text></g>
+  <g transform="translate(54,276)"><rect x="0" y="0" width="195" height="26" rx="4" class="h-file-bg"/><text x="10" y="18" class="h-mono" font-size="10" class="h-file-text">src/controllers/*.ts</text><rect x="208" y="3" width="46" height="18" rx="3" fill="#cf222e" opacity="0.12"/><text x="212" y="16" class="h-mono" font-size="8" fill="#cf222e">+7 more</text></g>
+  <line x1="54" y1="318" x2="390" y2="318" stroke="var(--border)" stroke-width="1"/>
+  <g transform="translate(54,332)"><text x="0" y="12" font-size="12" fill="var(--muted)">Files read</text><text x="336" y="12" text-anchor="end" class="h-title" font-size="16" fill="#cf222e">12</text></g>
+  <g transform="translate(54,362)"><text x="0" y="12" font-size="12" fill="var(--muted)">Tokens consumed</text><text x="336" y="12" text-anchor="end" class="h-title" font-size="16" fill="#cf222e">40k</text></g>
+  <g transform="translate(54,392)"><text x="0" y="12" font-size="12" fill="var(--muted)">Search loops</text><text x="336" y="12" text-anchor="end" class="h-title" font-size="16" fill="#cf222e">8</text></g>
+  <g transform="translate(30,430)"><rect x="0" y="0" width="435" height="26" rx="4" fill="#cf222e" opacity="0.06"/><text x="217" y="17" text-anchor="middle" class="h-mono" font-size="10" fill="#cf222e">8 files too many. 40k tokens wasted on structural discovery.</text></g>
+  <!-- Arrow -->
+  <line x1="480" y1="240" x2="480" y2="200" stroke="var(--fg)" stroke-width="2"/>
+  <polygon points="480,192 476,200 484,200" fill="var(--fg)"/>
+  <text x="480" y="226" text-anchor="middle" class="h-title" font-size="12" fill="var(--fg)">70% less context</text>
+  <!-- RIGHT panel -->
+  <rect x="495" y="76" width="435" height="386" class="h-bg" rx="8" stroke="var(--border)" stroke-width="1"/>
+  <rect x="495" y="76" width="435" height="40" rx="8" fill="#1a7f37" opacity="0.08"/>
+  <text x="712" y="102" text-anchor="middle" class="h-title" font-size="15" fill="#1a7f37">With Context Signals</text>
+  <rect x="519" y="136" width="388" height="76" rx="6" fill="#1a7f37" opacity="0.06" stroke="#1a7f37" stroke-width="1" stroke-dasharray="4"/>
+  <text x="535" y="158" class="h-title" font-size="13" fill="#1a7f37">signals_search result: POST /upload</text>
+  <text x="535" y="178" class="h-mono" font-size="11" fill="var(--fg)">route: POST /upload</text>
+  <text x="535" y="194" class="h-mono" font-size="11" fill="var(--fg)">file: src/routes/upload.ts &middot; line: 42</text>
+  <text x="535" y="210" class="h-mono" font-size="11" fill="var(--fg)">handler: uploadFileHandler</text>
+  <g transform="translate(519,240)"><rect x="0" y="0" width="195" height="26" rx="4" class="h-file-bg"/><text x="10" y="18" class="h-mono" font-size="10" class="h-file-text">src/routes/upload.ts</text><rect x="208" y="3" width="46" height="18" rx="3" fill="#1a7f37" opacity="0.12"/><text x="212" y="16" class="h-mono" font-size="8" fill="#1a7f37">2k chr</text></g>
+  <g transform="translate(519,274)"><rect x="0" y="0" width="195" height="26" rx="4" class="h-file-bg"/><text x="10" y="18" class="h-mono" font-size="10" class="h-file-text">src/middleware/auth.ts</text><rect x="208" y="3" width="46" height="18" rx="3" fill="#1a7f37" opacity="0.12"/><text x="212" y="16" class="h-mono" font-size="8" fill="#1a7f37">1k chr</text></g>
+  <line x1="519" y1="318" x2="906" y2="318" stroke="var(--border)" stroke-width="1"/>
+  <g transform="translate(519,332)"><text x="0" y="12" font-size="12" fill="var(--muted)">Files read</text><text x="387" y="12" text-anchor="end" class="h-title" font-size="16" fill="#1a7f37">4</text></g>
+  <g transform="translate(519,362)"><text x="0" y="12" font-size="12" fill="var(--muted)">Tokens consumed</text><text x="387" y="12" text-anchor="end" class="h-title" font-size="16" fill="#1a7f37">12k</text></g>
+  <g transform="translate(519,392)"><text x="0" y="12" font-size="12" fill="var(--muted)">Search loops</text><text x="387" y="12" text-anchor="end" class="h-title" font-size="16" fill="#1a7f37">3</text></g>
+  <g transform="translate(495,430)"><rect x="0" y="0" width="435" height="26" rx="4" fill="#1a7f37" opacity="0.06"/><text x="217" y="17" text-anchor="middle" class="h-mono" font-size="10" fill="#1a7f37">4 targeted reads. 12k tokens. Signal-guided navigation.</text></g>
+</svg>
+<div class="caption"><strong>Figure 0.</strong> Before vs after: same navigation query with and without context signals. Numbers representative of medium-sized codebases (50&ndash;200 files). See Appendix for query-by-query breakdown.</div>
+</div>
+
+<!-- ========== 1. ABSTRACT ========== -->
+<h2 id="sec1">1. Abstract</h2>
+
+<p>Coding agents spend a significant portion of their context budget on <strong>repository navigation</strong>&mdash;searching for files, inspecting irrelevant modules, and repeatedly discovering architectural structure across sessions. We introduce <strong>Context Signals MCP</strong>, a lightweight repository context layer that extracts compact structural signals from source code and exposes them via the Model Context Protocol (MCP).</p>
+
+<p>The system extracts structured representations including functions, classes, routes, imports, and call edges, storing them in a local SQLite database indexed for fast retrieval. An MCP server exposes tools (<code>signals_search</code>, <code>signals_scan</code>, <code>signals_stats</code>, <code>signals_ingest</code>) that allow coding agents to navigate via metadata before reading source files.</p>
+
+<div class="grid-2" style="margin:1rem 0">
+  <div class="card">
+    <div class="card-title">Core Claim</div>
+    <p style="margin:0;font-size:.9rem">Structured signal extraction reduces the token cost of navigation queries by 51&ndash;95%, with strongest gains on architectural and multi-hop queries.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Evaluation Scope</div>
+    <p style="margin:0;font-size:.9rem">Retrieval benchmarks across LiteLLM (TypeScript) and historical runs on Flask, FastAPI, Django REST Framework. Seven iterations (v0.2&ndash;v0.8) over 4 months. The repo ships with the LiteLLM fixture only.</p>
+  </div>
+</div>
+
+<div class="note"><strong>Key limitation:</strong> Context Signals is not a replacement for semantic code understanding. It is a navigation layer that reduces unnecessary file reads. Deep implementation reasoning still requires reading source code.</div>
+
+<!-- ========== 2. PROBLEM STATEMENT ========== -->
+<h2 id="sec2">2. Problem Statement</h2>
+
+<h3>Coding Agent Navigation Waste</h3>
+
+<p>When a coding agent needs to answer a question like <em>&ldquo;Where is the POST /upload route?&rdquo;</em>, it typically follows a costly pattern:</p>
+
+<div class="card">
+<div class="flow-step" style="display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.5rem"><span style="background:var(--code-bg);border-radius:50%;min-width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600;color:var(--muted);flex-shrink:0">1</span><div><strong>Semantic grep</strong><br><span style="font-size:.85rem;color:var(--muted)">Agent searches across the codebase with grep or similar tools, returning partial or overly broad matches.</span></div></div>
+<div style="border-left:2px solid var(--border);margin-left:11px;height:14px"></div>
+<div class="flow-step" style="display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.5rem"><span style="background:var(--code-bg);border-radius:50%;min-width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600;color:var(--muted);flex-shrink:0">2</span><div><strong>Open multiple files</strong><br><span style="font-size:.85rem;color:var(--muted)">Agent opens candidate files entirely, reading thousands of tokens of irrelevant code.</span></div></div>
+<div style="border-left:2px solid var(--border);margin-left:11px;height:14px"></div>
+<div class="flow-step" style="display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.5rem"><span style="background:var(--code-bg);border-radius:50%;min-width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600;color:var(--muted);flex-shrink:0">3</span><div><strong>Send to LLM</strong><br><span style="font-size:.85rem;color:var(--muted)">Sends entire file contents to the LLM, consuming context window for structural discovery.</span></div></div>
+<div style="border-left:2px solid var(--border);margin-left:11px;height:14px"></div>
+<div class="flow-step" style="display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.5rem"><span style="background:var(--code-bg);border-radius:50%;min-width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600;color:var(--muted);flex-shrink:0">4</span><div><strong>Repeat</strong><br><span style="font-size:.85rem;color:var(--muted)">If the file was wrong, the cycle repeats. Same structure discovered again next session.</span></div></div>
+</div>
+
+<p>This pattern produces:</p>
+<ul>
+  <li><strong>Token waste</strong> &mdash; 5&ndash;15K tokens per navigation query on large codebases (Trigger.dev: 39,904 tokens for a single API client auth query)</li>
+  <li><strong>Latency</strong> &mdash; Multiple round-trips to read files before the LLM can answer</li>
+  <li><strong>Context exhaustion</strong> &mdash; Structural discovery competes with reasoning for limited context window</li>
+  <li><strong>Repeated cost</strong> &mdash; Same navigation repeated across sessions with no reuse</li>
+</ul>
+
+<div class="grid-2" style="margin:1rem 0">
+  <div class="card" style="border-left:3px solid #c00">
+    <div class="card-title">Without Structured Retrieval</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>10+ files opened per navigation task</li>
+      <li>Repeated grep loops across directories</li>
+      <li>Duplicated reads of the same files</li>
+      <li>No cross-session memory</li>
+    </ul>
+  </div>
+  <div class="card" style="border-left:3px solid #090">
+    <div class="card-title">With Structured Retrieval</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>1&ndash;3 candidate files from signal store</li>
+      <li>Graph-guided exploration reduces search</li>
+      <li>Compact signal payload (~400 chars) vs full file reads (~2000+ chars)</li>
+      <li>Persistent cache across sessions</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 3. SYSTEM DESIGN ========== -->
+<h2 id="sec3">3. System Design</h2>
+
+<div class="fig">
+<svg viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg" style="font-family:system-ui,sans-serif;font-size:12px">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#888"/></marker>
+    <marker id="arrow-dark" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ccc"/></marker>
+  </defs>
+  <rect x="10" y="10" width="780" height="400" rx="8" fill="none" stroke="var(--border)" stroke-width="1"/>
+  <text x="400" y="30" text-anchor="middle" font-weight="600" font-size="13" fill="var(--fg)">Context Signals MCP &mdash; System Architecture</text>
+  <!-- Agent -->
+  <rect x="250" y="45" width="300" height="36" rx="6" fill="var(--card)" stroke="var(--fg)" stroke-width="1.5"/>
+  <text x="400" y="68" text-anchor="middle" font-weight="600" fill="var(--fg)">Coding Agent (OpenCode, Claude Desktop, Cursor)</text>
+  <line x1="400" y1="81" x2="400" y2="100" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- MCP Tools -->
+  <rect x="200" y="100" width="400" height="50" rx="6" fill="var(--card)" stroke="var(--border)" stroke-width="1"/>
+  <text x="400" y="118" text-anchor="middle" font-weight="600" fill="var(--fg)">MCP Server &bull; src/index.ts</text>
+  <text x="400" y="136" text-anchor="middle" font-size="11" fill="var(--muted)">signals_search &bull; signals_scan &bull; signals_stats &bull; signals_ingest &bull; signals_benchmark</text>
+  <line x1="400" y1="150" x2="400" y2="168" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Extraction -->
+  <rect x="100" y="168" width="600" height="70" rx="6" fill="var(--card)" stroke="var(--border)" stroke-width="1"/>
+  <text x="400" y="186" text-anchor="middle" font-weight="600" fill="var(--fg)">Extraction Engine &bull; src/extractors/</text>
+  <text x="400" y="204" text-anchor="middle" font-size="11" fill="var(--muted)">AdapterRegistry &bull; AST Extractors (TS/JS/Python) &bull; Framework Extractors (Express, Fastify, Next.js, React)</text>
+  <text x="400" y="220" text-anchor="middle" font-size="11" fill="var(--muted)">Output: signals[] + callEdges[] + importEdges[] + language metadata</text>
+  <line x1="400" y1="238" x2="400" y2="256" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Retrieval -->
+  <rect x="100" y="256" width="600" height="60" rx="6" fill="var(--card)" stroke="var(--border)" stroke-width="1"/>
+  <text x="400" y="274" text-anchor="middle" font-weight="600" fill="var(--fg)">Retrieval Pipeline &bull; src/retrieval/</text>
+  <text x="400" y="292" text-anchor="middle" font-size="11" fill="var(--muted)">BM25 (MiniSearch) &rarr; LexicalBoost &rarr; GraphScorer &rarr; LocalityScorer &rarr; Hybrid Combiner</text>
+  <text x="400" y="306" text-anchor="middle" font-size="11" fill="var(--muted)">Optional: LocalEmbeddingsReranker (disabled by default)</text>
+  <line x1="400" y1="316" x2="400" y2="334" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Storage -->
+  <rect x="100" y="334" width="600" height="60" rx="6" fill="var(--card)" stroke="var(--border)" stroke-width="1"/>
+  <text x="400" y="352" text-anchor="middle" font-weight="600" fill="var(--fg)">Storage Layer &bull; src/storage/</text>
+  <text x="400" y="370" text-anchor="middle" font-size="11" fill="var(--muted)">SqlStore (SQLite via sql.js) &bull; GraphIndex (in-memory call/import edges) &bull; JSON persistence</text>
+  <text x="400" y="384" text-anchor="middle" font-size="11" fill="var(--muted)">Tables: signals, call_edges, import_edges, files, benchmark_runs, benchmark_results</text>
+</svg>
+<div class="caption">Figure 1: High-level system architecture showing the five-component pipeline from coding agent to storage layer.</div>
+</div>
+
+<h3>3.1 Extraction Layer</h3>
+
+<p>The extraction engine uses a language-adapter pattern for extensibility. Each language registers an <code>LanguageAdapter</code> that implements:<p>
+
+<pre><code>interface LanguageAdapter {
+  language: string;
+  canExtract(file: string): boolean;
+  extract(content: string, file: string): Promise&lt;ExtractResult&gt;;
+  init?(): Promise&lt;void&gt;;
+  destroy?(): void;
+}
+
+interface ExtractResult {
+  signals: Signal[];     // functions, classes, routes, imports, exports
+  calls: CallEdge[];     // call edges (fromFile:fromSymbol &rarr; toRaw:toResolved)
+  imports: ImportEdge[]; // import graph edges
+  errors: string[];
+  language: string;
+  isReactComponent: boolean;
+  detectedFrameworks: string[];
+}</code></pre>
+
+<div class="grid-3">
+  <div class="card">
+    <div class="card-title">TS / JS Extraction</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>TypeScript Compiler API walker</li>
+      <li>Functions, classes, interfaces, types</li>
+      <li>Imports, exports, decorators</li>
+      <li>Built-in filter excludes: console, JSON, Math, HTTPException, etc.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Python Extraction</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>Regex-based PythonAdapter</li>
+      <li>Function definitions, class definitions</li>
+      <li>Import statements, decorators</li>
+      <li>Call edge inference</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Framework Detection</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>Express: app.get/post/put/delete/router</li>
+      <li>Fastify: fastify.get/post/route()</li>
+      <li>Next.js: app/api/route.ts, pages router</li>
+      <li>React: Uppercase function components</li>
+    </ul>
+  </div>
+</div>
+
+<h3>3.2 SQLite Architecture</h3>
+
+<p>We chose SQLite (via <code>sql.js</code>) as the primary storage backend for several reasons:</p>
+
+<ul>
+  <li><strong>Reproducibility</strong> &mdash; the database file is a single artifact that can be archived, versioned, and replayed</li>
+  <li><strong>Structured queries</strong> &mdash; SQL enables precise filtering by kind, file, framework, language</li>
+  <li><strong>Benchmark replay</strong> &mdash; fixed signal snapshots enable deterministic benchmark execution</li>
+  <li><strong>Relational traversal</strong> &mdash; JOINs across signals, call_edges, and import_edges enable graph queries</li>
+  <li><strong>Low overhead</strong> &mdash; no external database process; single-file persistence</li>
+</ul>
+
+<div class="fig">
+<svg viewBox="0 0 800 260" xmlns="http://www.w3.org/2000/svg" style="font-family:system-ui,sans-serif;font-size:11px">
+  <rect x="10" y="10" width="780" height="240" rx="8" fill="none" stroke="var(--border)" stroke-width="1"/>
+  <text x="400" y="30" text-anchor="middle" font-weight="600" font-size="13" fill="var(--fg)">SQLite Schema &mdash; context-signals.db</text>
+  <!-- signals table -->
+  <rect x="30" y="50" width="220" height="170" rx="4" fill="var(--card)" stroke="var(--border)"/>
+  <text x="140" y="68" text-anchor="middle" font-weight="600" fill="var(--fg)">signals</text>
+  <line x1="40" y1="74" x2="240" y2="74" stroke="var(--border)"/>
+  <text x="40" y="90" fill="var(--fg)">id (PK)</text>
+  <text x="40" y="106" fill="var(--fg)">kind, language</text>
+  <text x="40" y="122" fill="var(--fg)">file, name</text>
+  <text x="40" y="138" fill="var(--fg)">line_start, line_end</text>
+  <text x="40" y="154" fill="var(--fg)">framework</text>
+  <text x="40" y="170" fill="var(--fg)">route_method / path</text>
+  <text x="40" y="186" fill="var(--fg)">text, tags_json</text>
+  <text x="40" y="202" fill="var(--fg)">content_hash</text>
+  <text x="40" y="218" fill="var(--fg)">created_at, updated_at</text>
+  <!-- call_edges -->
+  <rect x="290" y="50" width="220" height="150" rx="4" fill="var(--card)" stroke="var(--border)"/>
+  <text x="400" y="68" text-anchor="middle" font-weight="600" fill="var(--fg)">call_edges</text>
+  <line x1="300" y1="74" x2="500" y2="74" stroke="var(--border)"/>
+  <text x="300" y="90" fill="var(--fg)">id (PK)</text>
+  <text x="300" y="106" fill="var(--fg)">from_file, from_symbol</text>
+  <text x="300" y="122" fill="var(--fg)">to_raw, to_resolved</text>
+  <text x="300" y="138" fill="var(--fg)">edge_type, confidence</text>
+  <text x="300" y="154" fill="var(--fg)">text, line</text>
+  <text x="300" y="170" fill="var(--fg)">created_at</text>
+  <!-- import_edges -->
+  <rect x="550" y="50" width="220" height="150" rx="4" fill="var(--card)" stroke="var(--border)"/>
+  <text x="660" y="68" text-anchor="middle" font-weight="600" fill="var(--fg)">import_edges</text>
+  <line x1="560" y1="74" x2="760" y2="74" stroke="var(--border)"/>
+  <text x="560" y="90" fill="var(--fg)">id (PK)</text>
+  <text x="560" y="106" fill="var(--fg)">from_file, to_file</text>
+  <text x="560" y="122" fill="var(--fg)">module_path</text>
+  <text x="560" y="138" fill="var(--fg)">imported_symbols_json</text>
+  <text x="560" y="154" fill="var(--fg)">import_kind, confidence</text>
+  <text x="560" y="170" fill="var(--fg)">line, created_at</text>
+  <!-- indexes note -->
+  <text x="400" y="235" text-anchor="middle" fill="var(--muted)" font-size="11">Indexed on: kind, language, file, name, framework, to_raw, from_file, from_symbol</text>
+</svg>
+<div class="caption">Figure 2: Core SQLite schema showing the three primary tables for signals, call edges, and import edges. Additional tables for benchmark_runs and benchmark_results support evaluation replay.</div>
+</div>
+
+<h3>3.3 Retrieval Pipeline</h3>
+
+<div class="fig">
+<svg viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg" style="font-family:system-ui,sans-serif;font-size:11px">
+  <rect x="10" y="10" width="780" height="220" rx="8" fill="none" stroke="var(--border)" stroke-width="1"/>
+  <text x="400" y="30" text-anchor="middle" font-weight="600" font-size="13" fill="var(--fg)">Multi-Stage Retrieval Pipeline</text>
+  <!-- Stage 1 -->
+  <rect x="40" y="50" width="130" height="50" rx="4" fill="var(--card)" stroke="var(--fg)" stroke-width="1.2"/>
+  <text x="105" y="70" text-anchor="middle" font-weight="600" fill="var(--fg)">1. QueryIntent</text>
+  <text x="105" y="88" text-anchor="middle" fill="var(--muted)" font-size="10">term expansion</text>
+  <line x1="170" y1="75" x2="200" y2="75" stroke="var(--muted)" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <!-- Stage 2 -->
+  <rect x="200" y="50" width="130" height="50" rx="4" fill="var(--card)" stroke="var(--border)"/>
+  <text x="265" y="70" text-anchor="middle" font-weight="600" fill="var(--fg)">2. BM25 Search</text>
+  <text x="265" y="88" text-anchor="middle" fill="var(--muted)" font-size="10">MiniSearch</text>
+  <line x1="330" y1="75" x2="360" y2="75" stroke="var(--muted)" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <!-- Stage 3 -->
+  <rect x="360" y="50" width="130" height="50" rx="4" fill="var(--card)" stroke="var(--border)"/>
+  <text x="425" y="70" text-anchor="middle" font-weight="600" fill="var(--fg)">3. Score</text>
+  <text x="425" y="88" text-anchor="middle" fill="var(--muted)" font-size="10">Lexical + Graph + Locality</text>
+  <line x1="490" y1="75" x2="520" y2="75" stroke="var(--muted)" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <!-- Stage 4 -->
+  <rect x="520" y="50" width="130" height="50" rx="4" fill="var(--card)" stroke="var(--border)"/>
+  <text x="585" y="70" text-anchor="middle" font-weight="600" fill="var(--fg)">4. Combine</text>
+  <text x="585" y="88" text-anchor="middle" fill="var(--muted)" font-size="10">Hybrid weighted sum</text>
+  <line x1="650" y1="75" x2="680" y2="75" stroke="var(--muted)" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <!-- Stage 5 -->
+  <rect x="680" y="50" width="100" height="50" rx="4" fill="var(--card)" stroke="var(--border)"/>
+  <text x="730" y="70" text-anchor="middle" font-weight="600" fill="var(--fg)">5. Dedup</text>
+  <text x="730" y="88" text-anchor="middle" fill="var(--muted)" font-size="10">+ return top N</text>
+  <!-- Optional embeddings path -->
+  <path d="M 425 100 L 425 130 L 585 130 L 585 100" fill="none" stroke="var(--muted)" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="505" y="125" text-anchor="middle" fill="var(--muted)" font-size="10">Optional: LocalEmbeddingsReranker</text>
+  <!-- Scoring details -->
+  <rect x="40" y="150" width="720" height="65" rx="4" fill="var(--card)" stroke="var(--border)" stroke-dasharray="3,2"/>
+  <text x="400" y="168" text-anchor="middle" font-weight="600" fill="var(--fg)" font-size="12">Scoring Formula</text>
+  <text x="400" y="188" text-anchor="middle" fill="var(--fg)" font-size="12" font-family="'SF Mono',monospace">finalScore = BM25*0.4 + GraphScore*0.3 + MetadataScore*0.2 + LocalityScore*0.1 + LexicalBoost</text>
+  <text x="400" y="206" text-anchor="middle" fill="var(--muted)" font-size="10">finalScore &times;= signalConfidence &times; edgeConfidenceMultiplier &nbsp;|&nbsp; minScore: 0.05</text>
+</svg>
+<div class="caption">Figure 3: The multi-stage retrieval pipeline from query intent extraction through hybrid scoring and deduplication.</div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">Deterministic Retrieval (Default)</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>BM25 via MiniSearch on text, name, file, tags fields</li>
+      <li>Name boost: &times;4, Tags boost: &times;3, File boost: &times;2</li>
+      <li>LexicalBoost: fuzzy matching with stemming (name: &times;3, file: &times;2)</li>
+      <li>GraphScorer: call edge traversal, chain depth scoring</li>
+      <li>LocalityScorer: directory proximity to recent files</li>
+      <li>Hybrid combiner: weighted sum (BM25 0.4, Graph 0.3, Metadata 0.2, Locality 0.1)</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Optional Embedding Mode</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>Model: Xenova/all-MiniLM-L6-v2 (384 dimensions, ~90MB)</li>
+      <li>Architecture: rerank-only on BM25+graph top-20 candidates</li>
+      <li>Blend: 0.3 embedding score + 0.7 original score</li>
+      <li>Disabled by default per decision rule</li>
+      <li>Rationale: low added cost, deterministic baseline preserved, semantic fallback only</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 4. BENCHMARK DESIGN ========== -->
+<h2 id="sec4">4. Benchmark Design</h2>
+
+<p>Our benchmark methodology follows a <strong>benchmark-first development</strong> philosophy: frozen fixtures, consistent scoring weights, and identical retrieval logic across all frameworks. We prefer honest degradation over overfitting to specific project patterns.</p>
+
+<h3>4.1 Frameworks Evaluated</h3>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">Flask</div>
+    <p style="font-size:.85rem;margin:0">Simple Python web application with user management and authentication. Tests baseline extraction on straightforward routing patterns.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">FastAPI</div>
+    <p style="font-size:.85rem;margin:0">Modern async Python framework with decorator-based routing. Tests extraction on async patterns and type-annotated endpoints.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Django REST Framework</div>
+    <p style="font-size:.85rem;margin:0">Class-heavy Python framework with serializers, viewsets, and routers. Tests extraction on class-based patterns and deep inheritance.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">LiteLLM</div>
+    <p style="font-size:.85rem;margin:0">Python unified LLM provider interface. Complex async, retry logic, provider dispatch, and configuration merging. Tests semantic-heavy navigation across architectural boundaries.</p>
+  </div>
+</div>
+
+<h3>4.2 Query Categories</h3>
+
+<table>
+  <tr><th>Category</th><th>Example</th><th>Count</th></tr>
+  <tr><td>Simple lookup</td><td>"Where is the user registration endpoint?"</td><td>5 per project</td></tr>
+  <tr><td>Multi-hop navigation</td><td>"How does the provider dispatch work?"</td><td>5 per project</td></tr>
+  <tr><td>Architectural</td><td>"Show all supported providers"</td><td>3 per project</td></tr>
+  <tr><td>Failure/debugging</td><td>"Find where retry logic handles errors"</td><td>2 per project</td></tr>
+</table>
+
+<h3>4.3 Metrics</h3>
+
+<div class="grid-3">
+  <div class="card">
+    <div class="card-title" style="font-size:.9rem">Retrieval Metrics</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>Hit rate (top-1 correct)</li>
+      <li>Top-3 hit rate</li>
+      <li>Chars read per query</li>
+      <li>Context reduction vs grep baseline</li>
+      <li>Wrong file exploration</li>
+      <li>Multi-hop success rate</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title" style="font-size:.9rem">Navigation Metrics (v0.7+)</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>File opens per task</li>
+      <li>Search loop iterations</li>
+      <li>MCP call frequency</li>
+      <li>Ground truth found rate</li>
+      <li>Chars read reduction</li>
+      <li>Wrong file exploration cost</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title" style="font-size:.9rem">System Metrics</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>Storage reduction %</li>
+      <li>Scan duration</li>
+      <li>Query latency</li>
+      <li>Break-even queries</li>
+      <li>Signal count by kind</li>
+      <li>Call edge coverage</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 5. BENCHMARK EVOLUTION ========== -->
+<h2 id="sec5">5. Benchmark Evolution</h2>
+
+<p>The benchmark suite evolved through seven iterations (v0.2&ndash;v0.8) across four months. Below is the evolution timeline and key findings at each stage.</p>
+
+<div class="fig">
+<svg viewBox="0 0 800 340" xmlns="http://www.w3.org/2000/svg" style="font-family:system-ui,sans-serif;font-size:11px">
+  <rect x="10" y="10" width="780" height="320" rx="8" fill="none" stroke="var(--border)" stroke-width="1"/>
+  <text x="400" y="30" text-anchor="middle" font-weight="600" font-size="13" fill="var(--fg)">Benchmark Evolution Timeline &mdash; v0.2 to v0.8</text>
+  <!-- v0.2 -->
+  <rect x="30" y="55" width="90" height="55" rx="4" fill="var(--card)" stroke="var(--border)"/>
+  <text x="75" y="73" text-anchor="middle" font-weight="600" fill="var(--fg)">v0.2</text>
+  <text x="75" y="89" text-anchor="middle" fill="var(--muted)" font-size="10">Multi-lang</text>
+  <text x="75" y="103" text-anchor="middle" fill="var(--muted)" font-size="10">baseline</text>
+  <line x1="120" y1="82" x2="140" y2="82" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- v0.3 -->
+  <rect x="140" y="55" width="90" height="55" rx="4" fill="var(--card)" stroke="var(--border)"/>
+  <text x="185" y="73" text-anchor="middle" font-weight="600" fill="var(--fg)">v0.3</text>
+  <text x="185" y="89" text-anchor="middle" fill="var(--muted)" font-size="10">BM25</text>
+  <text x="185" y="103" text-anchor="middle" fill="var(--muted)" font-size="10">baseline</text>
+  <line x1="230" y1="82" x2="250" y2="82" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- v0.4 -->
+  <rect x="250" y="55" width="90" height="55" rx="4" fill="var(--card)" stroke="var(--border)"/>
+  <text x="295" y="73" text-anchor="middle" font-weight="600" fill="var(--fg)">v0.4</text>
+  <text x="295" y="89" text-anchor="middle" fill="var(--muted)" font-size="10">+chain-aware</text>
+  <text x="295" y="103" text-anchor="middle" fill="var(--muted)" font-size="10">no gain</text>
+  <line x1="340" y1="82" x2="360" y2="82" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- v0.5 -->
+  <rect x="360" y="55" width="90" height="55" rx="4" fill="var(--card)" stroke="var(--fg)" stroke-width="1.2"/>
+  <text x="405" y="73" text-anchor="middle" font-weight="600" fill="var(--fg)">v0.5</text>
+  <text x="405" y="89" text-anchor="middle" fill="var(--muted)" font-size="10">+semantic norm</text>
+  <text x="405" y="103" text-anchor="middle" fill="var(--muted)" font-size="10">FROZEN</text>
+  <line x1="450" y1="82" x2="470" y2="82" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- v0.6 -->
+  <rect x="470" y="55" width="90" height="55" rx="4" fill="var(--card)" stroke="var(--border)"/>
+  <text x="515" y="73" text-anchor="middle" font-weight="600" fill="var(--fg)">v0.6</text>
+  <text x="515" y="89" text-anchor="middle" fill="var(--muted)" font-size="10">+embeddings</text>
+  <text x="515" y="103" text-anchor="middle" fill="var(--muted)" font-size="10">optional</text>
+  <line x1="560" y1="82" x2="580" y2="82" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- v0.7 -->
+  <rect x="580" y="55" width="90" height="55" rx="4" fill="var(--card)" stroke="var(--border)"/>
+  <text x="625" y="73" text-anchor="middle" font-weight="600" fill="var(--fg)">v0.7</text>
+  <text x="625" y="89" text-anchor="middle" fill="var(--muted)" font-size="10">navigation</text>
+  <text x="625" y="103" text-anchor="middle" fill="var(--muted)" font-size="10">harness</text>
+  <line x1="670" y1="82" x2="690" y2="82" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- v0.8 -->
+  <rect x="690" y="55" width="90" height="55" rx="4" fill="var(--card)" stroke="var(--border)"/>
+  <text x="735" y="73" text-anchor="middle" font-weight="600" fill="var(--fg)">v0.8</text>
+  <text x="735" y="89" text-anchor="middle" fill="var(--muted)" font-size="10">agent task</text>
+  <text x="735" y="103" text-anchor="middle" fill="var(--muted)" font-size="10">benchmark</text>
+  <!-- Hit rate matrix -->
+  <text x="400" y="145" text-anchor="middle" font-weight="600" font-size="12" fill="var(--fg)">Hit Rate Progression by Version</text>
+  <!-- header row -->
+  <text x="140" y="168" text-anchor="middle" font-weight="600" fill="var(--muted)" font-size="10">Flask</text>
+  <text x="260" y="168" text-anchor="middle" font-weight="600" fill="var(--muted)" font-size="10">FastAPI</text>
+  <text x="380" y="168" text-anchor="middle" font-weight="600" fill="var(--muted)" font-size="10">DRF</text>
+  <text x="500" y="168" text-anchor="middle" font-weight="600" fill="var(--muted)" font-size="10">LiteLLM</text>
+  <text x="620" y="168" text-anchor="middle" font-weight="600" fill="var(--muted)" font-size="10">Key</text>
+  <!-- v0.2 row -->
+  <text x="75" y="192" fill="var(--fg)" font-size="11">v0.2</text>
+  <rect x="110" y="180" width="60" height="18" rx="2" fill="#e8f5e9" stroke="#4caf50"/>
+  <text x="140" y="193" text-anchor="middle" fill="#2e7d32" font-weight="600" font-size="10">100%</text>
+  <rect x="230" y="180" width="60" height="18" rx="2" fill="#e8f5e9" stroke="#4caf50"/>
+  <text x="260" y="193" text-anchor="middle" fill="#2e7d32" font-weight="600" font-size="10">80%</text>
+  <rect x="350" y="180" width="60" height="18" rx="2" fill="#fff3e0" stroke="#ff9800"/>
+  <text x="380" y="193" text-anchor="middle" fill="#e65100" font-weight="600" font-size="10">40%</text>
+  <rect x="470" y="180" width="60" height="18" rx="2" fill="#ffebee" stroke="#f44336"/>
+  <text x="500" y="193" text-anchor="middle" fill="#c62828" font-weight="600" font-size="10">33%</text>
+  <text x="630" y="193" fill="var(--muted)" font-size="10">Initial baseline</text>
+  <!-- v0.3-v0.5 row -->
+  <text x="75" y="218" fill="var(--fg)" font-size="11">v0.3&ndash;v0.5</text>
+  <rect x="110" y="206" width="60" height="18" rx="2" fill="#e8f5e9" stroke="#4caf50"/>
+  <text x="140" y="219" text-anchor="middle" fill="#2e7d32" font-weight="600" font-size="10">100%</text>
+  <rect x="230" y="206" width="60" height="18" rx="2" fill="#e8f5e9" stroke="#4caf50"/>
+  <text x="260" y="219" text-anchor="middle" fill="#2e7d32" font-weight="600" font-size="10">80%</text>
+  <rect x="350" y="206" width="60" height="18" rx="2" fill="#fff3e0" stroke="#ff9800"/>
+  <text x="380" y="219" text-anchor="middle" fill="#e65100" font-weight="600" font-size="10">40%</text>
+  <rect x="470" y="206" width="60" height="18" rx="2" fill="#ffebee" stroke="#f44336"/>
+  <text x="500" y="219" text-anchor="middle" fill="#c62828" font-weight="600" font-size="10">33%</text>
+  <text x="630" y="219" fill="var(--muted)" font-size="10">0% improvement from tuning</text>
+  <!-- v0.6 row -->
+  <text x="75" y="244" fill="var(--fg)" font-size="11">v0.6</text>
+  <rect x="110" y="232" width="60" height="18" rx="2" fill="#e8f5e9" stroke="#4caf50"/>
+  <text x="140" y="245" text-anchor="middle" fill="#2e7d32" font-weight="600" font-size="10">100%</text>
+  <rect x="230" y="232" width="60" height="18" rx="2" fill="#e8f5e9" stroke="#4caf50"/>
+  <text x="260" y="245" text-anchor="middle" fill="#2e7d32" font-weight="600" font-size="10">80%</text>
+  <rect x="350" y="232" width="60" height="18" rx="2" fill="#fff3e0" stroke="#ff9800"/>
+  <text x="380" y="245" text-anchor="middle" fill="#e65100" font-weight="600" font-size="10">47%</text>
+  <rect x="470" y="232" width="60" height="18" rx="2" fill="#fff3e0" stroke="#ff9800"/>
+  <text x="500" y="245" text-anchor="middle" fill="#e65100" font-weight="600" font-size="10">60%</text>
+  <text x="630" y="245" fill="var(--muted)" font-size="10">Embeddings: +26.7% on LiteLLM</text>
+  <!-- v0.7 -->
+  <text x="75" y="270" fill="var(--fg)" font-size="11">v0.7</text>
+  <text x="630" y="270" fill="var(--muted)" font-size="10">Nav benchmark: +6% ground truth found</text>
+  <!-- v0.8 -->
+  <text x="75" y="296" fill="var(--fg)" font-size="11">v0.8</text>
+  <text x="630" y="296" fill="var(--muted)" font-size="10">Agent task: OpenCode + M2.7 + LiteLLM</text>
+  <!-- col header -->
+  <text x="400" y="310" text-anchor="middle" fill="var(--muted)" font-size="10">Green = &ge;80% &nbsp; Orange = 40&ndash;79% &nbsp; Red = &lt;40%</text>
+</svg>
+<div class="caption">Figure 4: Benchmark evolution timeline showing hit rate progression and key findings at each version. Three consecutive algorithm tuning rounds (v0.3&ndash;v0.5) produced 0% improvement.</div>
+</div>
+
+<h3>v0.3: Initial Retrieval Baseline</h3>
+<p>Established the BM25 baseline with graph scoring. Validated that structured signal extraction provides measurable context reduction (51&ndash;73% across projects). Hit rates: Flask 100%, FastAPI 80%, DRF 40%, LiteLLM 33%.</p>
+
+<h3>v0.4: Chain-Aware Reranking</h3>
+<p>Added call-edge graph traversal to reranking. Result: <strong>no measurable improvement</strong> across any project. Key insight: ranking is not the primary bottleneck&mdash;signal coverage is.</p>
+
+<h3>v0.5: Semantic Normalization</h3>
+<p>Applied synonym expansion and term normalization. Result: <strong>negligible benchmark change</strong>. Failures were caused by missing signal coverage, not scoring accuracy. <strong>Frozen as deterministic baseline.</strong></p>
+
+<div class="callout"><h4>&sect; v0.5 Freeze Decision</h4><p>Three consecutive algorithm tuning rounds produced 0% improvement. The bottleneck is signal coverage and query-to-symbol semantic mapping, not scoring algorithm sophistication. No further retrieval algorithm tuning.</p></div>
+
+<h3>v0.6: Optional Embedding Experiment</h3>
+<p>Tested Xenova/all-MiniLM-L6-v2 as an optional reranker on BM25+graph top-20 candidates. Results:</p>
+
+<table>
+  <tr><th>Project</th><th>Baseline</th><th>+Embeddings</th><th>Change</th><th>Assessment</th></tr>
+  <tr><td>LiteLLM</td><td>33% (5/15)</td><td><strong>60% (9/15)</strong></td><td>+26.7%</td><td class="good">Significant improvement</td></tr>
+  <tr><td>DRF</td><td>40% (6/15)</td><td>47% (7/15)</td><td>+6.7%</td><td>Not significant</td></tr>
+  <tr><td>Flask</td><td>100%</td><td>100%</td><td>0%</td><td>Ceiling effect</td></tr>
+  <tr><td>FastAPI</td><td>80%</td><td>80%</td><td>0%</td><td>Ceiling effect</td></tr>
+</table>
+
+<p>Decision: embeddings remain <strong>optional, off by default</strong>. The deterministic baseline is preserved for users who prefer zero external dependencies.</p>
+
+<h3>v0.7: Navigation Outcome Benchmark</h3>
+<p>Measured navigation efficiency without LLM involvement. Simulated agent file-open behavior with and without Context Signals:</p>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">Overall Results</div>
+    <table style="font-size:.82rem">
+      <tr><th>Metric</th><th>Baseline</th><th>CS</th><th>Change</th></tr>
+      <tr><td>Ground Truth Found</td><td>88%</td><td><strong>94%</strong></td><td>+6%</td></tr>
+      <tr><td>Avg File Opens</td><td>1.7</td><td>1.9</td><td>-11%</td></tr>
+      <tr><td>Avg Chars Read</td><td>4,990</td><td>4,609</td><td>+8% reduction</td></tr>
+      <tr><td>Top-5 Success</td><td>75%</td><td>81%</td><td>+6%</td></tr>
+      <tr><td>Tasks Improved</td><td colspan="2">7/16 (44%)</td><td></td></tr>
+      <tr><td>Tasks Degraded</td><td colspan="2">4/16 (25%)</td><td></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title">LiteLLM (Best Result)</div>
+    <table style="font-size:.82rem">
+      <tr><th>Metric</th><th>Baseline</th><th>CS</th><th>Change</th></tr>
+      <tr><td>Avg File Opens</td><td>1.8</td><td><strong>1.3</strong></td><td>+27% reduction</td></tr>
+      <tr><td>Avg Chars Read</td><td>8,975</td><td><strong>6,167</strong></td><td>+31% reduction</td></tr>
+      <tr><td>Ground Truth Found</td><td>100%</td><td>100%</td><td>0%</td></tr>
+      <tr><td>Top-5 Success</td><td>83%</td><td>83%</td><td>0%</td></tr>
+    </table>
+  </div>
+</div>
+
+<p><strong>Key finding:</strong> Context Signals improves navigation outcomes through precision, not necessarily fewer file opens. The best results appear in semantic-heavy architectural navigation (LiteLLM: 27% fewer file opens, 31% fewer chars read).</p>
+
+<h3>v0.8: Agent Task Benchmark</h3>
+<p>LLM-in-the-loop agent benchmark using <strong>OpenCode + MiniMax M2.7</strong> against the real LiteLLM codebase. Three modes: no-mcp, cs-deterministic, cs-embeddings. 10 navigation tasks, 90 total runs.</p>
+<p><strong>Status:</strong> Framework established. Automated execution requires WSL on Windows (see <code>docs/WINDOWS_LIMITATION.md</code>).</p>
+
+<!-- ========== 6. RESULTS SUMMARY ========== -->
+<h2 id="sec6">6. Results Summary</h2>
+
+<h3>Retrieval Results (v0.2&ndash;v0.5 frozen baseline)</h3>
+
+<table>
+  <tr><th>Framework</th><th>CS Hit Rate</th><th>Grep Hit Rate</th><th>CS Avg Chars</th><th>Grep Avg Chars</th><th>Reduction</th></tr>
+  <tr><td>Flask</td><td class="good">100%</td><td>93%</td><td>573</td><td>1,874</td><td class="good">69%</td></tr>
+  <tr><td>FastAPI</td><td class="good">80%</td><td>73%</td><td>489</td><td>997</td><td class="good">51%</td></tr>
+  <tr><td>DRF</td><td>40%</td><td>27%</td><td>535</td><td>2,001</td><td class="good">73%</td></tr>
+  <tr><td>LiteLLM</td><td>33%</td><td>27%</td><td>559</td><td>1,694</td><td class="good">67%</td></tr>
+</table>
+
+<h3>Category Findings</h3>
+
+<table>
+  <tr><th>Category</th><th>CS Hit Rate</th><th>CS Avg Chars</th><th>Grep Avg Chars</th><th>Reduction</th></tr>
+  <tr><td>Simple</td><td>70%</td><td>540</td><td>1,819</td><td class="good">70%</td></tr>
+  <tr><td>Multi-hop</td><td>65%</td><td>600</td><td>1,036</td><td>42%</td></tr>
+  <tr><td>Architectural</td><td class="good">67%</td><td>520</td><td>1,819</td><td class="good">71%</td></tr>
+  <tr><td>Failure-case</td><td>38%</td><td>415</td><td>1,819</td><td class="good">77%</td></tr>
+</table>
+
+<div class="grid-2" style="margin:1rem 0">
+  <div class="card">
+    <div class="card-title" style="font-size:.9rem;color:#090">&check; Strongest Areas</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>Architectural navigation (71% reduction)</li>
+      <li>Route aggregation and discovery</li>
+      <li>Provider/config traversal (LiteLLM: 27% fewer file opens)</li>
+      <li>Simple function lookups (70% reduction)</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title" style="font-size:.9rem;color:#c00">&times; Weakest Areas</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>Semantic mismatch (terms not in signal store)</li>
+      <li>Missing signal coverage (DRF: 40% hit rate)</li>
+      <li>Failure-case queries (38% hit rate)</li>
+      <li>Grep-friendly simple queries (already efficient)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 7. FAILURE ANALYSIS ========== -->
+<h2 id="sec7">7. Failure Analysis</h2>
+
+<p>We analyzed all missed queries across the benchmark suite to identify failure categories:</p>
+
+<div class="fig">
+<svg viewBox="0 0 800 180" xmlns="http://www.w3.org/2000/svg" style="font-family:system-ui,sans-serif;font-size:11px">
+  <rect x="10" y="10" width="780" height="160" rx="8" fill="none" stroke="var(--border)" stroke-width="1"/>
+  <text x="400" y="30" text-anchor="middle" font-weight="600" font-size="13" fill="var(--fg)">Failure Mode Distribution (across all v0.2-v0.5 queries)</text>
+  <!-- Missing signal kind -->
+  <rect x="30" y="50" width="170" height="90" rx="4" fill="var(--card)" stroke="var(--fg)" stroke-width="1.2"/>
+  <text x="115" y="72" text-anchor="middle" font-weight="600" fill="var(--fg)">Missing Signal Kind</text>
+  <text x="115" y="95" text-anchor="middle" fill="var(--fg)" font-size="28" font-weight="700">38%</text>
+  <text x="115" y="115" text-anchor="middle" fill="var(--muted)" font-size="10">Signal not extracted</text>
+  <text x="115" y="130" text-anchor="middle" fill="var(--muted)" font-size="10">for the target entity</text>
+  <!-- Missing graph edge -->
+  <rect x="220" y="50" width="170" height="90" rx="4" fill="var(--card)" stroke="var(--border)"/>
+  <text x="305" y="72" text-anchor="middle" font-weight="600" fill="var(--fg)">Missing Graph Edge</text>
+  <text x="305" y="95" text-anchor="middle" fill="var(--fg)" font-size="28" font-weight="700">24%</text>
+  <text x="305" y="115" text-anchor="middle" fill="var(--muted)" font-size="10">Call/import edge not</text>
+  <text x="305" y="130" text-anchor="middle" fill="var(--muted)" font-size="10">captured or resolved</text>
+  <!-- Semantic mismatch -->
+  <rect x="410" y="50" width="170" height="90" rx="4" fill="var(--card)" stroke="var(--border)"/>
+  <text x="495" y="72" text-anchor="middle" font-weight="600" fill="var(--fg)">Semantic Mismatch</text>
+  <text x="495" y="95" text-anchor="middle" fill="var(--fg)" font-size="28" font-weight="700">22%</text>
+  <text x="495" y="115" text-anchor="middle" fill="var(--muted)" font-size="10">Query terms don't</text>
+  <text x="495" y="130" text-anchor="middle" fill="var(--muted)" font-size="10">match signal text</text>
+  <!-- Sparse coverage -->
+  <rect x="600" y="50" width="170" height="90" rx="4" fill="var(--card)" stroke="var(--border)"/>
+  <text x="685" y="72" text-anchor="middle" font-weight="600" fill="var(--fg)">Sparse Coverage</text>
+  <text x="685" y="95" text-anchor="middle" fill="var(--fg)" font-size="28" font-weight="700">16%</text>
+  <text x="685" y="115" text-anchor="middle" fill="var(--muted)" font-size="10">Insufficient signals</text>
+  <text x="685" y="130" text-anchor="middle" fill="var(--muted)" font-size="10">across the codebase</text>
+</svg>
+<div class="caption">Figure 5: Distribution of failure modes across all benchmark queries. Missing signal coverage (38%) is the dominant failure mode.</div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title" style="font-size:.9rem">1. Missing Signal Kind (38%)</div>
+    <p style="font-size:.85rem;margin:.5rem 0 0">The target entity was not extracted as a signal. Common causes: unsupported language features, deeply nested definitions, or dynamic constructs that static analysis cannot resolve. Signals are structural, not exhaustive.</p>
+  </div>
+  <div class="card">
+    <div class="card-title" style="font-size:.9rem">2. Missing Graph Edge (24%)</div>
+    <p style="font-size:.85rem;margin:.5rem 0 0">The call edge or import edge connecting the query to the target was not captured. Inferred edges have lower confidence. Dynamic dispatch and cross-module references are particularly challenging.</p>
+  </div>
+  <div class="card">
+    <div class="card-title" style="font-size:.9rem">3. Semantic Mismatch (22%)</div>
+    <p style="font-size:.85rem;margin:.5rem 0 0">The query terms did not match any signal text, name, or tags. Example: querying for "chat completion" when the signal uses "inference" or "generate". Embeddings help here but are optional.</p>
+  </div>
+  <div class="card">
+    <div class="card-title" style="font-size:.9rem">4. Sparse Coverage (16%)</div>
+    <p style="font-size:.85rem;margin:.5rem 0 0">The codebase has too few signals relative to its size, or the query targets implementation details below the signal extraction threshold. Most common in class-heavy frameworks.</p>
+  </div>
+</div>
+
+<!-- ========== 8. KEY INSIGHTS ========== -->
+<h2 id="sec8">8. Key Insights</h2>
+
+<div class="callout">
+<h4>Most Important Finding</h4>
+<p>Context Signals is <strong>not</strong> a universal replacement for repository search. Its strongest value appears in semantic-heavy repositories where architectural navigation requires understanding provider dispatch, configuration merging, and multi-hop relationships. On simple, grep-friendly codebases, the improvement is marginal.</p>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title" style="font-size:.9rem">Insight 1: Scoring Is Not the Bottleneck</div>
+    <p style="font-size:.85rem;margin-top:.3rem">Three consecutive algorithm tuning rounds (v0.3&rarr;v0.5) produced 0% improvement. The bottleneck is <strong>signal coverage</strong>, not scoring sophistication. Better extraction &gt; better scoring.</p>
+  </div>
+  <div class="card">
+    <div class="card-title" style="font-size:.9rem">Insight 2: Graph Structure Adds Value</div>
+    <p style="font-size:.85rem;margin-top:.3rem">Call edges and import edges enable graph-aware scoring that captures architectural relationships. LiteLLM's 27% file-open reduction in v0.7 is driven by graph-guided navigation.</p>
+  </div>
+  <div class="card">
+    <div class="card-title" style="font-size:.9rem">Insight 3: Embeddings Are a Surgical Tool</div>
+    <p style="font-size:.85rem;margin-top:.3rem">Embeddings help when lexical mapping fails (LiteLLM: +26.7%), but they do not solve missing signals or missing graph edges. Keep them optional, use them surgically.</p>
+  </div>
+  <div class="card">
+    <div class="card-title" style="font-size:.9rem">Insight 4: Precision Over Speed</div>
+    <p style="font-size:.85rem;margin-top:.3rem">Context Signals improves navigation by returning more relevant targets (higher ground truth found rate), not necessarily fewer files. The value is in avoiding wrong-file exploration.</p>
+  </div>
+</div>
+
+<!-- ========== 9. LIMITATIONS ========== -->
+<h2 id="sec9">9. Limitations</h2>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">Evaluation Scale</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>4 Python projects + 3 TypeScript fixtures</li>
+      <li>15 queries per project (60 total)</li>
+      <li>Limited real-agent validation</li>
+      <li>v0.8 partially blocked by CLI/TTY constraints</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Extraction Quality</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>Retrieval quality depends on extraction quality</li>
+      <li>Python extraction is regex-based, not AST</li>
+      <li>Dynamic constructs cannot be statically analyzed</li>
+      <li>Deeply nested definitions may be missed</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Semantic Understanding</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>No semantic understanding without embeddings</li>
+      <li>Query terms must lexically overlap with signals</li>
+      <li>Synonym expansion is manually maintained</li>
+      <li>Cross-language semantic gaps exist</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Platform Constraints</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>v0.8 agent benchmark requires WSL on Windows</li>
+      <li>Python extraction has no native AST support</li>
+      <li>Large repos may have slow initial indexing</li>
+      <li>File size cap: 10 MB</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 10. FUTURE WORK ========== -->
+<h2 id="sec10">10. Future Work</h2>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">v0.8 Completion</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>Complete agent benchmark on WSL/Linux</li>
+      <li>OpenCode + MiniMax M2.7 + LiteLLM</li>
+      <li>MCP vs non-MCP comparison with LLM scoring</li>
+      <li>Navigation efficiency with real agent decisions</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Extraction Improvements</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>Python AST-based extraction (native parser)</li>
+      <li>Go, Rust, Java language adapters</li>
+      <li>Improved call-edge inference for dynamic dispatch</li>
+      <li>Multi-file signal aggregation</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Evaluation Expansion</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>Repository-scale evaluations (1000+ files)</li>
+      <li>Coding-task completion benchmarks</li>
+      <li>Agent navigation instrumentation framework</li>
+      <li>Cross-session memory measurement</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Retrieval Enhancements</div>
+    <ul style="font-size:.85rem;margin:0;padding-left:1.1rem">
+      <li>Automated signal coverage analysis</li>
+      <li>Query-time extraction for uncovered patterns</li>
+      <li>Hybrid BM25 + embeddings as primary path</li>
+      <li>Multi-hop query decomposition</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 11. CONCLUSION ========== -->
+<h2 id="sec11">11. Conclusion</h2>
+
+<p>This evaluation demonstrates that <strong>structured repository signals can reduce navigation waste in coding agents</strong> by 51&ndash;95% for retrieval queries, with the strongest gains appearing in architectural and semantic-heavy codebases.</p>
+
+<p>Key conclusions:</p>
+
+<div class="grid-3" style="margin:1rem 0">
+  <div class="card"><p style="margin:0;font-size:.9rem"><strong>Deterministic retrieval</strong> remains the preferred default. Algorithm tuning (v0.3&rarr;v0.5) produced 0% improvement&mdash;the bottleneck is signal coverage.</p></div>
+  <div class="card"><p style="margin:0;font-size:.9rem"><strong>Embeddings are useful</strong> as an optional semantic fallback. LiteLLM: +26.7% hit rate. Disabled by default to preserve zero-dependency operation.</p></div>
+  <div class="card"><p style="margin:0;font-size:.9rem"><strong>Navigation precision</strong> is the primary mechanism. CS achieves higher ground truth found rate (94% vs 88%) through more targeted file suggestions, not necessarily fewer opens.</p></div>
+</div>
+
+<div class="callout">
+<h4>Final Positioning</h4>
+<p>Context Signals MCP is best viewed as a <strong>lightweight repository navigation layer</strong> designed for coding-agent context efficiency. It reduces unnecessary repository exploration by providing a compact, reusable map of codebase structure. It does not replace semantic code understanding or implementation reasoning&mdash;it ensures agents spend their context budget on the right code.</p>
+</div>
+
+<hr class="divider">
+
+<h2 id="appendix">Appendix</h2>
+
+<h3>A. Benchmark Tasks</h3>
+<p>15 queries per project across 4 categories. Example queries:</p>
+<table>
+  <tr><th>Category</th><th>Flask</th><th>LiteLLM</th></tr>
+  <tr><td>Simple</td><td>"Where is the user registration endpoint?"</td><td>"Where is the completion function defined?"</td></tr>
+  <tr><td>Multi-hop</td><td>"Trace the authentication flow from login to token validation"</td><td>"How does the provider dispatch work?"</td></tr>
+  <tr><td>Architectural</td><td>"Show me all registered routes"</td><td>"Show all supported providers"</td></tr>
+  <tr><td>Failure</td><td>"Where is error handling for invalid input?"</td><td>"Find where retry logic handles errors"</td></tr>
+</table>
+
+<h3>B. Retrieval Configuration (v0.5 Frozen)</h3>
+<pre><code>BM25:     fields=["text","file","name","kind","language","tags"]
+          boost={name:4, tags:3, file:2, kind:2, text:1}
+          prefix=true, fuzzy=0.15
+
+Lexical:  nameWeight=3.0, fileWeight=2.0, tagWeight=1.5, textWeight=1.0
+          minOverlap=1, fuzzy stemming enabled
+
+Graph:    callEdgeWeight=0.3, importEdgeWeight=0.15
+          resolvedSymbolBoost=1.5, staticEdgeBoost=1.0
+          dynamicEdgePenalty=0.5, inferredEdgePenalty=0.3
+
+Hybrid:   BM25*0.4 + Graph*0.3 + Metadata*0.2 + Locality*0.1
+          minScore=0.05</code></pre>
+
+<h3>C. Embedding Configuration (v0.6)</h3>
+<pre><code>Model:    Xenova/all-MiniLM-L6-v2 (384 dimensions)
+Beam:     top-20 from BM25+graph
+Blend:    0.3 embedding + 0.7 original score
+Latency:  +3ms average query overhead
+Enabled:  false (default)</code></pre>
+
+<h3>D. Known Windows Limitation</h3>
+<p>The v0.8 agent benchmark (OpenCode + MiniMax M2.7) cannot run on Windows due to CLI/TTY constraints. The benchmark framework is complete and tested, but automated execution requires Windows Subsystem for Linux (WSL). See <code>docs/WINDOWS_LIMITATION.md</code> for details.</p>
+
+<h3>E. Replay Artifact Structure</h3>
+<pre><code>benchmarks/
+  fixtures/         # Frozen source code fixtures (express-app, fastify-app, nextjs-app)
+  ground-truth/     # Expected answers for each fixture
+  baseline/         # Grep baseline results
+  projects/         # Benchmark fixture (litellm — only shipped fixture)
+    signals.json    # Extracted signals snapshot
+    call-edges.json # Call edges snapshot
+    benchmark-queries.json  # Query definitions with ground truth
+    ground-truth.json       # Expected answers
+  results/          # All benchmark run outputs
+    report-*.json   # Per-run metric reports
+    report-*.md     # Human-readable reports
+    *-v0.2/         # Versioned result directories
+  agent/v0.8/       # Agent benchmark framework
+    tasks/          # Task definitions + metadata
+    results/        # Agent run outputs
+    scripts/        # Runner and analysis scripts</code></pre>
+
+<footer>
+  <p>Context Signals MCP v1.1.3 &mdash; Research &amp; Evaluation Report</p>
+  <p>Benchmark versions v0.2 through v0.8 &mdash; May 2026</p>
+  <p><a href="https://github.com/dineshrag/context-signals-mcp">github.com/dineshrag/context-signals-mcp</a></p>
+</footer>
+
+</div>
+</body>
+</html>

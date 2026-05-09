@@ -139,4 +139,85 @@ describe("Regression Tests - Must NOT Extract", () => {
       expect(functions.length).toBe(0)
     })
   })
+
+  describe("Python function calls that look like definitions", () => {
+    it("does not extract db.execute() as function", () => {
+      const evidence = createEvidence(
+        "<path>/service.py</path>\n<content>\n1: db.execute(query)\n</content>"
+      )
+      const signals = extractSignals(evidence)
+      const functions = signals.filter((s) => s.kind === "function" && s.name === "execute")
+
+      expect(functions.length).toBe(0)
+    })
+
+    it("does not extract os.path.join() as function", () => {
+      const evidence = createEvidence(
+        "<path>/utils.py</path>\n<content>\n1: path = os.path.join(dir, name)\n</content>"
+      )
+      const signals = extractSignals(evidence)
+      const functions = signals.filter((s) => s.kind === "function" && s.name === "join")
+
+      expect(functions.length).toBe(0)
+    })
+
+    it("does not extract service.validate() as function", () => {
+      const evidence = createEvidence(
+        "<path>/auth.py</path>\n<content>\n1: service.validate(token)\n</content>"
+      )
+      const signals = extractSignals(evidence)
+      const functions = signals.filter((s) => s.kind === "function" && s.name === "validate")
+
+      expect(functions.length).toBe(0)
+    })
+
+    it("does not extract router.include_router() as function", () => {
+      const evidence = createEvidence(
+        "<path>/main.py</path>\n<content>\n1: router.include_router(auth_router)\n</content>"
+      )
+      const signals = extractSignals(evidence)
+      const functions = signals.filter((s) => s.kind === "function" && s.name === "include_router")
+
+      expect(functions.length).toBe(0)
+    })
+
+    it("does not extract client.chat.completions.create() as function", () => {
+      const evidence = createEvidence(
+        "<path>/client.py</path>\n<content>\n1: response = client.chat.completions.create(messages)\n</content>"
+      )
+      const signals = extractSignals(evidence)
+      const functions = signals.filter((s) => s.kind === "function" && s.name === "create")
+
+      expect(functions.length).toBe(0)
+    })
+
+    it("does not extract getattr() as function", () => {
+      const evidence = createEvidence(
+        "<path>/utils.py</path>\n<content>\n1: fn = getattr(obj, 'method')\n</content>"
+      )
+      const signals = extractSignals(evidence)
+      const functions = signals.filter((s) => s.kind === "function" && s.name === "getattr")
+
+      expect(functions.length).toBe(0)
+    })
+
+    it("does not extract isinstance() as function", () => {
+      const evidence = createEvidence(
+        "<path>/validator.py</path>\n<content>\n1: if isinstance(value, str):\n</content>"
+      )
+      const signals = extractSignals(evidence)
+      const functions = signals.filter((s) => s.kind === "function" && s.name === "isinstance")
+
+      expect(functions.length).toBe(0)
+    })
+
+    it("does not extract decorator-invoked calls as function definitions", () => {
+      const evidence = createEvidence(
+        "<path>/views.py</path>\n<content>\n1: @app.route('/')\n2: def index():\n3:     return render()\n</content>"
+      )
+      const signals = extractSignals(evidence)
+
+      expect(signals.filter((s) => s.name === "route").length).toBe(0)
+    })
+  })
 })

@@ -1,0 +1,77 @@
+============================================
+LITELEMM BENCHMARK - MANUAL RUN CHECKLIST
+============================================
+
+Before starting:
+1. Open Ubuntu WSL shell
+2. cd /home/dev/context-signals-mcp
+3. Verify LiteLLM: ls benchmarks/repos/litellm-live/litellm/
+4. Verify MCP built: ls dist/index.js
+
+Step 1: Start MCP Server
+------------------------
+cd /home/dev/context-signals-mcp
+node dist/index.js &
+MCP_PID=$!
+echo "MCP PID: $MCP_PID"
+# Keep this running in background
+
+Step 2: Run WITHOUT MCP (5 queries)
+------------------------------------
+For each query below, run in Ubuntu shell:
+
+Query 1: Find the main completion entry point for LiteLLM
+  opencode run "Find the main completion entry point for LiteLLM" -m "opencode/minimax-m2.7" --session "no-mcp-1" --dir "/home/dev/context-signals-mcp/benchmarks/repos/litellm-live"
+
+Query 2: Trace where model configuration is merged before being sent to provider
+  opencode run "Trace where model configuration is merged before being sent to provider" -m "opencode/minimax-m2.7" --session "no-mcp-2" --dir "/home/dev/context-signals-mcp/benchmarks/repos/litellm-live"
+
+Query 3: Find where provider routing happens based on model name
+  opencode run "Find where provider routing happens based on model name" -m "opencode/minimax-m2.7" --session "no-mcp-3" --dir "/home/dev/context-signals-mcp/benchmarks/repos/litellm-live"
+
+Query 4: Find where fallback model selection logic is implemented
+  opencode run "Find where fallback model selection logic is implemented" -m "opencode/minimax-m2.7" --session "no-mcp-4" --dir "/home/dev/context-signals-mcp/benchmarks/repos/litellm-live"
+
+Query 5: Find where retry logic with exponential backoff is implemented
+  opencode run "Find where retry logic with exponential backoff is implemented" -m "opencode/minimax-m2.7" --session "no-mcp-5" --dir "/home/dev/context-signals-mcp/benchmarks/repos/litellm-live"
+
+Step 3: Run WITH MCP (same 5 queries)
+--------------------------------------
+For each query below, run in Ubuntu shell:
+
+Query 1: Find the main completion entry point for LiteLLM
+  opencode run "Find the main completion entry point for LiteLLM" -m "opencode/minimax-m2.7" --session "with-mcp-1" --config "/home/dev/context-signals-mcp/benchmarks/agent/v0.8/configs/opencode.with-mcp.jsonc" --dir "/home/dev/context-signals-mcp/benchmarks/repos/litellm-live"
+
+Query 2: Trace where model configuration is merged before being sent to provider
+  opencode run "Trace where model configuration is merged before being sent to provider" -m "opencode/minimax-m2.7" --session "with-mcp-2" --config "/home/dev/context-signals-mcp/benchmarks/agent/v0.8/configs/opencode.with-mcp.jsonc" --dir "/home/dev/context-signals-mcp/benchmarks/repos/litellm-live"
+
+Query 3: Find where provider routing happens based on model name
+  opencode run "Find where provider routing happens based on model name" -m "opencode/minimax-m2.7" --session "with-mcp-3" --config "/home/dev/context-signals-mcp/benchmarks/agent/v0.8/configs/opencode.with-mcp.jsonc" --dir "/home/dev/context-signals-mcp/benchmarks/repos/litellm-live"
+
+Query 4: Find where fallback model selection logic is implemented
+  opencode run "Find where fallback model selection logic is implemented" -m "opencode/minimax-m2.7" --session "with-mcp-4" --config "/home/dev/context-signals-mcp/benchmarks/agent/v0.8/configs/opencode.with-mcp.jsonc" --dir "/home/dev/context-signals-mcp/benchmarks/repos/litellm-live"
+
+Query 5: Find where retry logic with exponential backoff is implemented
+  opencode run "Find where retry logic with exponential backoff is implemented" -m "opencode/minimax-m2.7" --session "with-mcp-5" --config "/home/dev/context-signals-mcp/benchmarks/agent/v0.8/configs/opencode.with-mcp.jsonc" --dir "/home/dev/context-signals-mcp/benchmarks/repos/litellm-live"
+
+Step 4: Stop MCP Server
+-----------------------
+kill $MCP_PID
+
+Step 5: Compare Results
+------------------------
+For each query, compare:
+- Files opened (from session export)
+- Answer correctness (did it find the right file/symbol?)
+- Time taken
+
+============================================
+WHAT TO LOOK FOR:
+============================================
+WITH MCP should show:
+- Fewer files opened
+- Same or better correctness
+- Faster reach to correct file
+
+If WITH MCP opens MORE files, benchmark is FAILING.
+============================================

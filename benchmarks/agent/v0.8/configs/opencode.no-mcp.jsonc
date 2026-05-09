@@ -1,0 +1,27 @@
+// OpenCode Configuration - No MCP Baseline
+// Mode A: OpenCode without Context Signals MCP
+{
+  "model": "opencode/minimax-m2.7",
+  "max_tokens": 8192,
+  "temperature": 0.3,
+  "tools": {
+    "enabled": ["grep", "read", "write", "shell"],
+    "grep": {
+      "enabled": true
+    },
+    "read": {
+      "enabled": true,
+      "max_file_size": 1048576
+    },
+    "write": {
+      "enabled": true
+    },
+    "shell": {
+      "enabled": true
+    }
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "json"
+  }
+}

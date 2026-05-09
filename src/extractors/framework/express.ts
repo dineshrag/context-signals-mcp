@@ -46,6 +46,11 @@ function detectExpressRoute(node: ts.Node, evidenceId: string, file: string, sig
   const methodName = expr.name.text
   if (!isExpressMethod(methodName)) return
 
+  if (ts.isIdentifier(expr.expression)) {
+    const name = expr.expression.text
+    if (name === "fastify" || name === "hono" || name === "koa") return
+  }
+
   const args = node.arguments
   if (args.length < 2) return
 
@@ -142,5 +147,5 @@ export function isExpressApp(content: string): boolean {
 }
 
 export function hasExpressRoutes(content: string): boolean {
-  return /\.(get|post|put|patch|delete|options|head)\s*\(/.test(content)
+  return /(?:app|router)\.(get|post|put|patch|delete|options|head)\s*\(/.test(content)
 }

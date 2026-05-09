@@ -1,0 +1,41 @@
+// OpenCode Configuration - With Context Signals MCP + Embeddings
+// Mode C: OpenCode with Context Signals MCP, embeddings enabled
+{
+  "model": "opencode/minimax-m2.7",
+  "max_tokens": 8192,
+  "temperature": 0.3,
+  "mcp": {
+    "context-signals": {
+      "type": "local",
+      "command": "node",
+      "args": ["dist/index.js"],
+      "env": {
+        "EMBEDDINGS_ENABLED": "true"
+      }
+    }
+  },
+  "tools": {
+    "enabled": ["grep", "read", "write", "shell", "context_signals_search"],
+    "grep": {
+      "enabled": true
+    },
+    "read": {
+      "enabled": true,
+      "max_file_size": 1048576
+    },
+    "write": {
+      "enabled": true
+    },
+    "shell": {
+      "enabled": true
+    },
+    "context_signals_search": {
+      "enabled": true,
+      "max_results": 20
+    }
+  },
+  "logging": {
+    "level": "DEBUG",
+    "format": "json"
+  }
+}

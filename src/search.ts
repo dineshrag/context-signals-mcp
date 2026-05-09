@@ -40,8 +40,10 @@ export type SearchResult = {
 }
 
 const hybridSearch = createHybridSearch({
-  bm25Weight: 0.7,
-  scoringWeight: 0.3,
+  bm25Weight: 0.4,
+  graphWeight: 0.3,
+  metadataWeight: 0.2,
+  localityWeight: 0.1,
   limit: 10,
   minScore: 0.05,
 })
@@ -112,6 +114,8 @@ export function getSignalKinds(): string[] {
     "middleware",
     "symbol",
     "diagnostic",
+    "calls",
+    "imports",
   ]
 }
 

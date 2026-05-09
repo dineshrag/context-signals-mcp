@@ -11,6 +11,8 @@ export type SignalKind =
   | "middleware"
   | "symbol"
   | "diagnostic"
+  | "calls"
+  | "imports"
 
 export interface RouteInfo {
   method?: string
@@ -23,7 +25,7 @@ export type Signal = {
   evidenceId: string
 
   kind: SignalKind
-  language: "typescript" | "javascript" | "unknown"
+  language: "typescript" | "javascript" | "python" | "unknown"
 
   file: string
   name?: string
@@ -43,9 +45,20 @@ export type Signal = {
   updatedAt?: number
 }
 
+import crypto from "crypto"
+
+export function createDeterministicId(file: string, symbol: string, line: number): string {
+  const input = `${file}::${symbol}::${line}`
+  return crypto.createHash('sha256').update(input).digest('hex').slice(0, 16)
+}
+
 export function createSignal(data: Partial<Signal> & { evidenceId: string; text: string }): Signal {
+  const symbol = data.name ?? data.text ?? ""
+  const line = data.lineStart ?? 0
+  const id = createDeterministicId(data.file ?? "", symbol, line)
+
   return {
-    id: crypto.randomUUID(),
+    id,
     evidenceId: data.evidenceId,
     kind: data.kind ?? "function",
     language: data.language ?? "unknown",
